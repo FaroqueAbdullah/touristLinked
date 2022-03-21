@@ -1,0 +1,18 @@
+{
+  "name": "servertouristlinked",
+  "version": "1.0.0",
+  "description": "Express server for touristLinked which will provide all apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "author": "faroque abdullah",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}

@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express';
 
+import { authRouter } from './routes/authentication/auth.router';
+
 const PORT = process.env.SERVER_PORT || 4000;
 
 const app = express()
 
-app.get('/' , (req: Request, res: Response) => {
-  res.send('hello')
-})
+app.use('/auth' , authRouter)
 
 app.listen(PORT, () => {
-  console.log('server has started sadf')
+  console.log(`server has started on ${PORT}`)
 })

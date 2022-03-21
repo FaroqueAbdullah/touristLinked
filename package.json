@@ -1,11 +1,17 @@
 {
-  "name": "touristliked",
+  "name": "touristlinked",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:server": "npm start --prefix server",
+    "start:client": "npm start --prefix client-react",
+    "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:client\""
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
 }

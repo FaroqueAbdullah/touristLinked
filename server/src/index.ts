@@ -1,11 +1,15 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import bodyParser from 'body-parser';
+import 'dotenv/config'
 
 import { authRouter } from './routes/authentication/auth.router';
+import { connect } from './config/db.js';
 
 const PORT = process.env.SERVER_PORT || 4000;
 
 const app = express()
-
+connect();
+app.use(bodyParser.json())
 app.use('/auth' , authRouter)
 
 app.listen(PORT, () => {

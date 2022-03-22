@@ -1,10 +1,11 @@
 import express from 'express';
+
 import { logInMethods, signUpMethods } from './auth.controller';
 
 const authRouter = express.Router();
 
-authRouter.get('/signup' , signUpMethods)
+authRouter.post('/registration' , signUpMethods)
 
-authRouter.get('/login' , logInMethods)
+authRouter.post('/login' , logInMethods)
 
 export { authRouter };

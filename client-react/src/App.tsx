@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { AppContainerStyled, BodyContainerStyled } from './components/StyledComponents/StyledComponents'
+import HeaderLayout from './layout/Header/Header';
+import FooterLayout from './layout/Footer/Footer';
+
 
 function App() {
   return (
-    <div className="App">
-      Hello tourist
-    </div>
+    <AppContainerStyled>
+      <HeaderLayout />
+      <BodyContainerStyled>jsdflkjsalkdfj</BodyContainerStyled>
+      <FooterLayout />
+    </AppContainerStyled>
   );
 }
 

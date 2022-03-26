@@ -5,7 +5,7 @@ const createArticle = async ( req: Request, res: Response ) : Promise<void>  => 
 };
 
 const getArticle = async ( req: Request, res: Response ) : Promise<void>  => {
-  res.status(201).send({ 'article' : "this is article" });
+  res.status(201).send({ 'article' : "this is artis" });
 };
 
 const updateArticle = async ( req: Request, res: Response ) : Promise<void>  => {

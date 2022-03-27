@@ -1,0 +1,28 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Rest Api Docs",
+      "version": "1.0.0"
+    },
+    "components": {
+      "securitySchemas": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "beareFormat": "JWT"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
+  },
+  "apis": [
+    
+  ],
+  "resolveJsonModule": true,
+  "esModuleInterop": true
+}

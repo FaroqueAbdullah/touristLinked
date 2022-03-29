@@ -3,7 +3,10 @@ import { HeaderContainerStyled } from '../../components/StyledComponents/StyledC
 function HeaderLayout() {
   return (
     <HeaderContainerStyled>
-      My header df
+      Tour Story 
+      <div>Profile</div>
+      <div>Settings</div>
+      <div>B</div>
     </HeaderContainerStyled>
   );
 }

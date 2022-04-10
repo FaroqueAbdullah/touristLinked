@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "npm start --prefix server",
-    "start:client": "npm start --prefix client-react",
-    "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:client\""
+    "start:client": "npm start --prefix client-react"
   },
   "author": "",
   "license": "ISC",

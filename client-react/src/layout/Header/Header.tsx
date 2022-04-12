@@ -2,9 +2,9 @@ import { HeaderContainerStyled } from '../../components/StyledComponents/StyledC
 
 function HeaderComponent() {
   return (
-    <HeaderContainerStyled>
-      header
-    </HeaderContainerStyled>
+    <div className='h-12 bg-green-100'>
+      
+    </div>
   );
 }
 

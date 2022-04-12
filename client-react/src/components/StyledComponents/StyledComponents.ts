@@ -12,10 +12,15 @@ export const HeaderContainerStyled = styled.div`
 
 export const BodyContainerStyled = styled.div`
   width: 100%;
-  min-height: calc(100vh - 200px);;
+  height: calc(100% - 50px);
 `;
 
 export const FooterContainerStyled = styled.div`
   width: 100%;
   height: 150px;
 `;
+
+export const HomeContainerStyled = styled.div`
+  flex: 20% 20% 60%;
+  display: flex;
+`

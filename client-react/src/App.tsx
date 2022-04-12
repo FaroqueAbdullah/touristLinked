@@ -25,7 +25,6 @@ function App() {
           </BrowserRouter>
         </Suspense>
       </BodyContainerStyled>
-      <FooterLayout />
     </AppContainerStyled>
   );
 }

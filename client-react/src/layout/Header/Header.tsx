@@ -1,8 +1,13 @@
 import { FaUserFriends, FaComment, FaBell, FaUser } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-function HeaderComponent() {
+interface HeaderProps {
+  isAuth: boolean;
+}
+
+function HeaderComponent({isAuth}: HeaderProps) {
   return (
-    <div className='h-12 bg-green-100'>
+    <div className={`h-12 bg-green-100 ${isAuth ? 'hidden' : ''}`}>
       <div className='w-100 h-full flex flex-row justify-center'>
         <div className='basis-1/4 pl-10 flex items-center text-2xl font-bold cursor-pointer text-gray-700'>
           Tourist
@@ -12,7 +17,7 @@ function HeaderComponent() {
         </div>
         <div className='basis-3/4 pr-10 flex items-center justify-end'>
           <ul className='flex flex-row'>
-            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaUserFriends /></li>
+            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/profile"><FaUserFriends /></Link></li>
             <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaComment /></li>
             <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaBell /> </li>
             <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaUser /> </li>

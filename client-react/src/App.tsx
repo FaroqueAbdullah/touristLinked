@@ -12,10 +12,11 @@ const AuthComponent = lazy(() => import('./pages/Auth/Auth'));
 
 function App() {
 
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuthRoute, setIsAuthRoute] = useState(false)
+  const [isAuthenticate, setIsAuthenticate] = useState(false)
   
   let isAuthPage = (value: boolean) => {
-    setIsAuth(value)
+    setIsAuthRoute(value)
   }
 
 
@@ -24,7 +25,7 @@ function App() {
       <BodyContainerStyled>
         <Suspense fallback={<div>Loading...</div>}>
           <BrowserRouter>
-            <HeaderLayout isAuth = {isAuth}/>
+            <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />
             <Routes>
               <Route path="/" element={<HomeCompoment />} />
               <Route path="profile/" element={<ProfileCompoment />} />

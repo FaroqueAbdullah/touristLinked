@@ -1,27 +1,34 @@
 import { FaUserFriends, FaComment, FaBell, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import IconMain from '../../components/IconMain';
 
 interface HeaderProps {
   isAuth: boolean;
+  isAuthenticate: boolean
 }
 
-function HeaderComponent({isAuth}: HeaderProps) {
+function HeaderComponent({isAuth, isAuthenticate}: HeaderProps) {
   return (
     <div className={`h-12 bg-green-100 ${isAuth ? 'hidden' : ''}`}>
       <div className='w-100 h-full flex flex-row justify-center'>
-        <div className='basis-1/4 pl-10 flex items-center text-2xl font-bold cursor-pointer text-gray-700'>
-          Tourist
-          <span className='bg-white pl-1 pr-1 text-green-500 font-bold rounded-lg ml-1'>
-            Linked
-          </span>
+        <div className='pl-10 basis-1/4 flex items-center'>
+          <IconMain />
         </div>
         <div className='basis-3/4 pr-10 flex items-center justify-end'>
-          <ul className='flex flex-row'>
-            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/profile"><FaUserFriends /></Link></li>
-            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaComment /></li>
-            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaBell /> </li>
-            <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaUser /> </li>
-          </ul>
+          {
+            isAuthenticate ?
+            <ul className='flex flex-row'>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/profile"><FaUserFriends /></Link></li>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaComment /></li>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaBell /> </li>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <FaUser /> </li>
+            </ul>
+            : 
+            <ul>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/auth "><FaUser /></Link></li>
+            </ul>
+          }
+          
         </div>
       </div>
     </div>

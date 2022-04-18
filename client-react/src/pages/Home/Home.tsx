@@ -5,7 +5,7 @@ import EventSectionCompoment from '../../layout/EventSection/EventSection';
 function HomeCompoment() {
 
   return (
-    <div className="flex w-100 h-full">
+    <div className="flex w-100 h-full bg-green-tertiary">
       <ProfileSectionCompoment />
       <TimelineSectionCompoment />
       <EventSectionCompoment />

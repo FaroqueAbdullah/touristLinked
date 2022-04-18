@@ -17,7 +17,7 @@ function AuthComponent({isAuthPage}: AuthProps) {
 
   return (
     <div className="w-100 p-5 h-full flex justify-center items-center">
-      <div className="bg-green-100 m-5 rounded-md">
+      <div className="bg-green-secondary m-5 rounded-md">
         <Login />
       </div>
     </div>

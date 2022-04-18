@@ -9,7 +9,7 @@ interface HeaderProps {
 
 function HeaderComponent({isAuth, isAuthenticate}: HeaderProps) {
   return (
-    <div className={`h-12 bg-green-100 ${isAuth ? 'hidden' : ''}`}>
+    <div className={`h-12 bg-green-secondary ${isAuth ? 'hidden' : ''}`}>
       <div className='w-100 h-full flex flex-row justify-center'>
         <div className='pl-10 basis-1/4 flex items-center'>
           <IconMain />

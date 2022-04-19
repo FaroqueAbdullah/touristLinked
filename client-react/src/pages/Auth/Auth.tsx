@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
+
 import Login from "./Login/Login";
 import SignUp from "./Signin/Signin";
 
@@ -18,7 +20,10 @@ function AuthComponent({isAuthPage}: AuthProps) {
   return (
     <div className="w-100 p-5 h-full flex justify-center items-center">
       <div className="bg-green-secondary m-5 rounded-md">
-        <Login />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
       </div>
     </div>
   );

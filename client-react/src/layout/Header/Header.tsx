@@ -25,7 +25,7 @@ function HeaderComponent({isAuth, isAuthenticate}: HeaderProps) {
             </ul>
             : 
             <ul>
-              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/auth "><FaUser /></Link></li>
+              <li className='pl-4 pr-4 text-3xl cursor-pointer text-gray-700'> <Link to="/auth/login"><FaUser /></Link></li>
             </ul>
           }
           

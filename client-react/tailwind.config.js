@@ -19,6 +19,9 @@ module.exports = {
         primary: '#FDFEFE',
         secondary: '#F2F4F4',
       },
+      dark: {
+        primary: '#000000',
+      },
       facebook: {
         primary: '#3C5A99',
       },

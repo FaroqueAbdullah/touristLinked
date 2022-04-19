@@ -28,8 +28,8 @@ function App() {
             <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />
             <Routes>
               <Route path="/" element={<HomeCompoment />} />
-              <Route path="profile/" element={<ProfileCompoment />} />
-              <Route path='Auth/' 
+              <Route path="/profile" element={<ProfileCompoment />} />
+              <Route path='/auth/*' 
                 element={<AuthComponent isAuthPage={( val: boolean ) => isAuthPage(val)} />} 
               />
             </Routes>

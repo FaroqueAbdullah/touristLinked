@@ -1,5 +1,4 @@
-import { FaFacebookSquare, FaGooglePlusG } from 'react-icons/fa';
-import { Link, useNavigate  } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import ButtonPrimary from '../../../components/ButtonPrimary';
 
 import IconMain from "../../../components/IconMain";

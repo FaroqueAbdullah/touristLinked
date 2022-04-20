@@ -1,4 +1,3 @@
-import { FaFacebookSquare, FaGooglePlusG } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from '../../../components/ButtonPrimary';
 import IconMain from "../../../components/IconMain";
@@ -8,7 +7,6 @@ import SMediaContainer from '../../../components/SocialMediaButtons';
 function SignUp() {
   let navigate = useNavigate(); 
 
-  
   return (
     <div className="flex tablet:flex-row flex-col">
       <div className="flex flex-col items-center justify-center p-5 border-b-2 border-b-white-primary tablet:border-r-2 tablet:border-r-white-primary">

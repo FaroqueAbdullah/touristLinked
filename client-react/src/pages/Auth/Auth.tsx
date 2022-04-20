@@ -1,5 +1,5 @@
-import { Suspense, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Login from "./Login/Login";
 import SignUp from "./Signin/Signin";
@@ -15,7 +15,7 @@ function AuthComponent({isAuthPage}: AuthProps) {
     return () => {
       isAuthPage(false)
     }
-  },[])
+  },[isAuthPage])
 
   return (
     <div className="w-100 p-5 h-full flex justify-center items-center">

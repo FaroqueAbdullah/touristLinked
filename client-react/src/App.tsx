@@ -1,6 +1,5 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
-// import { browserHistory } from 'react-router';
-import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
+import  { lazy, Suspense, useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContainerStyled, BodyContainerStyled } from './components/StyledComponents/StyledComponents'
 import HeaderLayout from './layout/Header/Header';

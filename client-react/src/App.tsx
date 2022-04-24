@@ -12,7 +12,7 @@ const AuthComponent = lazy(() => import('./pages/Auth/Auth'));
 function App() {
 
   const [isAuthRoute, setIsAuthRoute] = useState(false)
-  const [isAuthenticate, setIsAuthenticate] = useState(false)
+  const [isAuthenticate, setIsAuthenticate] = useState(true)
   
   let isAuthPage = (value: boolean) => {
     setIsAuthRoute(value)
@@ -20,11 +20,11 @@ function App() {
 
 
   return (
-    <AppContainerStyled>
-      <BodyContainerStyled>
-        <Suspense fallback={<div>Loading...</div>}>
-          <BrowserRouter>
-            <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />
+    <div className='h-screen flex flex-col'>
+      <Suspense fallback={<div>Loading...</div>}>
+        <BrowserRouter>
+          <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />
+          <div className='h-[calc(100vh-3rem)]'>
             <Routes>
               <Route path="/" element={<HomeCompoment />} />
               <Route path="/profile" element={<ProfileCompoment />} />
@@ -32,10 +32,10 @@ function App() {
                 element={<AuthComponent isAuthPage={( val: boolean ) => isAuthPage(val)} />} 
               />
             </Routes>
-          </BrowserRouter>
-        </Suspense>
-      </BodyContainerStyled>
-    </AppContainerStyled>
+          </div>
+        </BrowserRouter>
+      </Suspense>
+    </div>
   );
 }
 

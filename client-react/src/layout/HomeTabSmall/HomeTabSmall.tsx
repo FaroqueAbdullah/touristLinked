@@ -6,7 +6,7 @@ interface HomeTabSmallCompomentProps {
 function HomeTabSmallCompoment({onTabClick, currentTab} : HomeTabSmallCompomentProps) {
 
   return (
-    <div className="bg-green-secondary font-bold flex w-full justify-center block tablet:hidden">
+    <div className="bg-green-secondary h-8 font-bold flex w-full block tablet:hidden">
       <div 
         onClick={() => onTabClick('Profile')} 
         className={`w-1/3 flex justify-center cursor-pointer pb-2 text-white-secondary ${currentTab === 'Profile' ? 'border-b-2 border-dark-primary' : ''} `}

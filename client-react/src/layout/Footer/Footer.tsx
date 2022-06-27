@@ -1,10 +1,10 @@
-import { FooterContainerStyled } from '../../components/StyledComponents/StyledComponents';
+
 
 function FooterLayout() {
   return (
-    <FooterContainerStyled>
+    <div>
       My Footer
-    </FooterContainerStyled>
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 import  { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { AppContainerStyled, BodyContainerStyled } from './components/StyledComponents/StyledComponents'
 import HeaderLayout from './layout/Header/Header';
 
 const HomeCompoment = lazy(() => import('./pages/Home/Home'));
@@ -20,7 +19,7 @@ function App() {
 
 
   return (
-    <div className='h-screen flex flex-col'>
+    <div className='font-serif h-screen flex flex-col'>
       <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
           <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />

@@ -8,10 +8,10 @@ function ProfileSectionCompoment() {
           <FaUser />
         </div>
 
-        <div className="w-full flex"> <div className="font-bold pr-2">Total Country Visited: </div> 20</div>
-        <div className="w-full flex"> <div className="font-bold pr-2">Total City Visited: </div> 84</div>
-        <div className="w-full flex"> <div className="font-bold pr-2">Upcoming Event Date: </div> 2/2/22</div>
-        <div className="w-full flex"> <div className="font-bold pr-2">Upcoming Event Place: </div> India</div>
+        <div className="w-full flex justify-between mt-1"> <div className="font-bold pr-2">Total Country Visited </div> <div> 20 </div></div>
+        <div className="w-full flex justify-between mt-1"> <div className="font-bold pr-2">Total City Visited </div> <div> 84 </div></div>
+        <div className="w-full flex justify-between mt-1"> <div className="font-bold pr-2">Upcoming Event Date </div> <div> 2/2/22 </div></div>
+        <div className="w-full flex justify-between mt-1"> <div className="font-bold pr-2">Upcoming Event Place </div> <div> India </div></div>
       </div>
     
   );

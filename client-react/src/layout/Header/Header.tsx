@@ -1,15 +1,14 @@
-import { FaUserFriends, FaComment, FaBell, FaUser } from 'react-icons/fa';
+import { FaUserFriends, FaComment, FaBell, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import IconMain from '../../components/IconMain';
 
 interface HeaderProps {
-  isAuth: boolean;
   isAuthenticate: boolean
 }
 
-function HeaderComponent({isAuth, isAuthenticate}: HeaderProps) {
+function HeaderComponent({ isAuthenticate}: HeaderProps) {
   return (
-    <div className={`w-100 h-12 bg-green-secondary ${isAuth ? 'hidden' : ''}`}>
+    <div className='w-100 h-12 bg-green-secondary '>
       <div className='w-100 m-auto h-12 flex flex-row justify-center max-w-screen-desktop pr-4 pl-4'>
         <div className='basis-1/4 flex items-center'>
           <IconMain />
@@ -28,7 +27,7 @@ function HeaderComponent({isAuth, isAuthenticate}: HeaderProps) {
                 <FaBell />
               </li>
               <li className='pl-2 text-xl tablet:pl-4 tablet:pr-4 tablet:text-3xl cursor-pointer text-gray-700'> 
-                <FaUser /> 
+                <FaSignOutAlt /> 
               </li>
             </ul>
             : 

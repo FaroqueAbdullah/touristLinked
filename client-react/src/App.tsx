@@ -22,7 +22,7 @@ function App() {
     <div className='font-serif h-screen flex flex-col'>
       <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
-          <HeaderLayout isAuth = {isAuthRoute} isAuthenticate = {isAuthenticate} />
+          {!isAuthRoute && <HeaderLayout isAuthenticate = {isAuthenticate} /> }
           <div className='h-[calc(100vh-3rem)]'>
             <Routes>
               <Route path="/" element={<HomeCompoment />} />

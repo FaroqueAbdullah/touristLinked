@@ -12,7 +12,7 @@ function BlogPostComponent ({
   userName,
   userPost,
   userPostImage
-}: BlogPostProps) {
+}: BlogPostProps):React.ReactElement {
 
   return (
     <div className="w-full bg-white-primary rounded-lg mb-2 h-auto">

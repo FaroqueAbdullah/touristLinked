@@ -4,7 +4,7 @@ interface SocialMediaButtonsProps {
   type: string;
 }
 
-function SMediaContainer({type} : SocialMediaButtonsProps) {
+function SMediaContainer({type} : SocialMediaButtonsProps):React.ReactElement {
   return (
     <>
       <div className="pt-1 pb-2">Or</div>

@@ -4,7 +4,7 @@ interface AuthProps {
   formElement: JSX.Element[] | JSX.Element;
 }
 
-function AuthMainComponent(formElement: AuthProps) {
+function AuthMainComponent(formElement: AuthProps): React.ReactElement {
   console.log(formElement)
   return (
     <div className="flex md:flex-row flex-col">

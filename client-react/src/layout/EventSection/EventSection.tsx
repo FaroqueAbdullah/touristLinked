@@ -1,4 +1,4 @@
-function EventSectionCompoment() {
+function EventSectionCompoment():React.ReactElement {
   return (
 
       <div className="h-full bg-white-primary rounded-lg p-3">

@@ -8,14 +8,8 @@ interface AuthProps {
   isAuthPage: (val: boolean) => void,
 }
 
-function AuthComponent({isAuthPage}: AuthProps) {
+function AuthComponent():React.ReactElement {
 
-  useEffect(()=> {
-    isAuthPage(true)
-    return () => {
-      isAuthPage(false)
-    }
-  },[isAuthPage])
 
   return (
     <div className="w-100 p-5 h-full flex justify-center items-center">

@@ -1,6 +1,6 @@
 
 
-function FooterLayout() {
+function FooterLayout(): React.ReactElement {
   return (
     <div>
       My Footer

@@ -5,7 +5,7 @@ import IconMain from "../../../components/IconMain";
 import InputField from '../../../components/InputField';
 import SMediaContainer from '../../../components/SocialMediaButtons';
 
-function Login() {
+function Login():React.ReactElement {
   let navigate = useNavigate(); 
 
 

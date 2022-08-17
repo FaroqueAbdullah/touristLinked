@@ -3,7 +3,7 @@ interface ButtonPrimaryProps {
   onClick?: () => void;
 }
 
-function ButtonPrimary({ text, onClick }: ButtonPrimaryProps) {
+function ButtonPrimary({ text, onClick }: ButtonPrimaryProps): React.ReactElement {
   return (
     <button
       onClick={onClick}

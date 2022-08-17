@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function IconMain() {
+function IconMain(): React.ReactElement {
   return (
     <Link to="/">
       <div className='flex text-xl tablet:text-2xl font-bold cursor-pointer text-gray-700'>

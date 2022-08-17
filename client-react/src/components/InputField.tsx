@@ -7,7 +7,7 @@ interface InputFieldProps {
   error: string,
 }
 
-function InputField({type, label, value, onChange, placeholder, error} : InputFieldProps) {
+function InputField({type, label, value, onChange, placeholder, error} : InputFieldProps):React.ReactElement {
   return (
     <label className="flex mt-5 items-center">
       <span className="w-20 text-sm">{ label }</span>

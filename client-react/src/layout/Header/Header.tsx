@@ -6,7 +6,7 @@ interface HeaderProps {
   isAuthenticate: boolean
 }
 
-function HeaderComponent({ isAuthenticate}: HeaderProps) {
+function HeaderComponent({ isAuthenticate}: HeaderProps):React.ReactElement {
   return (
     <div className='w-100 h-12 bg-green-secondary '>
       <div className='w-100 m-auto h-12 flex flex-row justify-center max-w-screen-desktop pr-4 pl-4'>

@@ -24,3 +24,12 @@ export const HomeContainerStyled = styled.div`
   flex: 20% 20% 60%;
   display: flex;
 `
+
+export const LayoutWrapper = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background: rgb(234 250 241 / var(--tw-bg-opacity));
+  justify-content: center;
+  align-items: center;
+`

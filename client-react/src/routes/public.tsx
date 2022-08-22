@@ -6,6 +6,12 @@ import HeaderLayout from '@/layout/Header/Header';
 const HomeCompoment = lazy(() => import('@/pages/Home/Home'));
 const ProfileCompoment = lazy(() => import('@/pages/Profile/Profile'));
 
+const PageNotFound = () => {
+  return (
+    <div className='flex justify-center items-center'>Page Not Found</div>
+  )
+}
+
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -17,13 +23,15 @@ const App = () => {
   );
 };
 
+
 export const publicRoutes = [
   {
     path: '/',
     element: <App />,
     children: [
       { path: '/', element: <HomeCompoment /> },
-      { path: '/profile', element: <ProfileCompoment /> }
+      { path: '/profile', element: <ProfileCompoment /> },
+      {path: '/*', element: <PageNotFound />}
     ],
   },
 ];

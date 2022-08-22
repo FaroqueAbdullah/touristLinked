@@ -2,6 +2,8 @@ import ProfileSectionCompoment from '../../layout/ProfileSection/ProfileSection'
 import TimelineSectionCompoment from '../../layout/TimelineSection/TimelineSection';
 import EventSectionCompoment from '../../layout/EventSection/EventSection';
 import HomeTabSmallCompoment from '../../layout/HomeTabSmall/HomeTabSmall';
+
+import { LayoutWrapper } from '@/components/StyledComponents/StyledComponents';
 import { useState } from 'react';
 
 function HomeCompoment() {
@@ -12,7 +14,7 @@ function HomeCompoment() {
   }
 
   return (
-    <div className="flex h-full flex-col w-100 bg-green-tertiary items-center justify-center">
+    <LayoutWrapper>
       <HomeTabSmallCompoment 
         onTabClick = {(type: string) => onSmallTabClick(type)}
         currentTab = {currentTab}
@@ -28,7 +30,7 @@ function HomeCompoment() {
           <EventSectionCompoment />
         </div>
       </div>
-    </div>
+    </LayoutWrapper>
   );
 }
 

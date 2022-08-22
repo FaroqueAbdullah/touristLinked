@@ -10,8 +10,8 @@ function Login():React.ReactElement {
 
 
   return (
-    <div className="flex tablet:flex-row flex-col">
-      <div className="flex flex-col items-center justify-center p-10 border-b-2 border-b-white-primary tablet:border-r-2 tablet:border-r-white-primary">
+    <div className="flex mobile:flex-row flex-col">
+      <div className="flex flex-col items-center justify-center p-10 border-b-2 border-b-white-primary mobile:border-r-2 mobile:border-r-white-primary">
        <IconMain />
        <div className="text-lg mt-2 text-white-primary">Welcome Back !</div>
        <div className="text-sm mt-2 ">Create new Account</div>

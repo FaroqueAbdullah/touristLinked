@@ -1,17 +1,14 @@
-import React from "react"
-import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps"
-
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"
+import { ComposableMap, Geographies, Geography } from "react-simple-maps"
+import mapdata from '@/assets/mapdata.json'
 
 export const CountryMap = () => {
 
   return (
     <ComposableMap className="w-100" data-tip="" projectionConfig={{ scale: 180 }} width={800} height={470}>
-      <Geographies geography={geoUrl}>
+      <Geographies geography={mapdata}>
         {({ geographies }) =>
           geographies.map(geo => {
-        const { name, POP_EST } = geo.properties;
+        const { name } = geo.properties;
         //  console.log(`${name} — ${POP_EST}`)
         return(
 

@@ -51,10 +51,12 @@
     "@types/react-dom": "^18.0.0",
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.24",
     "@types/react-simple-maps": "^1.0.8",
+    "@types/styled-components": "^5.1.24",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
+    "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "tailwindcss": "^3.0.24",
     "ts-jest": "^28.0.8",
     "tslint": "^6.1.3"

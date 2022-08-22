@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      'tablet': '640px',
-      'laptop': '1024px',
-      'desktop': '1280px',
+      'mobile': '640px',
+      'tablet': '1024px',
+      'laptop': '1280px',
     },
     colors: {
       green: {

@@ -19,14 +19,14 @@ function HomeCompoment() {
         onTabClick = {(type: string) => onSmallTabClick(type)}
         currentTab = {currentTab}
       />
-      <div className='flex h-[calc(100%-2rem)] tablet:h-full max-w-screen-desktop w-full'>
-        <div className={`w-full ${currentTab === 'Profile' ? '' : 'hidden'} p-4 tablet:w-1/4 tablet:block`}>
+      <div className='flex h-[calc(100%-2rem)] mobile:h-full max-w-screen-laptop w-full'>
+        <div className={`w-full ${currentTab === 'Profile' ? '' : 'hidden'} p-4 mobile:w-1/4 mobile:block`}>
           <ProfileSectionCompoment />
         </div>
-        <div className={`w-full ${currentTab === 'Newsfeed' ? '' : 'hidden'} p-4 tablet:w-2/4 tablet:block`}>
+        <div className={`w-full ${currentTab === 'Newsfeed' ? '' : 'hidden'} p-4 mobile:w-2/4 mobile:block`}>
           <TimelineSectionCompoment />
         </div>
-        <div className={`w-full ${currentTab === 'Event' ? '' : 'hidden'} p-4 tablet:w-1/4 tablet:block`}>
+        <div className={`w-full ${currentTab === 'Event' ? '' : 'hidden'} p-4 mobile:w-1/4 mobile:block`}>
           <EventSectionCompoment />
         </div>
       </div>

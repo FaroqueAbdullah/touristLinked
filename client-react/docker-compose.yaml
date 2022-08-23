@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  server:
+    build: ./server
+    container_name: server_container
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./server:/app
+  client-react:
+    build: ./client-react
+    container_name: client_container
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./server:/app
+    stdin_open: true
+    tty: true

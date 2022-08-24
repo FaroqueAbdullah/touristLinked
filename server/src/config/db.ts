@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const URL: string = process.env.MONGODB_URI || '';
 
-
+console.log('UUUUUUUUUUUUUUU', URL)
 const connect = (): void => {
     mongoose
         .connect(URL, {})

@@ -27,5 +27,6 @@ const winstonLogger = winston.createLogger({
 
 const logOption = process.env.logger || "winston";
 
-if (logOption === "pino") module.exports = pinoLogger;
-else module.exports = winstonLogger;
+const logger = (logOption === "pino") ? pinoLogger : winstonLogger;
+
+export default logger;

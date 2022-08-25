@@ -61,4 +61,4 @@ app.use(logger);
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerdoc));
 
-module.exports = app;
+export default app;

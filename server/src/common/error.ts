@@ -44,4 +44,4 @@ class MongoError extends GeneralError {
   }
 }
 
-module.exports = { GeneralError, BadRequest, NotFound, MongoError };
+export { GeneralError, BadRequest, NotFound, MongoError };

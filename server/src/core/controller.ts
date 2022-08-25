@@ -25,7 +25,7 @@ const getByIdHandler: RequestHandler = async (req: RequestWithProp, res: Respons
     }
     throw new NotFound(`${ModelName} not found by the id: ${id}`);
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
@@ -37,7 +37,7 @@ const searchHandler: RequestHandler = async (req: RequestWithProp, res: Response
     const data = await search(body, req.searchQuery, ModelName);
     return res.status(200).send({ data, total: 0 });
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
@@ -50,7 +50,7 @@ const countHandler: RequestHandler = async (req: RequestWithProp, res: Response,
     const response = { success: true, total: result };
     return res.status(200).send(response);
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
@@ -64,7 +64,7 @@ const saveHandler: RequestHandler = async (req: RequestWithProp, res: Response, 
       .status(201)
       .send({ success: true, message: `${ModelName} created` });
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
@@ -77,7 +77,7 @@ const updateHandler: RequestHandler = async (req: RequestWithProp, res: Response
       .status(200)
       .send({ success: true, message: `${ModelName} updated` });
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
@@ -90,12 +90,12 @@ const deleteHandler: RequestHandler = async (req: RequestWithProp, res: Response
       .status(200)
       .send({ success: true, message: `${ModelName} deleted` });
   } catch (error) {
-    return next(error, req, res);
+    return next(error);
   }
 };
 
 // export
-module.exports = {
+export {
   getByIdHandler,
   searchHandler,
   countHandler,

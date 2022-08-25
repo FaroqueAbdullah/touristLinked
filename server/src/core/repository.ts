@@ -97,7 +97,7 @@ const getDropdownData = async (query:any, project:any, modelName:any) => {
   return data;
 };
 
-module.exports = {
+export {
   save,
   update,
   deleteById,

@@ -21,4 +21,5 @@ const connectWithDb  = async (cb:any, em:any) => {
   );
   if (cb && em) cb(em);
 };
-module.exports = connectWithDb;
+
+export default connectWithDb;

@@ -13,7 +13,7 @@ const start = async () => {
   // };
 
   const configureRoutes = async (app: any) => {
-    // app.use(handleRequest);
+    app.use(handleRequest);
     // const app2 = await initModules(app);
     app.get("/", (req: any, res: any) => {
       res.send("Hello World!");

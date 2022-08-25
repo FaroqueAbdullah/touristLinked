@@ -35,8 +35,8 @@ const handleRequest = async (req: any, res: any, next: any) => {
   }
 
   res.set("x-correlation-id", correlationId);
-  req.log = req.log.child({ correlationId });
-  req.log.info(`new request: ${req.method} ${req.url}`);
+  // req.log = req.log.child({ correlationId });
+  // req.log.info(`new request: ${req.method} ${req.url}`);
   return next();
 };
 
@@ -62,15 +62,15 @@ const authenticateRequest = async (req: any, res: any, next: any) => {
     jwt.verify(auth, process.env.JWT_SECRET, (err: any, decoded: any) => {
       if (err) {
         const { stack, name, ...errorProps } = err;
-        req.log.error({ ...errorProps, name }, "jwt token invalid");
+        // req.log.error({ ...errorProps, name }, "jwt token invalid");
         res.status(401).send({
           success: false,
           errorMessage: err.message || "Invalid token",
         });
       } else {
         req.user = decoded;
-        req.log = req.log.child({ username: req.user.username });
-        req.log.info(`Authenticated user ${req.user.username}`);
+        // req.log = req.log.child({ username: req.user.username });
+        // req.log.info(`Authenticated user ${req.user.username}`);
         next();
       }
     });
@@ -94,12 +94,12 @@ const authorizeRequest = async (req: any, res: any, next: any) => {
       "Permission"
     );
     if (permission) {
-      req.log.info(`Authorized user ${username}`);
+      // req.log.info(`Authorized user ${username}`);
       return next();
     }
-    req.log.error(
-      `Unauthorized user ${username} for the resource ${req.originalUrl} with role ${roleId}`
-    );
+    // req.log.error(
+    //   `Unauthorized user ${username} for the resource ${req.originalUrl} with role ${roleId}`
+    // );
   }
   return res.status(403).send({
     error: "Unauthorized request",
@@ -108,7 +108,7 @@ const authorizeRequest = async (req: any, res: any, next: any) => {
   });
 };
 
-module.exports = {
+export {
   handleError,
   handleRequest,
   handleValidation,

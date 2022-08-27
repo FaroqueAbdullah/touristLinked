@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler  } from 'express';
 
 interface RequestWithProp extends Request {
-  modelName?: String;
-  searchQuery? : String;
+  modelName?: string;
+  searchQuery? : string;
 }
 
 const { NotFound } = require("../common/errors");

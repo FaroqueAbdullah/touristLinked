@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const eventEmitter = require("./event-manager").getInstance();
 
 interface ItemType {
-  _id: String
+  _id: string
 }
 
 const save = async<Type>(item: Type, modelName: string) => {

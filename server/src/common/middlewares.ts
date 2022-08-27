@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongoose").Types;
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import {  GeneralError  } from "./error";
 const { searchOne } = require("../core/repository");
@@ -59,7 +59,7 @@ const authenticateRequest = async (req: any, res: any, next: any) => {
   let auth = req.headers.authorization;
   if (auth) {
     auth = auth.replace("Bearer ", "");
-    jwt.verify(auth, process.env.JWT_SECRET, (err: any, decoded: any) => {
+    jwt.verify(auth, "JwtSecret", (err: any, decoded: any) => {
       if (err) {
         const { stack, name, ...errorProps } = err;
         // req.log.error({ ...errorProps, name }, "jwt token invalid");

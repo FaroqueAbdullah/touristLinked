@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { UserInterface } from "./auth.interface";
+import { UserInterface } from "./interface";
 
 const { ObjectId } = require("mongoose").Types;
 
@@ -26,7 +26,6 @@ const usernameSchema = Joi.object().keys({
 
 const validateRegistration = (data: UserInterface) => {
   const result = registrationSchema.validate(data);
-  result.value = { roleName: "user", ...data };
   return result;
 };
 
@@ -35,8 +34,6 @@ const validateUsername = (data: string) => {
   result.value = data;
   return result;
 };
-
-
 
 const userUpdateSchema = Joi.object().keys({
   _id: Joi.string().required(),

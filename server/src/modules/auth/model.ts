@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 import { MongoError } from "../../common/error";
-import { UserInterface } from "./auth.interface";
 
 const keyMapping: any = {
   phoneNumber: "Phone number",
@@ -18,8 +17,8 @@ const userSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true, index: true, unique: true },
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
-    passwordResetToken: { type: String, required: false },
-    isActive: { type: Boolean, required: true, default: false },
+    passwordResetToken: { type: String, required: false, default: '' },
+    isActive: { type: Boolean, required: false, default: false },
     accountActivationToken: { type: String, required: false },
     address: { type: String, required: false },
     country: { type: String, required: false }
@@ -46,22 +45,5 @@ userSchema.post("save", (error: any, doc: any, next: any) => {
 
 const ModelName = "User";
 const User = mongoose.model(ModelName, userSchema);
-
-async function getPasswordHash(password: string) {
-  const hash = await bcrypt.hash(password, 10);
-  return hash;
-}
-
-User.createNew = async (user: UserInterface ) => {
-  const model = new User(user);
-  const hash = await getPasswordHash(user.password);
-  model.passwordHash = hash;
-  return model;
-};
-
-User.getHashedPassword = async (newPassword: string) => {
-  const hash = await getPasswordHash(newPassword);
-  return hash;
-};
 
 export { User as Model, ModelName as name };

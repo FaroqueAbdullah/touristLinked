@@ -1,4 +1,5 @@
 export interface UserInterface {
+  _id?: string,
   firstName: string,
   lastName: string,
   username: string,
@@ -9,3 +10,5 @@ export interface UserInterface {
   password: string,
   confirmPassword: string
 }
+
+export type ValidateFunction = (data: any) => any;

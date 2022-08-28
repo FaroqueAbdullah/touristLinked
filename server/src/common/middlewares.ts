@@ -1,10 +1,12 @@
 const { ObjectId } = require("mongoose").Types;
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
+import { ValidateFunction } from "../modules/auth/interface";
 import {  GeneralError  } from "./error";
+import { Request, Response, NextFunction, RequestHandler  } from "express";
 const { searchOne } = require("../core/repository");
 
-const handleError = async (err: any, req: any, res: any, next: any) => {
+const handleError = async (err: any, req: Request, res: Response, next: NextFunction) => {
   if (res?.headersSent) {
     return next(err);
   }
@@ -27,7 +29,7 @@ const handleError = async (err: any, req: any, res: any, next: any) => {
   );
 };
 
-const handleRequest = async (req: any, res: any, next: any) => {
+const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   let correlationId = req.headers["x-correlation-id"];
   if (!correlationId) {
     correlationId = uuidv4();
@@ -40,9 +42,10 @@ const handleRequest = async (req: any, res: any, next: any) => {
   return next();
 };
 
-const handleValidation = (validate: any) => (req: any, res: any, next: any) => {
-  const result = validate(req.body, req.user);
+const handleValidation = (validate: ValidateFunction) => (req: Request, res: Response, next: NextFunction) => {
+  const result = validate(req.body);
   const isValid = result.error == null;
+
   if (isValid) {
     req.body = result.value;
     return next();
@@ -51,11 +54,12 @@ const handleValidation = (validate: any) => (req: any, res: any, next: any) => {
   const { details } = result.error;
   const messages = details.map((e: any) => e.message);
   const msg = messages.join(",");
+  
   // throw new BadRequest(msg);
   return res.status(400).send({ status: "error", message: msg });
 };
 
-const authenticateRequest = async (req: any, res: any, next: any) => {
+const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
   let auth = req.headers.authorization;
   if (auth) {
     auth = auth.replace("Bearer ", "");
@@ -68,7 +72,7 @@ const authenticateRequest = async (req: any, res: any, next: any) => {
           errorMessage: err.message || "Invalid token",
         });
       } else {
-        req.user = decoded;
+        // req.user = decoded;
         // req.log = req.log.child({ username: req.user.username });
         // req.log.info(`Authenticated user ${req.user.username}`);
         next();
@@ -79,39 +83,10 @@ const authenticateRequest = async (req: any, res: any, next: any) => {
   }
 };
 
-// authorize request
-const authorizeRequest = async (req: any, res: any, next: any) => {
-  const { user } = req;
-  if (user) {
-    const { username, roleId } = user;
-    const permission = await searchOne(
-      {
-        // roleId: r,
-        roleId: ObjectId(roleId),
-        resourceName: req._parsedUrl.pathname,
-        isAllowed: true,
-      },
-      "Permission"
-    );
-    if (permission) {
-      // req.log.info(`Authorized user ${username}`);
-      return next();
-    }
-    // req.log.error(
-    //   `Unauthorized user ${username} for the resource ${req.originalUrl} with role ${roleId}`
-    // );
-  }
-  return res.status(403).send({
-    error: "Unauthorized request",
-    message: "Unauthorized",
-    status: "error",
-  });
-};
 
 export {
   handleError,
   handleRequest,
   handleValidation,
-  authenticateRequest,
-  authorizeRequest,
+  authenticateRequest
 };

@@ -24,6 +24,7 @@ const changePassword = async (user: UserInterface, newPassword: string) => {
   const model = await Model.findById(id);
   if (model) {
     model.passwordHash = await getPasswordHash(newPassword);
+    model.passwordResetToken = '';
     model.save();
     return model._id;
   }

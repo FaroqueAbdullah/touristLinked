@@ -12,7 +12,7 @@ import {
   update,
   changePassword,
 } from "./service";
-import { sendAccountCreatedEmail } from "../../email";
+import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
 
 const { ObjectId } = require("mongoose").Types;
 const authRoute = express.Router();
@@ -43,7 +43,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     await sendAccountCreatedEmail(user);
 
-    const token = jwt.sign(
+    const jwtToken = jwt.sign(
       { id },
       secretToken,
       {
@@ -53,7 +53,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     return res
       .status(201)
-      .send({ status: "ok", message: "User created successfully", token: token });
+      .send({ status: "ok", message: "User created successfully", jwtToken });
   } catch (error) {
     return next(error);
   }
@@ -70,20 +70,17 @@ const loginHandler = async (req: Request, res: Response) => {
         });
       }
 
-      const jwtSignature = jwt.sign(
+      const jwtToken = jwt.sign(
+        { id: user._id },
+        secretToken,
         {
-          id: user._id,
-          username: req.body.username,
-          exp:
-            Math.floor(Date.now() / 1000) +
-            parseInt('10', 10),
-        },
-        secretToken
+          expiresIn: "2h",
+        }
       );
 
       const { _id, ...restData } = user;
 
-      res.status(200).send({status: 'ok', restData, message: "User logged in successfully", jwtSignature });
+      res.status(200).send({status: 'ok', restData, message: "User logged in successfully", jwtToken });
       return;
     }
   }
@@ -92,15 +89,15 @@ const loginHandler = async (req: Request, res: Response) => {
 };
 
 const activateAccountHandler = async (req: Request, res: Response) => {
-  const { token, jwtSignature } = req.body;
+  const { token, jwtToken } = req.body;
 
-  if (token && jwtSignature) {
+  if (token && jwtToken) {
 
     try {
-      const decoded = jwt.verify(jwtSignature, secretToken) as jwt.JwtPayload;
+      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
 
       const user = await searchOne({ _id: decoded.id }, ModelName);
-
+      console.log("user 1", user)
       if (user) {
         const tokenValid = token === user.accountActivationToken;
         if (tokenValid) {
@@ -130,15 +127,135 @@ const activateAccountHandler = async (req: Request, res: Response) => {
   });
 };
 
+const forgotPasswordHandler = async (req: Request, res: Response) => {
+  if (req.body.email) {
+    const user = await searchOne({ email: req.body.email }, ModelName);
+
+    if (user) {
+
+      const jwtToken = jwt.sign(
+        { id: user._id },
+        secretToken,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      user.passwordResetToken = generateActivationKey();
+      await update(user, ModelName);
+
+      await sendPasswordResetEmail(user);
+
+      return res
+        .status(200)
+        .send({ status: "ok", message: "Email sent successfully",  jwtToken});
+    }
+  }
+
+  return res.status(400).send({
+    status: "error",
+    message: "Email address not found.",
+  });
+};
+
+const verifyTokenHandler = async (req: Request, res: Response) => {
+  const { jwtToken, token } = req.body;
+
+  if (jwtToken && token) {
+    try {
+      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+      const user = await searchOne({ _id: decoded.id }, ModelName);
+
+      if (user) {
+        const tokenValid = token === user.passwordResetToken;
+        if (tokenValid) {
+          const jwtTokenWithPasswordResetToken = jwt.sign(
+            { id: user._id, token: token },
+            secretToken,
+            {
+              expiresIn: "2h",
+            }
+          );
+
+          return res
+            .status(200)
+            .send({ status: "ok", message: "Token verified", jwtToken: jwtTokenWithPasswordResetToken });
+        }
+        return res
+          .status(400)
+          .send({ status: "error", message: "Token invalid" });
+      }
+    } catch (error) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid token",
+      });
+    }
+  }
+  return res.status(400).send({
+    status: "error",
+    message: "Invalid token",
+  });
+};
+
+const resetPasswordHandler = async (req: Request, res: Response) => {
+  const { password, jwtToken } = req.body;
+  if (jwtToken && password) {
+    try {
+      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+      const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
+      if (user) {
+        const tokenValid = decoded.token === user.passwordResetToken;
+        if (tokenValid) {
+          await changePassword(user, password);
+
+          await sendPasswordResetSuccessEmail(user);
+
+          return res
+            .status(200)
+            .send({ status: "ok", message: "Password changed successfully" });
+        }
+        return res
+          .status(400)
+          .send({ status: "error", message: "Token invalid" });
+      }
+    } catch (error) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid token",
+      });
+    }
+  }
+  return res.status(400).send({
+    status: "error",
+    message: "Invalid token",
+  });
+};
+
+const checkUsernameHandler = async (req: Request, res: Response) => {
+  const user = await searchOne(
+    { username: req.body.username.toLowerCase() },
+    ModelName
+  );
+  if (user) {
+    return res
+      .status(400)
+      .send({ status: "unavailable", message: "Username is taken" });
+  }
+  return res
+    .status(200)
+    .send({ status: "available", message: "Username is available" });
+};
+
 
 
 authRoute.post("/register", handleValidation(validateRegistration),createUserHandler);
 authRoute.post("/login", loginHandler);
-authRoute.post("/verify-token", (req: any, res: any) => res.send("Hello verify-token!"));
-authRoute.post("/forgot-password", (req: any, res: any) => res.send("Hello forgot-password!"));
-authRoute.post("/reset-password", (req: any, res: any) => res.send("Hello reset-password!"))
-authRoute.post("/activate-account", activateAccountHandler)
-authRoute.post("/check-username", (req: any, res: any) => res.send("Hello check-username!"));
+authRoute.post("/forgot-password", forgotPasswordHandler);
+authRoute.post("/verify-token", verifyTokenHandler);
+authRoute.post("/reset-password", resetPasswordHandler);
+authRoute.post("/activate-account", activateAccountHandler);
+authRoute.post("/check-username", checkUsernameHandler);
 
 
 export default authRoute;

@@ -37,8 +37,8 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
   }
 
   res.set("x-correlation-id", correlationId);
-  // req.log = req.log.child({ correlationId });
-  // req.log.info(`new request: ${req.method} ${req.url}`);
+  req.log = req.log.child({ correlationId });
+  req.log.info(`new request: ${req.method} ${req.url}`);
   return next();
 };
 
@@ -66,7 +66,7 @@ const authenticateRequest = async (req: Request, res: Response, next: NextFuncti
     jwt.verify(auth, "JwtSecret", (err: any, decoded: any) => {
       if (err) {
         const { stack, name, ...errorProps } = err;
-        // req.log.error({ ...errorProps, name }, "jwt token invalid");
+        req.log.error({ ...errorProps, name }, "jwt token invalid");
         res.status(401).send({
           success: false,
           errorMessage: err.message || "Invalid token",

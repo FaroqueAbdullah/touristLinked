@@ -53,7 +53,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     return res
       .status(201)
-      .send({ status: "ok", message: "User created successfully", jwtToken });
+      .send({ status: "ok", message: "User created successfully", data: { jwtToken } });
   } catch (error) {
     return next(error);
   }
@@ -80,7 +80,7 @@ const loginHandler = async (req: Request, res: Response) => {
 
       const { _id, ...restData } = user;
 
-      res.status(200).send({status: 'ok', restData, message: "User logged in successfully", jwtToken });
+      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, jwtToken } });
       return;
     }
   }
@@ -97,7 +97,7 @@ const activateAccountHandler = async (req: Request, res: Response) => {
       const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
 
       const user = await searchOne({ _id: decoded.id }, ModelName);
-      console.log("user 1", user)
+
       if (user) {
         const tokenValid = token === user.accountActivationToken;
         if (tokenValid) {
@@ -148,7 +148,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 
       return res
         .status(200)
-        .send({ status: "ok", message: "Email sent successfully",  jwtToken});
+        .send({ status: "ok", data: { jwtToken }, message: "Email sent successfully"});
     }
   }
 
@@ -179,7 +179,7 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
 
           return res
             .status(200)
-            .send({ status: "ok", message: "Token verified", jwtToken: jwtTokenWithPasswordResetToken });
+            .send({ status: "ok", data: { jwtToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
         }
         return res
           .status(400)

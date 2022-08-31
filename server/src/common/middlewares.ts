@@ -17,7 +17,7 @@ const handleError = async (err: any, req: Request, res: Response, next: NextFunc
   }
 
   const correlationId = req?.headers["x-correlation-id"];
-  req.log.error(err, { correlationId });
+  // req.log.error(err, { correlationId });
   return (
     res &&
     res.status(code).send({
@@ -31,6 +31,7 @@ const handleError = async (err: any, req: Request, res: Response, next: NextFunc
 
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   let correlationId = req.headers["x-correlation-id"];
+  console.log('correlationId ', correlationId)
   if (!correlationId) {
     correlationId = uuidv4();
     req.headers["x-correlation-id"] = correlationId;

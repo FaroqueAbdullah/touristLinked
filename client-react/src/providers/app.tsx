@@ -1,6 +1,9 @@
 import  { Suspense } from 'react';
 import { BrowserRouter } from "react-router-dom";
 
+import { Provider } from "react-redux";
+import { store } from "@/store/index";
+
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -10,11 +13,13 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <div className='font-serif h-screen flex flex-col'>
-      <Suspense fallback={<div>Loading...</div>}>
-        <BrowserRouter>
-          {children}
-        </BrowserRouter>
-      </Suspense>
+      <Provider store={ store }>
+        <Suspense fallback={<div>Loading...</div>}>
+          <BrowserRouter>
+            {children}
+          </BrowserRouter>
+        </Suspense>
+      </Provider>
     </div>
   );
 };

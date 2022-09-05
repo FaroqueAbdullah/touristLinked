@@ -7,6 +7,7 @@ import { publicRoutes } from './public';
 
 
 export const AppRoutes = () => {
+  console.log('route called')
 
   const element = useRoutes([...authRoutes, ...publicRoutes]);
 

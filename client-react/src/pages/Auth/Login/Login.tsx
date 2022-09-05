@@ -1,13 +1,29 @@
 import { useNavigate  } from 'react-router-dom';
-import ButtonPrimary from '../../../components/ButtonPrimary';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-import IconMain from "../../../components/IconMain";
-import InputField from '../../../components/InputField';
-import SMediaContainer from '../../../components/SocialMediaButtons';
+import ButtonPrimary from '@/components/ButtonPrimary';
+import IconMain from "@/components/IconMain";
+import InputField from '@/components/InputField';
+import SMediaContainer from '@/components/SocialMediaButtons';
+
+import { createUser } from '@/store/asyncThunk/userThunk';
+import { AppDispatch } from '@/store/index'
+
+
 
 function Login():React.ReactElement {
   let navigate = useNavigate(); 
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+
+    dispatch(createUser({
+      "username" : "abir007",
+      "password" : "123456"
+    }) ).unwrap()
+  }, [])
 
   return (
     <div className="flex mobile:flex-row flex-col">

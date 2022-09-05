@@ -1,44 +1,34 @@
-import { createReducer, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { ActionType } from '../action-types';
-import { LogInUser, LogOutUser, SignInUser, UserLogInCredentials, UserSignInCredentials, ActiveUserAccount } from '../actions/userActions';
+import { createUser } from '../asyncThunk/userThunk';
 
-type userAction = LogInUser | LogOutUser | SignInUser | ActiveUserAccount;
 
-const initialState = {};
+const initialState = {
+  user: {},
+  loading: false,
+  jwtToken: '',
+  error: ''
+};
 
-const userReducer = createReducer(initialState, {
-  logInUser( state, action ) {
-    state
-  },
-  logOutUser( state ) {
-    state
-  },
-  signInUser( state, action ) {
-    state
-  },
-  activateUser( state, action ) {
-    state
-  }
-});
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    logInUser( state, action ) {
-      state
-    },
-    logOutUser( state ) {
-      state
-    },
-    signInUser( state, action ) {
-      state
-    },
-    activateUser( state, action ) {
-      state
-    },
-  }
+  extraReducers: (builder) => {
+    builder.addCase(createUser.pending, (state, action) => {
+      state.loading = true;
+    }),
+    builder.addCase(createUser.fulfilled, (state, action) => {
+      console.log('action ', action.payload)
+      state.loading = false;
+      state.user = action.payload.data.user
+      state.jwtToken = action.payload.jwtToken
+    }),
+    builder.addCase(createUser.rejected, (state, action) => {
+      state.loading = false;
+    })
+  },
+  reducers: {}
 })
 
 export default userSlice.reducer;

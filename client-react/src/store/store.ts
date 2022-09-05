@@ -1,8 +1,9 @@
-import { createStore , applyMiddleware } from 'redux';
-import reducers from './reducers';
+import { configureStore } from '@reduxjs/toolkit'
 
-export const store = createStore (
-  reducers,
-  {},
-  applyMiddleware()
-)
+import userReducer from "./reducers/userReducer";
+
+export const store = configureStore({
+  reducer: {
+    user: userReducer
+  }
+})

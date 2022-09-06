@@ -7,7 +7,7 @@ import IconMain from "@/components/IconMain";
 import InputField from '@/components/InputField';
 import SMediaContainer from '@/components/SocialMediaButtons';
 
-import { createUser } from '@/store/asyncThunk/userThunk';
+import { logInUser } from '@/store/asyncThunk/userThunk';
 import { AppDispatch } from '@/store/index'
 
 
@@ -19,7 +19,7 @@ function Login():React.ReactElement {
 
   useEffect(() => {
 
-    dispatch(createUser({
+    dispatch(logInUser({
       "username" : "abir007",
       "password" : "123456"
     }) ).unwrap()

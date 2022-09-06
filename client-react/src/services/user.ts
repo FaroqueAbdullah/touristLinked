@@ -1,4 +1,4 @@
-import http from '@/axios/index';
+import http from '@/services/axios';
 
 const createUser = ( data: any ) => {
   return http.post("/auth/register", data)

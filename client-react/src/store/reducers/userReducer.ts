@@ -14,7 +14,7 @@ import {
 const initialState = {
   userProfile: {},
   loading: false,
-  jwtToken: '',
+  accessToken: '',
   status: ''
 };
 
@@ -31,7 +31,7 @@ const userSlice = createSlice({
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.loading = false;
       state.userProfile = action.payload.data.user
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.data.accessToken
     }),
     builder.addCase(createUser.rejected, (state, action) => {
       state.loading = false;
@@ -44,7 +44,7 @@ const userSlice = createSlice({
     builder.addCase(logInUser.fulfilled, (state, action) => {
       state.loading = false;
       state.userProfile = action.payload.data.user
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.data.accessToken
     }),
     builder.addCase(logInUser.rejected, (state, action) => {
       state.loading = false;
@@ -56,7 +56,7 @@ const userSlice = createSlice({
     }),
     builder.addCase(forgetPassword.fulfilled, (state, action) => {
       state.loading = false;
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(forgetPassword.rejected, (state, action) => {
       state.loading = false;
@@ -68,7 +68,7 @@ const userSlice = createSlice({
     }),
     builder.addCase(verifyPasswordToken.fulfilled, (state, action) => {
       state.loading = false;
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(verifyPasswordToken.rejected, (state, action) => {
       state.loading = false;
@@ -80,7 +80,7 @@ const userSlice = createSlice({
     }),
     builder.addCase(resetPassword.fulfilled, (state, action) => {
       state.loading = false;
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
@@ -92,7 +92,7 @@ const userSlice = createSlice({
     }),
     builder.addCase(activateUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.jwtToken = action.payload.jwtToken
+      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(activateUser.rejected, (state, action) => {
       state.loading = false;

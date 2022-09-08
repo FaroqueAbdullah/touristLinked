@@ -20,49 +20,31 @@ function SignUp():React.ReactElement {
         <form className="flex flex-col">
           <InputField 
             type={'text'} 
-            label={'First Name'}
-            value={''} 
-            onChange={() => {}}
             placeholder={'First Name'} 
             error={''} 
           />
           <InputField 
             type={'text'} 
-            label={'Last Name'}
-            value={''} 
-            onChange={() => {}}
             placeholder={'Last Name'} 
             error={''} 
           />
           <InputField 
             type={'date'} 
-            label={'Birth Date'}
-            value={''} 
-            onChange={() => {}}
             placeholder={'Birth Date'} 
             error={''} 
           />
           <InputField 
             type={'email'} 
-            label={'Email'} 
-            value={''} 
-            onChange={() => {}}
             placeholder={'Email'} 
             error={''} 
           />
           <InputField 
             type={'text'} 
-            label={'Password'} 
-            value={''} 
-            onChange={() => {}}
             placeholder={'Password'} 
             error={''} 
           />
           <InputField 
             type={'text'} 
-            label={'Confirm Password'} 
-            value={''} 
-            onChange={() => {}}
             placeholder={'Password'} 
             error={''} 
           />

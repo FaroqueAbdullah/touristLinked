@@ -43,7 +43,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     await sendAccountCreatedEmail(user);
 
-    const jwtToken = jwt.sign(
+    const accessToken = jwt.sign(
       { id },
       secretToken,
       {
@@ -53,15 +53,15 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     return res
       .status(201)
-      .send({ status: "ok", message: "User created successfully", data: { jwtToken } });
+      .send({ status: "ok", message: "User created successfully", data: { accessToken } });
   } catch (error) {
     return next(error);
   }
 };
 
 const loginHandler = async (req: Request, res: Response) => {
-  if (req.body.username && req.body.password) {
-    const user = await checkUser(req.body.username, req.body.password);
+  if (req.body.emailOrUsername && req.body.password) {
+    const user = await checkUser(req.body.emailOrUsername, req.body.password);
     if (user) {
       if (!user.isActive) {
         return res.status(400).send({
@@ -70,7 +70,7 @@ const loginHandler = async (req: Request, res: Response) => {
         });
       }
 
-      const jwtToken = jwt.sign(
+      const accessToken = jwt.sign(
         { id: user._id },
         secretToken,
         {
@@ -80,7 +80,7 @@ const loginHandler = async (req: Request, res: Response) => {
 
       const { _id, ...restData } = user;
 
-      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, jwtToken } });
+      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, accessToken } });
       return;
     }
   }
@@ -89,12 +89,12 @@ const loginHandler = async (req: Request, res: Response) => {
 };
 
 const activateAccountHandler = async (req: Request, res: Response) => {
-  const { token, jwtToken } = req.body;
+  const { token, accessToken } = req.body;
 
-  if (token && jwtToken) {
+  if (token && accessToken) {
 
     try {
-      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
 
       const user = await searchOne({ _id: decoded.id }, ModelName);
 
@@ -133,7 +133,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 
     if (user) {
 
-      const jwtToken = jwt.sign(
+      const accessToken = jwt.sign(
         { id: user._id },
         secretToken,
         {
@@ -148,7 +148,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 
       return res
         .status(200)
-        .send({ status: "ok", data: { jwtToken }, message: "Email sent successfully"});
+        .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
     }
   }
 
@@ -159,11 +159,11 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 };
 
 const verifyTokenHandler = async (req: Request, res: Response) => {
-  const { jwtToken, token } = req.body;
+  const { accessToken, token } = req.body;
 
-  if (jwtToken && token) {
+  if (accessToken && token) {
     try {
-      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
       const user = await searchOne({ _id: decoded.id }, ModelName);
 
       if (user) {
@@ -179,7 +179,7 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
 
           return res
             .status(200)
-            .send({ status: "ok", data: { jwtToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
+            .send({ status: "ok", data: { accessToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
         }
         return res
           .status(400)
@@ -199,10 +199,10 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
 };
 
 const resetPasswordHandler = async (req: Request, res: Response) => {
-  const { password, jwtToken } = req.body;
-  if (jwtToken && password) {
+  const { password, accessToken } = req.body;
+  if (accessToken && password) {
     try {
-      const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
       const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
       if (user) {
         const tokenValid = decoded.token === user.passwordResetToken;

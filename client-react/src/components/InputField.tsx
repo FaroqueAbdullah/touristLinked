@@ -1,17 +1,15 @@
 interface InputFieldProps {
   type: string,
-  label: string,
-  value: string,
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   placeholder: string,
   error: string,
+  additionalProps?: any
 }
 
-function InputField({type, label, value, onChange, placeholder, error} : InputFieldProps):React.ReactElement {
+function InputField({type, placeholder, error, additionalProps} : InputFieldProps):React.ReactElement {
   return (
-    <label className="flex mt-5 items-center">
-      <span className="w-20 text-sm">{ label }</span>
-      <input className="h-8 p-2 w-60 bg-slate-50" placeholder={placeholder} type={type} />
+    <label className="mt-2 items-center">
+      <input className="h-8 p-2 w-full bg-slate-50" placeholder={placeholder} type={type} { ...additionalProps }/>
+      { error ? <p className="text-xs mt-1 text-red-primary"> { error } </p> : '' }
     </label>
   )
 }

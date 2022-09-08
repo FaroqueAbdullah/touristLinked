@@ -41,8 +41,18 @@ const getByUsername = async (username: string) => {
   return null;
 };
 
-const checkUser = async (username: string, password: string) => {
-  const user = await Model.findOne({ username }).lean(); // status: "Active"
+const checkUser = async (emailOrUsername: string, password: string) => {
+
+  let user;
+
+  if ( /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test( emailOrUsername ) ) {
+    user = await Model.findOne({ email: emailOrUsername  }).lean(); // status: "Active"
+  } else {
+    user = await Model.findOne({ username: emailOrUsername  }).lean(); // status: "Active"
+  }
+  
+  
+
   if (user) {
     const match = await bcrypt.compare(password, user.passwordHash);
     const { passwordHash, passwordResetToken, accountActivationToken, ...rest } = user;

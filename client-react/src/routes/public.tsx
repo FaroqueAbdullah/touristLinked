@@ -1,7 +1,7 @@
 import  { lazy, Suspense } from 'react';
 import { Outlet } from "react-router-dom";
 
-import HeaderLayout from '@/layout/Header/Header';
+import HeaderComponent from '@/layout/Header/Header';
 
 const HomeCompoment = lazy(() => import('@/pages/Home/Home'));
 const ProfileCompoment = lazy(() => import('@/pages/Profile/Profile'));
@@ -15,7 +15,7 @@ const PageNotFound = () => {
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeaderLayout isAuthenticate = {true} /> 
+      <HeaderComponent isAuthenticate = {true} /> 
       <div className='h-[calc(100vh-3rem)]'>
         <Outlet />
       </div>

@@ -15,7 +15,7 @@ function BlogPostComponent ({
 }: BlogPostProps):React.ReactElement {
 
   return (
-    <div className="w-full bg-white-primary rounded-lg mb-2 h-auto">
+    <div className="w-full bg-white-primary rounded-lg mb-2 h-auto border-2 border-white-secondary">
 
       <div className="w-full justify-between flex p-3 ">
         <div className="flex justify-start items-center">

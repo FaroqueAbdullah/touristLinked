@@ -1,7 +1,6 @@
 import { useNavigate  } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, Resolver } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import ButtonPrimary from '@/components/ButtonPrimary';
 import IconMain from "@/components/IconMain";
@@ -11,19 +10,25 @@ import SMediaContainer from '@/components/SocialMediaButtons';
 import { logInUser } from '@/store/asyncThunk/userThunk';
 import { AppDispatch } from '@/store/index'
 
-type FormValues = {
+type LoginCredentials = {
   emailOrUsername: string;
   password: string;
 };
 
 function Login():React.ReactElement {
   let navigate = useNavigate(); 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>();
 
   const dispatch = useDispatch<AppDispatch>();
   
-  const onSubmit = ( data: FormValues ) => {
-    dispatch(logInUser( data ) ).unwrap()
+  const onSubmit = ( data: LoginCredentials ) => {
+    dispatch(logInUser( data ) )
+      .then( ( data ) => {
+        console.log('safdasdf')
+        if ( data.type === "/auth/login/fulfilled" ) {
+          navigate('/')
+        }
+      })
   };
 
   return (

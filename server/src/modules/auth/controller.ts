@@ -78,9 +78,17 @@ const loginHandler = async (req: Request, res: Response) => {
         }
       );
 
+      const refreshToken = jwt.sign(
+        { id: user._id },
+        secretToken,
+        {
+          expiresIn: "30d",
+        }
+      );
+
       const { _id, ...restData } = user;
 
-      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, accessToken } });
+      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, accessToken, refreshToken } });
       return;
     }
   }

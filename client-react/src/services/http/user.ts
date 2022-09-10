@@ -5,7 +5,8 @@ const createUser = ( data: any ) => {
 }
 
 const loginUser = ( data: any ) => {
-  return http.post("/auth/login", data)
+  var user = http.post("/auth/login", data)
+  return user;
 }
 
 const forgetPassword = ( data: any ) => {

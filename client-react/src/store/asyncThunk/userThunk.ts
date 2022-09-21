@@ -15,8 +15,16 @@ export const logInUser = createAsyncThunk(
    "/auth/login",
     async ( data: any ) => {
        const res = await UserService.loginUser( data )
-       tokenService.setUser( res.data.data )
+       tokenService.setUser( res.data )
        return res.data
+    }
+ )
+
+ export const logOutUser = createAsyncThunk(
+   "/auth/logout",
+    async ( ) => {
+       await tokenService.removeUser()
+       return true;
     }
  )
 
@@ -58,4 +66,15 @@ export const logInUser = createAsyncThunk(
        const res = await UserService.checkUserName( data )
        return res.data
     }
+ )
+
+ export const checkUserInLocal = createAsyncThunk(
+   "/auth/check-user-in-local",
+  async () => {
+    const res = await tokenService.getUser()
+    if ( !res ) {
+      return Error
+    }
+    return res.data
+  }
  )

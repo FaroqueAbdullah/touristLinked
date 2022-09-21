@@ -33,7 +33,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
     if (!id) {
       return res.status(400).send({
         status: "error",
-        message: "User already exists by username or email or phone number.",
+        message: "User already exists by username or email.",
       });
     }
 

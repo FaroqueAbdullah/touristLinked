@@ -24,7 +24,6 @@ function Login():React.ReactElement {
   const onSubmit = ( data: LoginCredentials ) => {
     dispatch(logInUser( data ) )
       .then( ( data ) => {
-        console.log('safdasdf')
         if ( data.type === "/auth/login/fulfilled" ) {
           navigate('/')
         }

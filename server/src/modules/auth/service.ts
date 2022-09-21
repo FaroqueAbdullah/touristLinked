@@ -71,7 +71,7 @@ const createUser = async (user: UserInterface) => {
 const tryCreateUser = async (user: UserInterface) => {
   const { username, phoneNumber, email } = user;
   const query = {
-    $or: [{ phoneNumber }, { email }, { username }],
+    $or: [ { email }, { username }],
   };
   const item = await Model.findOne(query);
   if (item) {

@@ -27,8 +27,7 @@ function SignUp():React.ReactElement {
   const onSubmit = ( data: SigninCredentials ) => {
     dispatch(createUser( data ) )
       .then( ( data ) => {
-        console.log('safdasdf')
-        if ( data.type === "/auth/login/fulfilled" ) {
+        if ( data.type === "/auth/register/fulfilled" ) {
           navigate('/')
         }
       })

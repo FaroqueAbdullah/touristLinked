@@ -1,11 +1,11 @@
 class TokenService {
   getLocalRefreshToken() {
     const auth = JSON.parse(localStorage.getItem("auth") || '{}');
-    return auth?.refreshToken;
+    return auth?.data.refreshToken;
   }
   getLocalAccessToken() {
     const auth = JSON.parse(localStorage.getItem("auth") || '{}');
-    return auth?.accessToken;
+    return auth?.data.accessToken;
   }
   updateLocalAccessToken(token: string) {
     let auth = JSON.parse(localStorage.getItem("auth") || '{}');

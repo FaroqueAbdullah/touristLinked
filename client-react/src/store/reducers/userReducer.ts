@@ -7,14 +7,15 @@ import {
   verifyPasswordToken,
   resetPassword,
   activateUser,
-  checkUserName
+  checkUserName,
+  checkUserInLocal,
+  logOutUser
 } from '../asyncThunk/userThunk';
 
 
 const initialState = {
   userProfile: {},
   loading: false,
-  accessToken: '',
   status: ''
 };
 
@@ -31,7 +32,6 @@ const userSlice = createSlice({
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.loading = false;
       state.userProfile = action.payload.data.user
-      state.accessToken = action.payload.data.accessToken
     }),
     builder.addCase(createUser.rejected, (state, action) => {
       state.loading = false;
@@ -44,10 +44,21 @@ const userSlice = createSlice({
     builder.addCase(logInUser.fulfilled, (state, action) => {
       state.loading = false;
       state.userProfile = action.payload.data.user
-      state.accessToken = action.payload.data.accessToken
     }),
     builder.addCase(logInUser.rejected, (state, action) => {
       state.loading = false;
+    }),
+
+    // login user from local storage
+    builder.addCase(checkUserInLocal.fulfilled, (state, action) => {
+      if ( action.payload ) {
+        state.userProfile = action.payload.user
+      }
+    }),
+
+    // logot user from all storage
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      state.userProfile = {};
     }),
 
     // forgetPassword state handlers
@@ -56,7 +67,6 @@ const userSlice = createSlice({
     }),
     builder.addCase(forgetPassword.fulfilled, (state, action) => {
       state.loading = false;
-      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(forgetPassword.rejected, (state, action) => {
       state.loading = false;
@@ -68,7 +78,6 @@ const userSlice = createSlice({
     }),
     builder.addCase(verifyPasswordToken.fulfilled, (state, action) => {
       state.loading = false;
-      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(verifyPasswordToken.rejected, (state, action) => {
       state.loading = false;
@@ -80,7 +89,6 @@ const userSlice = createSlice({
     }),
     builder.addCase(resetPassword.fulfilled, (state, action) => {
       state.loading = false;
-      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
@@ -92,7 +100,6 @@ const userSlice = createSlice({
     }),
     builder.addCase(activateUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.accessToken = action.payload.accessToken
     }),
     builder.addCase(activateUser.rejected, (state, action) => {
       state.loading = false;

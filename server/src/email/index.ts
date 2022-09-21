@@ -10,6 +10,7 @@ let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 
 const sendAccountCreatedEmail = ( user: any ) => {
+  console.log('fuck eml', apiKey.apiKey)
   sendSmtpEmail.subject = "TouristLinked account approval";
   sendSmtpEmail.htmlContent = `
   <html>
@@ -30,6 +31,7 @@ const sendAccountCreatedEmail = ( user: any ) => {
   apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data: any) {
     console.log('API called successfully. Returned data: ' + JSON.stringify(data));
   }, function(error: any) {
+    // console.log('Fucking email error')
     console.error(error);
   });
 }

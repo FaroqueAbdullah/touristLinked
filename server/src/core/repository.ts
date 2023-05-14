@@ -5,14 +5,14 @@ interface ItemType {
   _id: string
 }
 
-const save = async<Type>(item: Type, modelName: string) => {
+const save = async (item: object, modelName: string) => {
   const model = new mongoose.models[modelName](item);
   const savedItem = await model.save();
   eventEmitter.emit(`${modelName}Created`, savedItem);
   return savedItem;
 };
 
-const update = async<Type extends ItemType>(item: Type, modelName: string) => {
+const update = async <Type extends ItemType>(item: Type, modelName: string) => {
   const doc = await mongoose.models[modelName].updateOne(
     { _id: item._id },
     item,
@@ -22,7 +22,7 @@ const update = async<Type extends ItemType>(item: Type, modelName: string) => {
   return doc;
 };
 
-const updateAll = async<Type>(query: Type, updateModel: Type, modelName: string) => {
+const updateAll = async (query: object, updateModel: object, modelName: string) => {
   const doc = await mongoose.models[modelName].updateMany(query, updateModel);
   eventEmitter.emit(`${modelName}Updated`, doc);
   return doc;
@@ -46,12 +46,12 @@ const getById = async (id: string, modelName: string) => {
   return model;
 };
 
-const searchOne = async <Type>(query: Type, modelName: string) => {
+const searchOne = async (query: object, modelName: string) => {
   const data = await mongoose.models[modelName].findOne(query).lean().exec();
   return data;
 };
 
-const dynamicSearch = async <Type>(query: Type, modelName: string) => {
+const dynamicSearch = async (query: object, modelName: string) => {
   const data = await mongoose.models[modelName].find(query).lean().exec();
   return data;
 };
@@ -68,7 +68,7 @@ const getSortClause = (payload: any) => {
   return sort;
 };
 
-const count = async <Type>(query: Type, modelName: string) => {
+const count = async (query: object, modelName: string) => {
   const data = await mongoose.models[modelName].find(query).count();
   return data;
 };

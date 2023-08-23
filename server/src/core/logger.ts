@@ -1,5 +1,4 @@
 import winston from "winston";
-import pinoLogger  from 'pino'
 
 const alignColorsAndTime = winston.format.combine(
   winston.format.colorize({
@@ -25,9 +24,6 @@ const winstonLogger = winston.createLogger({
   ],
 });
 
-const logOption = process.env.logger || "winston";
-
-// const logger = (logOption === "pino") ? pinoLogger : winstonLogger;
 const logger = winstonLogger;
 
 export default logger;

@@ -4,9 +4,6 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import ExpressPinoLogger from 'express-pino-logger';
 import compression from 'compression';
-import swaggerUI from 'swagger-ui-express';
-
-import * as swaggerdoc from '../swagger.json';
 
 import 'dotenv/config';
 
@@ -58,7 +55,5 @@ app.use(limiter);
 app.use(express.json());
 app.use(helmet());
 app.use(logger);
-
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerdoc));
 
 export default app;

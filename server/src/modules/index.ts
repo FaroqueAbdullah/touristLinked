@@ -8,7 +8,6 @@ const init = async (app: Express) => {
     moduleNames.map(async (moduleName: string) => {
       const stat = await fs.promises.lstat(`${rootPath}/${moduleName}`);
       if (stat.isDirectory()) {
-        // eslint-disable-next-line global-require
         const module = await import(`./${moduleName}`);
 
         if (module.init) {

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: "./server"
+    ports:
+      - "8000:8000"
+      
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client-react
+    ports:
+      - "8081:8081"

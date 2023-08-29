@@ -1,6 +1,7 @@
 version: '3'
 services:
   server:
+    restart: always
     build:
       dockerfile: Dockerfile
       context: "./server"
@@ -11,6 +12,7 @@ services:
       
   client:
     stdin_open: true
+    restart: always
     build:
       dockerfile: Dockerfile
       context: ./client-react

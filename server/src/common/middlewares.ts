@@ -1,7 +1,7 @@
 const { ObjectId } = require("mongoose").Types;
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import { ValidateFunction } from "../modules/auth/interface";
+import { ValidateFunction } from "../interfaces/UserInterface";
 import {  GeneralError  } from "./error";
 import { Request, Response, NextFunction, RequestHandler  } from "express";
 const { searchOne } = require("../core/repository");

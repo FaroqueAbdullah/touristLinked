@@ -1,5 +1,5 @@
 import { setup as setupCore } from "./core";
-import { init } from "./modules";
+import { init } from "./routes";
 import { handleError, handleRequest } from "./common/middlewares";
 
 import * as swaggerdoc from './swagger/swagger.json';

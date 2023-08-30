@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 
 import { MongoError } from "../../common/error";
 
@@ -21,7 +20,9 @@ const userSchema = new mongoose.Schema(
     isActive: { type: Boolean, required: false, default: false },
     accountActivationToken: { type: String, required: false },
     address: { type: String, required: false },
-    country: { type: String, required: false }
+    country: { type: String, required: false },
+    visitedCountry: { type: Array, required: false, default: [] },
+    visitedCity: { type: Array, required: false, default: [] }
   },
   { timestamps: true }
 );

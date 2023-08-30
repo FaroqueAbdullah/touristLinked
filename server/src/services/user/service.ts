@@ -9,7 +9,7 @@ import {
   updateAll,
   update,
 } from "../../core/repository";
-import { UserInterface } from './interface'
+import { UserInterface } from '../../interfaces/UserInterface'
 import { Model, name as ModelName } from "./model";
 
 const { ObjectId } = require("mongoose").Types;

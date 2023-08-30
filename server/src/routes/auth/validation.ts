@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { UserInterface } from "./interface";
+import { UserInterface } from "../../interfaces/UserInterface";
 
 const { ObjectId } = require("mongoose").Types;
 

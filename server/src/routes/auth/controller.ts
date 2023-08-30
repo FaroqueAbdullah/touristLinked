@@ -11,7 +11,7 @@ import {
   tryCreateUser,
   update,
   changePassword,
-} from "./service";
+} from "../../services/user/service";
 import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
 
 const { ObjectId } = require("mongoose").Types;

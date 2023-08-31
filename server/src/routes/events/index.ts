@@ -12,4 +12,4 @@ const init = async (app: any) => {
   return app;
 };
 
-export { init };
+// export { init };

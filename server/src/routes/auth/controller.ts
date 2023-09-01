@@ -24,8 +24,6 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     const isUserExist = await userByEmail(email);
 
-    console.log('isUserExist ', isUserExist)
-
     if ( isUserExist ) {
       return res.status(400).send({
         status: "error",

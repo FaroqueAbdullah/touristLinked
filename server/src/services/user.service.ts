@@ -57,9 +57,13 @@ const createUser = async (user: UserDataInputInterface) => {
   const passwordHash = await getPasswordHash(user.password);
   const accountActivationToken = generateKey().toString();
 
+  const { password, confirmPassword, ...userData} = user
+
   const createdData = await prisma.user.create({
-    data: { passwordHash, accountActivationToken, ...user }
+    data: { passwordHash, accountActivationToken, ...userData }
   })
+
+  console.log('createUsercreateUser ', createUser)
 
   return createdData;
 };

@@ -5,13 +5,10 @@ import Joi from 'joi';
 const { ObjectId } = require("mongoose").Types;
 
 const commonKeys = {
+  email: Joi.string().min(5).max(30).required(),
   firstName: Joi.string().min(3).max(30).required(),
   lastName: Joi.string().min(3).max(30).required(),
-  username: Joi.string().min(3).max(30).required(),
-  country: Joi.string().min(3).max(15).optional(),
-  address: Joi.string().min(3).max(30).optional(),
   phoneNumber: Joi.string().min(5).max(15).optional(),
-  email: Joi.string().min(5).max(30).required(),
   password: Joi.string().required(),
   confirmPassword: Joi.string().required().valid(Joi.ref("password"))
 };

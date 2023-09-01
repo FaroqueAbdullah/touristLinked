@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Express server for touristLinked which will provide all apis",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
@@ -30,6 +35,7 @@
     "sib-api-v3-sdk": "^8.4.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
+    "ts-node": "^10.9.1",
     "uuid": "^8.3.2",
     "winston": "^3.8.1"
   },

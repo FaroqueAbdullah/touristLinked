@@ -3,16 +3,6 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import 'dotenv/config';
 
-import { handleValidation } from "../../common/middlewares";
-import { validateRegistration, validateUsername } from "./validation";
-import {
-  checkUser,
-  searchOne,
-  tryCreateUser,
-  update,
-  changePassword,
-} from "../../services/user/service";
-import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
 
 const { ObjectId } = require("mongoose").Types;
 const postRoute = express.Router();

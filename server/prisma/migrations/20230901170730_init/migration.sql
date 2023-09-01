@@ -7,7 +7,7 @@ CREATE TABLE "User" (
     "phoneNumber" TEXT,
     "passwordResetToken" TEXT,
     "passwordHash" TEXT NOT NULL,
-    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "accountActivationToken" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

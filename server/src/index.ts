@@ -36,19 +36,6 @@ const start = async () => {
 
     app.listen(PORT, async () => {
       logger.info(`Server started on port ${PORT}`);
-
-      const broadcastDatabaseConnectionEstablished = (em: any) => {
-        em.emit("databaseConnectionEstablished");
-      };
-
-      eventEmitter.on("databaseConnectionEstablished", () => {
-        logger.info(
-          "eventEmitterHealthCheck()=> Database connection established"
-        );
-      });
-
-      await connectWithDb(broadcastDatabaseConnectionEstablished, eventEmitter);
-      logger.info(`Database connection established at ${new Date()}`);
     });
   } catch (err) {
     handleError;

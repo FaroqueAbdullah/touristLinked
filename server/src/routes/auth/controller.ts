@@ -1,6 +1,5 @@
 import  express, { Request, Response, NextFunction, RequestHandler  } from "express";
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
 import 'dotenv/config';
 
 import { handleValidation } from "../../common/middlewares";
@@ -24,6 +23,8 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
     const { email } = user
 
     const isUserExist = await userByEmail(email);
+
+    console.log('isUserExist ', isUserExist)
 
     if ( isUserExist ) {
       return res.status(400).send({

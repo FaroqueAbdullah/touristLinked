@@ -5,43 +5,38 @@ import 'dotenv/config';
 
 import { handleValidation } from "../../common/middlewares";
 import { validateRegistration, validateUsername } from "./validation";
-import {
-  checkUser,
-  searchOne,
-  tryCreateUser,
-  update,
-  changePassword,
-} from "../../services/user/service";
 import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
 
-const { ObjectId } = require("mongoose").Types;
 const authRoute = express.Router();
-const ModelName = 'User';
-const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
-const generateActivationKey = () => {
-  return Math.floor(100000 + Math.random() * 900000);
-}
+
+import { changePassword, createUser, updateUser, userByEmail, userById } from "../../services/user.service";
+import { UserCreateInput, UserDataInputInterface } from "../../interfaces/UserInterface";
+import generateKey from "../../utils/generateRandomCode";
+
+
+const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 
 const createUserHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = req.body;
+    const user: UserDataInputInterface = req.body;
+    const { email } = user
 
-    const id = await tryCreateUser(user);
+    const isUserExist = await userByEmail(email);
 
-    if (!id) {
+    if ( isUserExist ) {
       return res.status(400).send({
         status: "error",
-        message: "User already exists by username or email.",
+        message: "User already have an account.",
       });
     }
 
-    user.accountActivationToken = generateActivationKey();
-    user._id = id;
-    await update(user, ModelName);
+    const createdUser = await createUser(user)
 
-    await sendAccountCreatedEmail(user);
+    const { id } = createdUser;
+
+    await sendAccountCreatedEmail(createdUser);
 
     const accessToken = jwt.sign(
       { id },
@@ -61,7 +56,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
 const loginHandler = async (req: Request, res: Response) => {
   if (req.body.emailOrUsername && req.body.password) {
-    const user = await checkUser(req.body.emailOrUsername, req.body.password);
+    const user = await userByEmail(req.body.emailOrUsername);
     if (user) {
       if (!user.isActive) {
         return res.status(400).send({
@@ -71,7 +66,7 @@ const loginHandler = async (req: Request, res: Response) => {
       }
 
       const accessToken = jwt.sign(
-        { id: user._id },
+        { id: user.id },
         secretToken,
         {
           expiresIn: "2h",
@@ -79,14 +74,14 @@ const loginHandler = async (req: Request, res: Response) => {
       );
 
       const refreshToken = jwt.sign(
-        { id: user._id },
+        { id: user.id },
         secretToken,
         {
           expiresIn: "30d",
         }
       );
 
-      const { _id, ...restData } = user;
+      const { id, ...restData } = user;
 
       res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, accessToken, refreshToken } });
       return;
@@ -104,14 +99,16 @@ const activateAccountHandler = async (req: Request, res: Response) => {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
 
-      const user = await searchOne({ _id: decoded.id }, ModelName);
+      const user = await userById( decoded.id );
 
       if (user) {
         const tokenValid = token === user.accountActivationToken;
         if (tokenValid) {
           user.accountActivationToken = null;
           user.isActive = true;
-          await update(user, ModelName);
+
+          const { accountActivationToken,  isActive, id} = user
+          await updateUser( id,  { isActive, accountActivationToken} );
 
           return res.status(200).send({
             status: "ok",
@@ -137,20 +134,22 @@ const activateAccountHandler = async (req: Request, res: Response) => {
 
 const forgotPasswordHandler = async (req: Request, res: Response) => {
   if (req.body.email) {
-    const user = await searchOne({ email: req.body.email }, ModelName);
+    const user = await userByEmail( req.body.email );
 
     if (user) {
 
       const accessToken = jwt.sign(
-        { id: user._id },
+        { id: user.id },
         secretToken,
         {
           expiresIn: "2h",
         }
       );
 
-      user.passwordResetToken = generateActivationKey();
-      await update(user, ModelName);
+      user.accountActivationToken = generateKey().toString();
+
+      const { id, accountActivationToken } = user;
+      await updateUser(id, { accountActivationToken });
 
       await sendPasswordResetEmail(user);
 
@@ -172,13 +171,13 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
   if (accessToken && token) {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await searchOne({ _id: decoded.id }, ModelName);
+      const user = await userById(decoded.id );
 
       if (user) {
         const tokenValid = token === user.passwordResetToken;
         if (tokenValid) {
           const jwtTokenWithPasswordResetToken = jwt.sign(
-            { id: user._id, token: token },
+            { id: user.id, token: token },
             secretToken,
             {
               expiresIn: "2h",
@@ -211,11 +210,11 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
   if (accessToken && password) {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
+      const user = await userById(decoded.id);
       if (user) {
         const tokenValid = decoded.token === user.passwordResetToken;
         if (tokenValid) {
-          await changePassword(user, password);
+          await changePassword(user.id, password);
 
           await sendPasswordResetSuccessEmail(user);
 
@@ -240,20 +239,20 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
   });
 };
 
-const checkUsernameHandler = async (req: Request, res: Response) => {
-  const user = await searchOne(
-    { username: req.body.username.toLowerCase() },
-    ModelName
-  );
-  if (user) {
-    return res
-      .status(400)
-      .send({ status: "unavailable", message: "Username is taken" });
-  }
-  return res
-    .status(200)
-    .send({ status: "available", message: "Username is available" });
-};
+// const checkUsernameHandler = async (req: Request, res: Response) => {
+//   const user = await searchOne(
+//     { username: req.body.username.toLowerCase() },
+//     ModelName
+//   );
+//   if (user) {
+//     return res
+//       .status(400)
+//       .send({ status: "unavailable", message: "Username is taken" });
+//   }
+//   return res
+//     .status(200)
+//     .send({ status: "available", message: "Username is available" });
+// };
 
 
 
@@ -263,7 +262,7 @@ authRoute.post("/forgot-password", forgotPasswordHandler);
 authRoute.post("/verify-token", verifyTokenHandler);
 authRoute.post("/reset-password", resetPasswordHandler);
 authRoute.post("/activate-account", activateAccountHandler);
-authRoute.post("/check-username", checkUsernameHandler);
+// authRoute.post("/check-username", checkUsernameHandler);
 
 
 export default authRoute;

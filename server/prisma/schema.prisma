@@ -14,11 +14,11 @@ model User {
   id                     Int      @id @default(autoincrement())
   email                  String   @unique
   firstName              String
-  lastname               String
+  lastName               String
   phoneNumber            String?
   passwordResetToken     String?
   passwordHash           String
-  isActive               Boolean  @default(true)
+  isActive               Boolean  @default(false)
   accountActivationToken String?
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
@@ -27,7 +27,7 @@ model User {
 
 model Profile {
   id           Int      @id @default(autoincrement())
-  username     String   @unique
+  userName     String   @unique
   profileImage String?
   bio          String?
   profession   String?

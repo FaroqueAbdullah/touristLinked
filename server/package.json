@@ -12,7 +12,7 @@
   "author": "faroque abdullah",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "5.2.0",
+    "@prisma/client": "^5.2.0",
     "@types/compression": "^1.7.2",
     "@types/express-pino-logger": "^4.0.3",
     "bcryptjs": "^2.4.3",

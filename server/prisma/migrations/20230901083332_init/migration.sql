@@ -3,7 +3,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
-    "lastname" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
     "phoneNumber" TEXT,
     "passwordResetToken" TEXT,
     "passwordHash" TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Profile" (
     "id" SERIAL NOT NULL,
-    "username" TEXT NOT NULL,
+    "userName" TEXT NOT NULL,
     "profileImage" TEXT,
     "bio" TEXT,
     "profession" TEXT,
@@ -95,7 +95,7 @@ CREATE TABLE "VisitedLocation" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Profile_username_key" ON "Profile"("username");
+CREATE UNIQUE INDEX "Profile_userName_key" ON "Profile"("userName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");

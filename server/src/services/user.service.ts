@@ -4,25 +4,6 @@ import generateKey from '../utils/generateRandomCode';
 import { matchPasswordHash, getPasswordHash } from "../utils/passwordHash";
 
 
-
-const validateUser = async (email: string, password: string) => {
-
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email
-    }
-  })
-
-  if (user) {
-    const match = await matchPasswordHash(password, user.passwordHash);
-    const { passwordHash, passwordResetToken, accountActivationToken, ...rest } = user;
-    return match ? rest : undefined;
-  }
-
-  return undefined;
-};
-
-
 const userByEmail = async ( email: string ) => {
   const queryData = await prisma.user.findUnique({
     where: {
@@ -63,8 +44,6 @@ const createUser = async (user: UserDataInputInterface) => {
     data: { passwordHash, accountActivationToken, ...userData }
   })
 
-  console.log('createUsercreateUser ', createUser)
-
   return createdData;
 };
 
@@ -78,6 +57,20 @@ const updateUser = async (id: number, obj: object) => {
   })
 
   return updatedData;
+};
+
+const validateUser = async (email: string, password: string) => {
+  console.log('email ', email)
+
+  const user = await userByEmail( email )
+
+  if (user) {
+    const match = await matchPasswordHash(password, user.passwordHash);
+    const { passwordHash, passwordResetToken, accountActivationToken, ...rest } = user;
+    return match ? rest : undefined;
+  }
+
+  return undefined;
 };
 
 const changePassword = async (id: number, newPassword: string) => {

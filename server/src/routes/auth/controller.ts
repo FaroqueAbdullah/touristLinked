@@ -9,7 +9,7 @@ import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSucce
 const authRoute = express.Router();
 
 
-import { changePassword, createUser, updateUser, userByEmail, userById } from "../../services/user.service";
+import { changePassword, createUser, updateUser, userByEmail, userById, validateUser } from "../../services/user.service";
 import { UserCreateInput, UserDataInputInterface } from "../../interfaces/UserInterface";
 import generateKey from "../../utils/generateRandomCode";
 
@@ -54,40 +54,56 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 };
 
 const loginHandler = async (req: Request, res: Response) => {
-  if (req.body.emailOrUsername && req.body.password) {
-    const user = await userByEmail(req.body.emailOrUsername);
-    if (user) {
-      if (!user.isActive) {
-        return res.status(400).send({
-          status: "error",
-          message: "User is not active",
-        });
-      }
 
-      const accessToken = jwt.sign(
-        { id: user.id },
-        secretToken,
-        {
-          expiresIn: "2h",
-        }
-      );
+  console.log('log in credential ', req.body)
 
-      const refreshToken = jwt.sign(
-        { id: user.id },
-        secretToken,
-        {
-          expiresIn: "30d",
-        }
-      );
-
-      const { id, ...restData } = user;
-
-      res.status(200).send({status: 'ok', message: "User logged in successfully", data: { user: restData, accessToken, refreshToken } });
-      return;
-    }
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).send({
+      status: "error",
+      message: "Please provide credentials",
+    });
   }
 
-  res.status(400).send("Invalid username or password");
+  const user = await validateUser( req.body.email, req.body.password );
+
+  if (!user) {
+    return res.status(400).send({
+      status: "error",
+      message: "Invalid Credentials",
+    });
+  }
+
+  if (!user.isActive) {
+    return res.status(400).send({
+      status: "error",
+      message: "User is not active",
+    });
+  }
+
+  const accessToken = jwt.sign(
+    { id: user.id },
+    secretToken,
+    {
+      expiresIn: "2h",
+    }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user.id },
+    secretToken,
+    {
+      expiresIn: "30d",
+    }
+  );
+
+  const { id, ...restData } = user;
+
+  res.status(200).send({
+    status: 'ok', 
+    message: "User logged in successfully",
+    data: { user: restData, accessToken, refreshToken } 
+  });
+
 };
 
 const activateAccountHandler = async (req: Request, res: Response) => {

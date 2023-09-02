@@ -11,7 +11,7 @@ import { logInUser } from '@/store/asyncThunk/userThunk';
 import { AppDispatch } from '@/store/index'
 
 type LoginCredentials = {
-  emailOrUsername: string;
+  email: string;
   password: string;
 };
 
@@ -44,9 +44,9 @@ function Login():React.ReactElement {
           <InputField 
             type={'text'} 
             placeholder={'Email or Username'} 
-            error={errors.emailOrUsername ? 'Please check the email' : ''}
+            error={errors.email ? 'Please check the email' : ''}
             additionalProps={
-              {...register("emailOrUsername",
+              {...register("email",
                 { 
                   required: true, 
                   minLength: 3

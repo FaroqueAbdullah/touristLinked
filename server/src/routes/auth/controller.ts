@@ -33,12 +33,10 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
     const createdUser = await createUser(user)
 
-    const { id } = createdUser;
-
     await sendAccountCreatedEmail(createdUser);
 
     const accessToken = jwt.sign(
-      { id },
+      { email },
       secretToken,
       {
         expiresIn: "2h",
@@ -53,58 +51,6 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-const loginHandler = async (req: Request, res: Response) => {
-
-  console.log('log in credential ', req.body)
-
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).send({
-      status: "error",
-      message: "Please provide credentials",
-    });
-  }
-
-  const user = await validateUser( req.body.email, req.body.password );
-
-  if (!user) {
-    return res.status(400).send({
-      status: "error",
-      message: "Invalid Credentials",
-    });
-  }
-
-  if (!user.isActive) {
-    return res.status(400).send({
-      status: "error",
-      message: "User is not active",
-    });
-  }
-
-  const accessToken = jwt.sign(
-    { id: user.id },
-    secretToken,
-    {
-      expiresIn: "2h",
-    }
-  );
-
-  const refreshToken = jwt.sign(
-    { id: user.id },
-    secretToken,
-    {
-      expiresIn: "30d",
-    }
-  );
-
-  const { id, ...restData } = user;
-
-  res.status(200).send({
-    status: 'ok', 
-    message: "User logged in successfully",
-    data: { user: restData, accessToken, refreshToken } 
-  });
-
-};
 
 const activateAccountHandler = async (req: Request, res: Response) => {
   const { token, accessToken } = req.body;
@@ -114,7 +60,7 @@ const activateAccountHandler = async (req: Request, res: Response) => {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
 
-      const user = await userById( decoded.id );
+      const user = await userByEmail( decoded.email );
 
       if (user) {
         const tokenValid = token === user.accountActivationToken;
@@ -147,6 +93,62 @@ const activateAccountHandler = async (req: Request, res: Response) => {
   });
 };
 
+const loginHandler = async (req: Request, res: Response) => {
+
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).send({
+      status: "error",
+      message: "Please provide credentials",
+    });
+  }
+
+  try {
+    const user = await validateUser( req.body.email, req.body.password );
+
+    if (!user) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid Credentials",
+      });
+    }
+  
+    if (!user.isActive) {
+      return res.status(400).send({
+        status: "error",
+        message: "User is not active",
+      });
+    }
+  
+    const accessToken = jwt.sign(
+      { email: user.email, id: user.id },
+      secretToken,
+      {
+        expiresIn: "2h",
+      }
+    );
+  
+    const refreshToken = jwt.sign(
+      { email: req.body.email },
+      secretToken,
+      {
+        expiresIn: "30d",
+      }
+    );
+  
+    res.status(200).send({
+      status: 'ok', 
+      message: "User logged in successfully",
+      data: { user: user, accessToken, refreshToken } 
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+    });
+  }
+};
+
+
 const forgotPasswordHandler = async (req: Request, res: Response) => {
   if (req.body.email) {
     const user = await userByEmail( req.body.email );
@@ -154,14 +156,14 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
     if (user) {
 
       const accessToken = jwt.sign(
-        { id: user.id },
+        { email: req.body.email },
         secretToken,
         {
           expiresIn: "2h",
         }
       );
 
-      user.accountActivationToken = generateKey().toString();
+      user.passwordResetToken = generateKey().toString();
 
       const { id, accountActivationToken } = user;
       await updateUser(id, { accountActivationToken });
@@ -186,7 +188,7 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
   if (accessToken && token) {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await userById(decoded.id );
+      const user = await userByEmail(decoded.email );
 
       if (user) {
         const tokenValid = token === user.passwordResetToken;
@@ -225,7 +227,7 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
   if (accessToken && password) {
     try {
       const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await userById(decoded.id);
+      const user = await userByEmail(decoded.email);
       if (user) {
         const tokenValid = decoded.token === user.passwordResetToken;
         if (tokenValid) {

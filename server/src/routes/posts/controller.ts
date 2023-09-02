@@ -1,15 +1,19 @@
 import  express, { Request, Response, NextFunction, RequestHandler  } from "express";
-import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
+
 import 'dotenv/config';
 
 
-const { ObjectId } = require("mongoose").Types;
+
 const postRoute = express.Router();
-const ModelName = 'Post';
+
 
 const createPost =async (req: Request, res: Response) => {
-  
+  // console.log(req.params.userId)
+  res.status(200).send({
+    status: 'ok', 
+    message: "User logged in successfully",
+    data: {  } 
+  });
 }
 
 const getAllPosts =async (req: Request, res: Response) => {
@@ -29,7 +33,7 @@ const deletePost =async (req: Request, res: Response) => {
 }
 
 
-postRoute.post("/:userId/create", createPost);
+postRoute.post("/create", createPost);
 postRoute.get("/:userId/getall", getAllPosts);
 postRoute.get("/:userId/:postId/get", getPost);
 postRoute.put("/:userId/:postId/update", updatePost);

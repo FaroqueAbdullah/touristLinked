@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler  } from 'express';
 
-import postRoute from "./controller";
-import { authenticateRequest } from '../../common/middlewares';
-
-
+// import eventRoute from "./controller";
 
 interface ProcessRequest extends Request {
   modelName? : string
@@ -11,8 +8,8 @@ interface ProcessRequest extends Request {
 
 
 const init = async (app: any) => {
-  app.use("/api/post", authenticateRequest, postRoute);
+  app.use("/api/profile", console.log('Event modules'));
   return app;
 };
 
-export { init };
+// export { init };

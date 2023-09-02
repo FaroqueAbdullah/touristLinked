@@ -60,7 +60,6 @@ const updateUser = async (id: number, obj: object) => {
 };
 
 const validateUser = async (email: string, password: string) => {
-  console.log('email ', email)
 
   const user = await userByEmail( email )
 

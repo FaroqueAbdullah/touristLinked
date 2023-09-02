@@ -6,6 +6,8 @@ import {  GeneralError  } from "./error";
 import { Request, Response, NextFunction, RequestHandler  } from "express";
 const { searchOne } = require("../core/repository");
 
+const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
+
 const handleError = async (err: any, req: Request, res: Response, next: NextFunction) => {
   if (res?.headersSent) {
     return next(err);
@@ -61,21 +63,16 @@ const handleValidation = (validate: ValidateFunction) => (req: Request, res: Res
 };
 
 const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
-  let auth = req.headers.authorization;
-  if (auth) {
-    auth = auth.replace("Bearer ", "");
-    jwt.verify(auth, "JwtSecret", (err: any, decoded: any) => {
+  let accessToken = req.headers.authorization;
+  if (accessToken) {
+    jwt.verify(accessToken, secretToken, (err: any, decoded: any) => {
       if (err) {
-        const { stack, name, ...errorProps } = err;
-        req.log.error({ ...errorProps, name }, "jwt token invalid");
-        res.status(401).send({
+        return res.status(401).send({
           success: false,
-          errorMessage: err.message || "Invalid token",
+          message: "Unauthenticate user",
         });
       } else {
-        // req.user = decoded;
-        // req.log = req.log.child({ username: req.user.username });
-        // req.log.info(`Authenticated user ${req.user.username}`);
+        req.log.info(`Authenticated user ${decoded.email}`);
         next();
       }
     });

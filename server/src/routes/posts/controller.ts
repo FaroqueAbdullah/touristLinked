@@ -8,12 +8,7 @@ const postRoute = express.Router();
 
 
 const createPost =async (req: Request, res: Response) => {
-  // console.log(req.params.userId)
-  res.status(200).send({
-    status: 'ok', 
-    message: "User logged in successfully",
-    data: {  } 
-  });
+  
 }
 
 const getAllPosts =async (req: Request, res: Response) => {

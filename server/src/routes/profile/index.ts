@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler  } from 'express';
 
-// import eventRoute from "./controller";
+import profileRoute from "./controller";
 
 interface ProcessRequest extends Request {
   modelName? : string
@@ -8,8 +8,8 @@ interface ProcessRequest extends Request {
 
 
 const init = async (app: any) => {
-  app.use("/api/profile", console.log('Event modules'));
+  app.use("/api/profile", profileRoute);
   return app;
 };
 
-// export { init };
+export { init };

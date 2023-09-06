@@ -7,7 +7,7 @@ export interface UserDataInputInterface {
   confirmPassword: string
 }
 
-export interface UserCreateInput {
+export interface UserCreateInterface {
   email: string,
   firstName: string,
   lastName: string,
@@ -15,6 +15,11 @@ export interface UserCreateInput {
   passwordResetToken?: string,
   passwordHash: string,
   accountActivationToken?: string
+}
+
+export interface UserSearchData {
+  id?: string,
+  email?: string,
 }
 
 export type ValidateFunction = (data: any) => any;

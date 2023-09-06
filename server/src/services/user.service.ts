@@ -1,5 +1,6 @@
+import { Prisma } from "@prisma/client";
 import prisma from "../../prisma/prisma-client";
-import { UserDataInputInterface } from "../interfaces/UserInterface";
+import { UserCreateInterface, UserDataInputInterface, UserSearchData } from "../interfaces/UserInterface";
 import generateKey from '../utils/generateRandomCode';
 import { matchPasswordHash, getPasswordHash } from "../utils/passwordHash";
 
@@ -34,30 +35,30 @@ const userById = async ( id: number ) => {
   return queryData;
 }
 
-const createUser = async (user: UserDataInputInterface) => {
-  const passwordHash = await getPasswordHash(user.password);
-  const accountActivationToken = generateKey().toString();
+// const createUser = async (user: UserDataInputInterface) => {
+//   const passwordHash = await getPasswordHash(user.password);
+//   const accountActivationToken = generateKey().toString();
 
-  const { password, confirmPassword, ...userData} = user
+//   const { password, confirmPassword, ...userData} = user
 
-  const createdData = await prisma.user.create({
-    data: { passwordHash, accountActivationToken, ...userData }
-  })
+//   const createdData = await prisma.user.create({
+//     data: { passwordHash, accountActivationToken, ...userData }
+//   })
 
-  return createdData;
-};
+//   return createdData;
+// };
 
-const updateUser = async (id: number, obj: object) => {
+// const updateUser = async (id: number, obj: object) => {
 
-  const updatedData = await prisma.user.update({
-    where: {
-      id
-    },
-    data: obj
-  })
+//   const updatedData = await prisma.user.update({
+//     where: {
+//       id
+//     },
+//     data: obj
+//   })
 
-  return updatedData;
-};
+//   return updatedData;
+// };
 
 const validateUser = async (email: string, password: string) => {
 
@@ -79,6 +80,58 @@ const changePassword = async (id: number, newPassword: string) => {
 
   return user
 };
+
+
+
+
+
+
+
+
+
+const createUser = async (input: Prisma.UserCreateInput) => {
+  return (await prisma.user.create({
+    data: input,
+  }))
+}
+
+const findUser = async (
+  where: Prisma.UserWhereUniqueInput
+) => {
+  return (await prisma.user.findUnique({
+    where
+  }))
+}
+
+const updateUser = async (
+  where: Prisma.UserWhereUniqueInput,
+  data: Prisma.UserUpdateInput
+) => {
+  return (await prisma.user.update({ 
+    where, 
+    data, 
+  }));
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export {
   userByEmail,

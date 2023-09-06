@@ -3,26 +3,25 @@ import jwt from "jsonwebtoken";
 import 'dotenv/config';
 
 import { handleValidation } from "../../common/middlewares";
-import { validateRegistration, validateUsername } from "./validation";
+import { validateRegistration } from "./validation";
 import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
 
-const authRoute = express.Router();
-
-
-import { changePassword, createUser, updateUser, userByEmail, userById, validateUser } from "../../services/user.service";
-import { UserCreateInput, UserDataInputInterface } from "../../interfaces/UserInterface";
+import { createUser, findUser, updateUser,  } from "../../services/user.service";
+import { UserDataInputInterface } from "../../interfaces/UserInterface";
 import generateKey from "../../utils/generateRandomCode";
+import { getPasswordHash, matchPasswordHash } from "../../utils/passwordHash";
 
+const authRoute = express.Router();
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 
-const createUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+const registerUserHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user: UserDataInputInterface = req.body;
-    const { email } = user
+    const { email, firstName, lastName, phoneNumber } = user
 
-    const isUserExist = await userByEmail(email);
+    const isUserExist = await findUser({email});
 
     if ( isUserExist ) {
       return res.status(400).send({
@@ -31,7 +30,17 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
       });
     }
 
-    const createdUser = await createUser(user)
+    const passwordHash = await getPasswordHash(user.password);
+    const accountActivationToken = generateKey().toString();
+
+    const createdUser = await createUser({
+      email,
+      firstName,
+      lastName,
+      phoneNumber,
+      passwordHash: passwordHash,
+      accountActivationToken: accountActivationToken
+    })
 
     await sendAccountCreatedEmail(createdUser);
 
@@ -47,7 +56,10 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
       .status(201)
       .send({ status: "ok", message: "User created successfully", data: { accessToken } });
   } catch (error) {
-    return next(error);
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+    });
   }
 };
 
@@ -55,42 +67,35 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 const activateAccountHandler = async (req: Request, res: Response) => {
   const { token, accessToken } = req.body;
 
-  if (token && accessToken) {
+  try {
+    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
 
-    try {
-      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const user = await findUser({ email: decoded.email });
 
-      const user = await userByEmail( decoded.email );
+    if (user) {
+      const tokenValid = token === user.accountActivationToken;
+      if (tokenValid) {
+        user.accountActivationToken = null;
+        user.isActive = true;
 
-      if (user) {
-        const tokenValid = token === user.accountActivationToken;
-        if (tokenValid) {
-          user.accountActivationToken = null;
-          user.isActive = true;
+        const { accountActivationToken,  isActive, id} = user
+        await updateUser({id: id},  { isActive, accountActivationToken});
 
-          const { accountActivationToken,  isActive, id} = user
-          await updateUser( id,  { isActive, accountActivationToken} );
-
-          return res.status(200).send({
-            status: "ok",
-            message: "Account is activated successfully",
-          });
-        }
-        return res
-          .status(400)
-          .send({ status: "error", message: "Token invalid" });
+        return res.status(200).send({
+          status: "ok",
+          message: "Account is activated successfully",
+        });
       }
-    } catch (error) {
-      return res.status(400).send({
-        status: "error",
-        message: "Invalid Token",
-      });
+      return res
+        .status(400)
+        .send({ status: "error", message: "Token invalid" });
     }
+  } catch (error) {
+    return res.status(400).send({
+      status: "error",
+      message: "Invalid Token",
+    });
   }
-  return res.status(400).send({
-    status: "error",
-    message: "bad request",
-  });
 };
 
 const loginHandler = async (req: Request, res: Response) => {
@@ -103,7 +108,7 @@ const loginHandler = async (req: Request, res: Response) => {
   }
 
   try {
-    const user = await validateUser( req.body.email, req.body.password );
+    const user = await findUser({ email: req.body.email })
 
     if (!user) {
       return res.status(400).send({
@@ -116,6 +121,15 @@ const loginHandler = async (req: Request, res: Response) => {
       return res.status(400).send({
         status: "error",
         message: "User is not active",
+      });
+    }
+
+    const match = await matchPasswordHash(req.body.password, user.passwordHash);
+
+    if (!match) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid Credentials",
       });
     }
   
@@ -151,109 +165,116 @@ const loginHandler = async (req: Request, res: Response) => {
 
 const forgotPasswordHandler = async (req: Request, res: Response) => {
   if (req.body.email) {
-    const user = await userByEmail( req.body.email );
-
-    if (user) {
-
-      const accessToken = jwt.sign(
-        { email: req.body.email },
-        secretToken,
-        {
-          expiresIn: "2h",
-        }
-      );
-
-      user.passwordResetToken = generateKey().toString();
-
-      const { id, accountActivationToken } = user;
-      await updateUser(id, { accountActivationToken });
-
-      await sendPasswordResetEmail(user);
-
-      return res
-        .status(200)
-        .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
-    }
+    return res.status(400).send({
+      status: "error",
+      message: "Email address not found.",
+    });
   }
+  const user = await findUser({email: req.body.email });
 
-  return res.status(400).send({
-    status: "error",
-    message: "Email address not found.",
-  });
+  if (user) {
+
+    const accessToken = jwt.sign(
+      { email: req.body.email },
+      secretToken,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    user.passwordResetToken = generateKey().toString();
+
+    const { id, accountActivationToken } = user;
+    await updateUser({id: id}, { accountActivationToken });
+
+    await sendPasswordResetEmail(user);
+
+    return res
+      .status(200)
+      .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
+    }
 };
 
 const verifyTokenHandler = async (req: Request, res: Response) => {
   const { accessToken, token } = req.body;
 
-  if (accessToken && token) {
-    try {
-      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await userByEmail(decoded.email );
+  try {
+    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const user = await findUser({ email: decoded.email });
 
-      if (user) {
-        const tokenValid = token === user.passwordResetToken;
-        if (tokenValid) {
-          const jwtTokenWithPasswordResetToken = jwt.sign(
-            { id: user.id, token: token },
-            secretToken,
-            {
-              expiresIn: "2h",
-            }
-          );
-
-          return res
-            .status(200)
-            .send({ status: "ok", data: { accessToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
-        }
-        return res
-          .status(400)
-          .send({ status: "error", message: "Token invalid" });
-      }
-    } catch (error) {
+    if (!user) {
       return res.status(400).send({
         status: "error",
-        message: "Invalid token",
+        message: "User not found.",
       });
     }
+
+    const tokenValid = token === user.passwordResetToken;
+
+    if (tokenValid) {
+      return res
+      .status(400)
+      .send({ status: "error", message: "Token invalid" });
+    }
+
+    const jwtTokenWithPasswordResetToken = jwt.sign(
+      { id: user.id, token: token },
+      secretToken,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    return res
+      .status(200)
+      .send({ status: "ok", data: { accessToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
+    
+  } catch (error) {
+    return res.status(400).send({
+      status: "error",
+      message: "Invalid token",
+    });
   }
-  return res.status(400).send({
-    status: "error",
-    message: "Invalid token",
-  });
 };
 
 const resetPasswordHandler = async (req: Request, res: Response) => {
   const { password, accessToken } = req.body;
-  if (accessToken && password) {
-    try {
-      const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
-      const user = await userByEmail(decoded.email);
-      if (user) {
-        const tokenValid = decoded.token === user.passwordResetToken;
-        if (tokenValid) {
-          await changePassword(user.id, password);
+  try {
+    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const user = await findUser({email: decoded.email});
 
-          await sendPasswordResetSuccessEmail(user);
-
-          return res
-            .status(200)
-            .send({ status: "ok", message: "Password changed successfully" });
-        }
-        return res
-          .status(400)
-          .send({ status: "error", message: "Token invalid" });
-      }
-    } catch (error) {
+    if (!user) {
+      return res.status(400).send({
+        status: "error",
+        message: "User not found.",
+      });
+    }
+    const tokenValid = decoded.token === user.passwordResetToken;
+    
+    if (tokenValid) {
       return res.status(400).send({
         status: "error",
         message: "Invalid token",
       });
     }
+
+    const passwordHash = await getPasswordHash(password);
+    const passwordResetToken = null
+
+    await updateUser({id: user.id}, { passwordHash, passwordResetToken })
+
+    await sendPasswordResetSuccessEmail(user);
+
+    return res
+      .status(200)
+      .send({ status: "ok", message: "Password changed successfully" });
+      
+  } catch (error) {
+    return res.status(400).send({
+      status: "error",
+      message: "Invalid token",
+    });
   }
-  return res.status(400).send({
-    status: "error",
-    message: "Invalid token",
-  });
 };
 
 // const checkUsernameHandler = async (req: Request, res: Response) => {
@@ -273,7 +294,7 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
 
 
 
-authRoute.post("/register", handleValidation(validateRegistration),createUserHandler);
+authRoute.post("/register", handleValidation(validateRegistration),registerUserHandler);
 authRoute.post("/login", loginHandler);
 authRoute.post("/forgot-password", forgotPasswordHandler);
 authRoute.post("/verify-token", verifyTokenHandler);

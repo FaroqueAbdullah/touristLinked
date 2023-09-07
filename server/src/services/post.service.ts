@@ -1,13 +1,13 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../prisma/prisma-client";
 
-const createPost = async (input: Prisma.PostCreateInput) => {
+const createUserPost = async (input: Prisma.PostCreateInput) => {
   return (await prisma.post.create({
     data: input,
   }))
 }
 
-const findPost = async (
+const findUserPost = async (
   where: Prisma.PostWhereUniqueInput
 ) => {
   return (await prisma.post.findUnique({
@@ -15,7 +15,7 @@ const findPost = async (
   }))
 }
 
-const findAllPost = async (
+const findUserAllPost = async (
   where: Prisma.PostWhereUniqueInput
 ) => {
   return (await prisma.post.findMany({
@@ -23,7 +23,7 @@ const findAllPost = async (
   }))
 }
 
-const updatePost = async (
+const updateUserPost = async (
   where: Prisma.PostWhereUniqueInput,
   data: Prisma.PostUpdateInput
 ) => {
@@ -33,7 +33,7 @@ const updatePost = async (
   }));
 };
 
-const deletePost = async (
+const deleteUserPost = async (
   where: Prisma.PostWhereUniqueInput
 ) => {
   return (await prisma.post.delete({ 
@@ -42,9 +42,9 @@ const deletePost = async (
 };
 
 export {
-  createPost,
-  findPost,
-  findAllPost,
-  updatePost,
-  deletePost
+  createUserPost,
+  findUserPost,
+  findUserAllPost,
+  updateUserPost,
+  deleteUserPost
 };

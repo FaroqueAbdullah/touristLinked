@@ -1,7 +1,7 @@
-import profileRoute from "./controller";
+import visitRoute from "./controller";
 
 const init = async (app: any) => {
-  app.use("/api/visit", profileRoute);
+  app.use("/api/visit", visitRoute);
   return app;
 };
 

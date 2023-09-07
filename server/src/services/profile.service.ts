@@ -1,13 +1,13 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../prisma/prisma-client";
 
-const createProfile = async (input: Prisma.ProfileCreateInput) => {
+const createUserProfile = async (input: Prisma.ProfileUncheckedCreateInput) => {
   return (await prisma.profile.create({
     data: input,
   }))
 }
 
-const findProfile = async (
+const findUserProfile = async (
   where: Prisma.ProfileWhereUniqueInput
 ) => {
   return (await prisma.profile.findUnique({
@@ -15,9 +15,9 @@ const findProfile = async (
   }))
 }
 
-const updateProfile = async (
+const updateUserProfile = async (
   where: Prisma.ProfileWhereUniqueInput,
-  data: Prisma.ProfileUpdateInput
+  data: Prisma.ProfileUncheckedCreateInput
 ) => {
   return (await prisma.profile.update({ 
     where, 
@@ -25,7 +25,22 @@ const updateProfile = async (
   }));
 };
 
-const deleteProfile = async (
+const updateOrCreateUserProfile = async (
+  where: Prisma.ProfileWhereUniqueInput,
+  data: Prisma.ProfileUncheckedCreateInput
+) => {
+  return (await prisma.profile.upsert({ 
+    where,
+    update: {
+      ...data
+    },
+    create: {
+      ...data
+    }, 
+  }));
+};
+
+const deleteUserProfile = async (
   where: Prisma.ProfileWhereUniqueInput
 ) => {
   return (await prisma.profile.delete({ 
@@ -34,8 +49,9 @@ const deleteProfile = async (
 };
 
 export {
-  createProfile,
-  findProfile,
-  updateProfile,
-  deleteProfile
+  createUserProfile,
+  findUserProfile,
+  updateUserProfile,
+  updateOrCreateUserProfile,
+  deleteUserProfile
 };

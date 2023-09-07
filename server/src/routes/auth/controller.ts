@@ -277,22 +277,6 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
   }
 };
 
-// const checkUsernameHandler = async (req: Request, res: Response) => {
-//   const user = await searchOne(
-//     { username: req.body.username.toLowerCase() },
-//     ModelName
-//   );
-//   if (user) {
-//     return res
-//       .status(400)
-//       .send({ status: "unavailable", message: "Username is taken" });
-//   }
-//   return res
-//     .status(200)
-//     .send({ status: "available", message: "Username is available" });
-// };
-
-
 
 authRoute.post("/register", handleValidation(validateRegistration),registerUserHandler);
 authRoute.post("/login", loginHandler);
@@ -300,7 +284,6 @@ authRoute.post("/forgot-password", forgotPasswordHandler);
 authRoute.post("/verify-token", verifyTokenHandler);
 authRoute.post("/reset-password", resetPasswordHandler);
 authRoute.post("/activate-account", activateAccountHandler);
-// authRoute.post("/check-username", checkUsernameHandler);
 
 
 export default authRoute;

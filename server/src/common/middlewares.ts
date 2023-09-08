@@ -1,7 +1,6 @@
 const { ObjectId } = require("mongoose").Types;
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import { ValidateFunction } from "../interfaces/UserInterface";
 import {  GeneralError  } from "./error";
 import { Request, Response, NextFunction, RequestHandler  } from "express";
 const { searchOne } = require("../core/repository");
@@ -45,23 +44,6 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
   return next();
 };
 
-const handleValidation = (validate: ValidateFunction) => (req: Request, res: Response, next: NextFunction) => {
-  const result = validate(req.body);
-  const isValid = result.error == null;
-
-  if (isValid) {
-    req.body = result.value;
-    return next();
-  }
-
-  const { details } = result.error;
-  const messages = details.map((e: any) => e.message);
-  const msg = messages.join(",");
-  
-  // throw new BadRequest(msg);
-  return res.status(400).send({ status: "error", message: msg });
-};
-
 const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
   let accessToken = req.headers.authorization;
   if (accessToken) {
@@ -85,6 +67,5 @@ const authenticateRequest = async (req: Request, res: Response, next: NextFuncti
 export {
   handleError,
   handleRequest,
-  handleValidation,
   authenticateRequest
 };

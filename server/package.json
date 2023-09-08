@@ -30,7 +30,6 @@
     "express-pino-logger": "^7.0.0",
     "express-rate-limit": "^6.10.0",
     "helmet": "^7.0.0",
-    "joi": "^17.10.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
     "sib-api-v3-sdk": "^8.5.0",
@@ -38,7 +37,8 @@
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.1",
     "uuid": "^9.0.0",
-    "winston": "^3.10.0"
+    "winston": "^3.10.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.3",

@@ -98,7 +98,7 @@ const updateProfile =async (req: Request, res: Response) => {
   try {
     const profile = await updateOrCreateUserProfile({ 
       userId: jwtDecode.id
-     }, {
+     },{
       userName,
       profileImage,
       bio,

@@ -2,23 +2,38 @@ import  express, { Request, Response, NextFunction, RequestHandler  } from "expr
 import jwt from "jsonwebtoken";
 import 'dotenv/config';
 
-import { handleValidation } from "../../common/middlewares";
-import { validateRegistration } from "./validation";
-import { sendAccountCreatedEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../../email";
-
-import { createUser, findUser, updateUser,  } from "../../services/user.service";
-import { UserDataInputInterface } from "../../interfaces/UserInterface";
+import { 
+  sendAccountCreatedEmail, 
+  sendPasswordResetEmail, 
+  sendPasswordResetSuccessEmail 
+} from "../../email";
+import { 
+  createUser, 
+  findUser, 
+  updateUser
+} from "../../services/user.service";
 import generateKey from "../../utils/generateRandomCode";
-import { getPasswordHash, matchPasswordHash } from "../../utils/passwordHash";
-
-const authRoute = express.Router();
+import { 
+  getPasswordHash,
+  matchPasswordHash 
+} from "../../utils/passwordHash";
+import { 
+  ForgotPasswordInputType,
+  LoginUserInputType,
+  RegisterUserInputType, 
+  ResetPasswordInputType, 
+  TokenVerifyUserInputType 
+} from "../../schemas/user.schema";
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 
-const registerUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+const registerUserHandler = async (
+  req: Request< {}, {}, RegisterUserInputType >, 
+  res: Response, 
+  next: NextFunction) => {
   try {
-    const user: UserDataInputInterface = req.body;
+    const user = req.body;
     const { email, firstName, lastName, phoneNumber } = user
 
     const isUserExist = await findUser({email});
@@ -63,33 +78,45 @@ const registerUserHandler = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-
-const activateAccountHandler = async (req: Request, res: Response) => {
-  const { token, accessToken } = req.body;
+const activateAccountHandler = async (
+  req: Request< {}, {}, TokenVerifyUserInputType >, 
+  res: Response,
+  next: NextFunction
+) => {
+  const { token } = req.body;
+  const accessToken = req.headers.authorization as string;
 
   try {
     const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
 
     const user = await findUser({ email: decoded.email });
 
-    if (user) {
-      const tokenValid = token === user.accountActivationToken;
-      if (tokenValid) {
-        user.accountActivationToken = null;
-        user.isActive = true;
-
-        const { accountActivationToken,  isActive, id} = user
-        await updateUser({id: id},  { isActive, accountActivationToken});
-
-        return res.status(200).send({
-          status: "ok",
-          message: "Account is activated successfully",
-        });
-      }
+    if (!user) {
       return res
         .status(400)
         .send({ status: "error", message: "Token invalid" });
     }
+
+    const isTokenValid = token === user.accountActivationToken;
+
+    if (!isTokenValid) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "Token invalid" });
+    }
+      
+    user.accountActivationToken = null;
+    user.isActive = true;
+
+    const { accountActivationToken,  isActive, id} = user
+    await updateUser({id: id},  { isActive, accountActivationToken});
+
+    return res.status(200).send({
+      status: "ok",
+      message: "Account is activated successfully",
+    });
+      
+    
   } catch (error) {
     return res.status(400).send({
       status: "error",
@@ -98,17 +125,19 @@ const activateAccountHandler = async (req: Request, res: Response) => {
   }
 };
 
-const loginHandler = async (req: Request, res: Response) => {
+const loginHandler = async (
+  req: Request< {}, {}, LoginUserInputType >, 
+  res: Response,
+  next: NextFunction
+) => {
 
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).send({
-      status: "error",
-      message: "Please provide credentials",
-    });
-  }
+  const {
+    email,
+    password
+  } = req.body
 
   try {
-    const user = await findUser({ email: req.body.email })
+    const user = await findUser({ email })
 
     if (!user) {
       return res.status(400).send({
@@ -124,7 +153,7 @@ const loginHandler = async (req: Request, res: Response) => {
       });
     }
 
-    const match = await matchPasswordHash(req.body.password, user.passwordHash);
+    const match = await matchPasswordHash(password, user.passwordHash);
 
     if (!match) {
       return res.status(400).send({
@@ -134,7 +163,7 @@ const loginHandler = async (req: Request, res: Response) => {
     }
   
     const accessToken = jwt.sign(
-      { email: user.email, id: user.id },
+      { email, id: user.id },
       secretToken,
       {
         expiresIn: "2h",
@@ -142,7 +171,7 @@ const loginHandler = async (req: Request, res: Response) => {
     );
   
     const refreshToken = jwt.sign(
-      { email: req.body.email },
+      { email },
       secretToken,
       {
         expiresIn: "30d",
@@ -162,41 +191,53 @@ const loginHandler = async (req: Request, res: Response) => {
   }
 };
 
+const forgotPasswordHandler = async (
+  req: Request< {}, {}, ForgotPasswordInputType >, 
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body
 
-const forgotPasswordHandler = async (req: Request, res: Response) => {
-  if (req.body.email) {
-    return res.status(400).send({
+  try {
+    const user = await findUser({ email });
+
+    if (user) {
+
+      const accessToken = jwt.sign(
+        { email },
+        secretToken,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      user.passwordResetToken = generateKey().toString();
+
+      const { id, passwordResetToken } = user;
+      await updateUser({id: id}, { passwordResetToken });
+
+      await sendPasswordResetEmail(user);
+
+      return res
+        .status(200)
+        .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
+    }
+  } catch (error) {
+    return res.status(500).send({
       status: "error",
-      message: "Email address not found.",
+      message: "Server error",
     });
   }
-  const user = await findUser({email: req.body.email });
-
-  if (user) {
-
-    const accessToken = jwt.sign(
-      { email: req.body.email },
-      secretToken,
-      {
-        expiresIn: "2h",
-      }
-    );
-
-    user.passwordResetToken = generateKey().toString();
-
-    const { id, accountActivationToken } = user;
-    await updateUser({id: id}, { accountActivationToken });
-
-    await sendPasswordResetEmail(user);
-
-    return res
-      .status(200)
-      .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
-    }
+  
 };
 
-const verifyTokenHandler = async (req: Request, res: Response) => {
-  const { accessToken, token } = req.body;
+const verifyTokenHandler = async (
+  req: Request< {}, {}, TokenVerifyUserInputType >, 
+  res: Response,
+  next: NextFunction
+) => {
+  const { token } = req.body;
+  const accessToken = req.headers.authorization as string;
 
   try {
     const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
@@ -237,8 +278,14 @@ const verifyTokenHandler = async (req: Request, res: Response) => {
   }
 };
 
-const resetPasswordHandler = async (req: Request, res: Response) => {
-  const { password, accessToken } = req.body;
+const resetPasswordHandler = async (
+  req: Request< {}, {}, ResetPasswordInputType >, 
+  res: Response,
+  next: NextFunction
+) => {
+  const { password } = req.body;
+  const accessToken = req.headers.authorization as string;
+  
   try {
     const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
     const user = await findUser({email: decoded.email});
@@ -278,13 +325,12 @@ const resetPasswordHandler = async (req: Request, res: Response) => {
 };
 
 
-authRoute.post("/register", handleValidation(validateRegistration),registerUserHandler);
-authRoute.post("/login", loginHandler);
-authRoute.post("/forgot-password", forgotPasswordHandler);
-authRoute.post("/verify-token", verifyTokenHandler);
-authRoute.post("/reset-password", resetPasswordHandler);
-authRoute.post("/activate-account", activateAccountHandler);
-
-
-export default authRoute;
+export {
+  registerUserHandler,
+  activateAccountHandler,
+  loginHandler,
+  forgotPasswordHandler,
+  verifyTokenHandler,
+  resetPasswordHandler
+}
 

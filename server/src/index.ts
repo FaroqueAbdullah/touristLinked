@@ -1,10 +1,11 @@
 import { setup as setupCore } from "./core";
 import { init } from "./routes";
-import { handleError, handleRequest } from "./common/middlewares";
+import { handleError } from "./common/middlewares";
 
 import * as swaggerdoc from './swagger/swagger.json';
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express"
+import { handleRequest } from "./middleware/handleRequest";
 require("dotenv").config();
 
 const PORT = process.env.SERVER_PORT || 8000;

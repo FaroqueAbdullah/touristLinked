@@ -1,4 +1,4 @@
-import { authenticateRequest } from "../../common/middlewares";
+import { authenticateRequest } from "../../middleware/authenticate";
 import profileRoute from "./controller";
 
 const init = async (app: any) => {

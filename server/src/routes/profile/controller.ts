@@ -1,12 +1,18 @@
-import  express, { Request, Response, NextFunction, RequestHandler  } from "express";
+import { 
+  Request, 
+  Response, 
+  NextFunction
+} from "express";
 import jwt from "jsonwebtoken";
-import { createUserProfile, deleteUserProfile, findUserProfile, updateOrCreateUserProfile } from "../../services/profile.service";
+import { 
+  createUserProfile, 
+  deleteUserProfile, 
+  findUserProfile, 
+  updateOrCreateUserProfile 
+} from "../../services/profile.service";
 
 import 'dotenv/config';
 import { UserProfileInputType } from "../../schemas/profile.schema";
-
-
-const profileRoute = express.Router();
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
@@ -56,7 +62,7 @@ const createProfile =async (
 }
 
 const getProfile =async (
-  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  req: Request< {userId: string}, {}, {} >, 
   res: Response, 
   next: NextFunction
 ) => {
@@ -135,7 +141,7 @@ const updateProfile =async (
 }
 
 const deleteProfile =async (
-  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  req: Request< {userId: string}, {}, {} >, 
   res: Response, 
   next: NextFunction
 ) => {
@@ -167,11 +173,10 @@ const deleteProfile =async (
   }
 }
 
-profileRoute.post("/:userId/create", createProfile);
-profileRoute.get("/:userId/get", getProfile);
-profileRoute.put("/:userId/update", updateProfile);
-profileRoute.delete("/:userId/delete", deleteProfile);
-
-
-export default profileRoute;
+export {
+  createProfile,
+  getProfile,
+  updateProfile,
+  deleteProfile
+};
 

@@ -1,5 +1,5 @@
 import  express from "express";
-import { authenticateRequest } from "../../middleware/authenticate";
+import authenticateRequest from "../../middleware/authenticate";
 import { createProfile, deleteProfile, getProfile, updateProfile } from "./controller";
 
 const profileRoute = express.Router();

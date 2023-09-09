@@ -8,6 +8,7 @@ const { searchOne } = require("../core/repository");
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 const handleError = async (err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log('handle error called')
   if (res?.headersSent) {
     return next(err);
   }

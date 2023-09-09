@@ -71,10 +71,7 @@ const registerUserHandler = async (
       .status(201)
       .send({ status: "ok", message: "User created successfully", data: { accessToken } });
   } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-    });
+    return next(error);
   }
 };
 
@@ -118,10 +115,7 @@ const activateAccountHandler = async (
       
     
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Invalid Token",
-    });
+    return next(error);
   }
 };
 
@@ -184,10 +178,7 @@ const loginHandler = async (
       data: { user: user, accessToken, refreshToken } 
     });
   } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-    });
+    return next(error);
   }
 };
 
@@ -223,10 +214,7 @@ const forgotPasswordHandler = async (
         .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
     }
   } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-    });
+    return next(error);
   }
   
 };
@@ -271,10 +259,7 @@ const verifyTokenHandler = async (
       .send({ status: "ok", data: { accessToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
     
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Invalid token",
-    });
+    return next(error);
   }
 };
 
@@ -317,10 +302,7 @@ const resetPasswordHandler = async (
       .send({ status: "ok", message: "Password changed successfully" });
       
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Invalid token",
-    });
+    return next(error);
   }
 };
 

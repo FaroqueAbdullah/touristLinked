@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler  } from "express";
 import { v4 as uuidv4 } from "uuid";
 
-export const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
+const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   let correlationId = req.headers["x-correlation-id"];
   console.log('correlationId ', correlationId)
   if (!correlationId) {
@@ -14,3 +14,5 @@ export const handleRequest = async (req: Request, res: Response, next: NextFunct
   req.log.info(`new request: ${req.method} ${req.url}`);
   return next();
 };
+
+export default handleRequest;

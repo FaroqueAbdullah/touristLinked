@@ -52,10 +52,7 @@ const createProfile =async (
       data: {...profile}
     });
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Server Error"
-    });
+    return next(error);
   }
 
   
@@ -89,10 +86,7 @@ const getProfile =async (
       data: {...profile}
     });
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Server Error"
-    });
+    return next(error);
   }
 }
 
@@ -133,10 +127,7 @@ const updateProfile =async (
       data: {...profile}
     });
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Server Error"
-    });
+    return next(error)
   }
 }
 
@@ -166,10 +157,7 @@ const deleteProfile =async (
     });
 
   } catch (error) {
-    return res.status(400).send({
-      status: "error",
-      message: "Server Error"
-    });
+    return next(error);
   }
 }
 

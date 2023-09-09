@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
-export const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
+const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
   let accessToken = req.headers.authorization;
   console.log('accessToken ', accessToken)
   if (accessToken) {
@@ -25,3 +25,5 @@ export const authenticateRequest = async (req: Request, res: Response, next: Nex
     });
   }
 };
+
+export default authenticateRequest;

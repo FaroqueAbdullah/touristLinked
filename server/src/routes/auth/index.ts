@@ -6,7 +6,7 @@ import {
   resetPasswordSchema, 
   tokenVerifyUserSchema 
 } from "../../schemas/user.schema";
-import { validate } from "../../middleware/validate";
+import validate from "../../middleware/validate";
 import { 
   registerUserHandler, 
   loginHandler, 

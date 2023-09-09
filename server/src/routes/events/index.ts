@@ -1,4 +1,4 @@
-import { authenticateRequest } from "../../middleware/authenticate";
+import authenticateRequest from "../../middleware/authenticate";
 import eventRoute from "./controller";
 
 const init = async (app: any) => {

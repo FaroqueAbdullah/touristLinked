@@ -19,7 +19,7 @@ const handleError = async (err: any, req: Request, res: Response, next: NextFunc
     res &&
     res.status(code).send({
       status: "error",
-      message: "Server Error"
+      message: err.message
     })
   );
 };

@@ -13,6 +13,7 @@ import {
 
 import 'dotenv/config';
 import { UserProfileInputType } from "../../schemas/profile.schema";
+import { BadRequest } from "../../utils/appError";
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
@@ -29,10 +30,7 @@ const createProfile =async (
   const isValidRequest = req.params.userId == jwtDecode.id;
 
   if (!isValidRequest) {
-    return res.status(400).send({
-      status: "error",
-      message: "Request is not valid",
-    });
+    return next(new BadRequest("Bad Request"))
   }
 
   try {
@@ -54,8 +52,6 @@ const createProfile =async (
   } catch (error) {
     return next(error);
   }
-
-  
 }
 
 const getProfile =async (
@@ -69,10 +65,7 @@ const getProfile =async (
   const isValidRequest = req.params.userId == jwtDecode.id;
 
   if (!isValidRequest) {
-    return res.status(400).send({
-      status: "error",
-      message: "Request is not valid",
-    });
+    return next(new BadRequest("Bad Request"))
   }
 
   try {
@@ -102,10 +95,7 @@ const updateProfile =async (
   const isValidRequest = req.params.userId == jwtDecode.id;
 
   if (!isValidRequest) {
-    return res.status(400).send({
-      status: "error",
-      message: "Request is not valid",
-    });
+    return next(new BadRequest("Bad Request"))
   }
 
   try {
@@ -142,10 +132,7 @@ const deleteProfile =async (
   const isValidRequest = req.params.userId == jwtDecode.id;
 
   if (!isValidRequest) {
-    return res.status(400).send({
-      status: "error",
-      message: "Request is not valid",
-    });
+    return next(new BadRequest("Bad Request"))
   }
 
   try {

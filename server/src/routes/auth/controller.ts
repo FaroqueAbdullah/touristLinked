@@ -24,6 +24,7 @@ import {
   ResetPasswordInputType, 
   TokenVerifyUserInputType 
 } from "../../schemas/user.schema";
+import { BadRequest, NotFound } from "../../utils/appError";
 
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
@@ -39,10 +40,7 @@ const registerUserHandler = async (
     const isUserExist = await findUser({email});
 
     if ( isUserExist ) {
-      return res.status(400).send({
-        status: "error",
-        message: "User already have an account.",
-      });
+      return next(new BadRequest("User already have an account."))
     }
 
     const passwordHash = await getPasswordHash(user.password);
@@ -89,17 +87,13 @@ const activateAccountHandler = async (
     const user = await findUser({ email: decoded.email });
 
     if (!user) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Token invalid" });
+      return next(new NotFound("User Not Found."))
     }
 
     const isTokenValid = token === user.accountActivationToken;
 
     if (!isTokenValid) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Token invalid" });
+      return next(new BadRequest("Token is not valid"))
     }
       
     user.accountActivationToken = null;
@@ -134,26 +128,17 @@ const loginHandler = async (
     const user = await findUser({ email })
 
     if (!user) {
-      return res.status(400).send({
-        status: "error",
-        message: "Invalid Credentials",
-      });
+      return next(new BadRequest("Invalid Credentials"))
     }
   
     if (!user.isActive) {
-      return res.status(400).send({
-        status: "error",
-        message: "User is not active",
-      });
+      return next(new BadRequest("User is not active"))
     }
 
     const match = await matchPasswordHash(password, user.passwordHash);
 
     if (!match) {
-      return res.status(400).send({
-        status: "error",
-        message: "Invalid Credentials",
-      });
+      return next(new BadRequest("Invalid Credentials"))
     }
   
     const accessToken = jwt.sign(
@@ -192,27 +177,28 @@ const forgotPasswordHandler = async (
   try {
     const user = await findUser({ email });
 
-    if (user) {
-
-      const accessToken = jwt.sign(
-        { email },
-        secretToken,
-        {
-          expiresIn: "2h",
-        }
-      );
-
-      user.passwordResetToken = generateKey().toString();
-
-      const { id, passwordResetToken } = user;
-      await updateUser({id: id}, { passwordResetToken });
-
-      await sendPasswordResetEmail(user);
-
-      return res
-        .status(200)
-        .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
+    if (!user) {
+      return next(new NotFound("User Not Found."))
     }
+
+    const accessToken = jwt.sign(
+      { email },
+      secretToken,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    user.passwordResetToken = generateKey().toString();
+
+    const { id, passwordResetToken } = user;
+    await updateUser({id: id}, { passwordResetToken });
+
+    await sendPasswordResetEmail(user);
+
+    return res
+      .status(200)
+      .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
   } catch (error) {
     return next(error);
   }
@@ -232,18 +218,13 @@ const verifyTokenHandler = async (
     const user = await findUser({ email: decoded.email });
 
     if (!user) {
-      return res.status(400).send({
-        status: "error",
-        message: "User not found.",
-      });
+      return next(new NotFound("User Not Found."))
     }
 
     const tokenValid = token === user.passwordResetToken;
 
     if (tokenValid) {
-      return res
-      .status(400)
-      .send({ status: "error", message: "Token invalid" });
+      return next(new BadRequest("Token is not valid"))
     }
 
     const jwtTokenWithPasswordResetToken = jwt.sign(
@@ -276,18 +257,12 @@ const resetPasswordHandler = async (
     const user = await findUser({email: decoded.email});
 
     if (!user) {
-      return res.status(400).send({
-        status: "error",
-        message: "User not found.",
-      });
+      return next(new NotFound("User Not Found."))
     }
     const tokenValid = decoded.token === user.passwordResetToken;
     
     if (tokenValid) {
-      return res.status(400).send({
-        status: "error",
-        message: "Invalid token",
-      });
+      return next(new BadRequest("Token is not valid"))
     }
 
     const passwordHash = await getPasswordHash(password);

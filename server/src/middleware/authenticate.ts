@@ -5,6 +5,7 @@ const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 export const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
   let accessToken = req.headers.authorization;
+  console.log('accessToken ', accessToken)
   if (accessToken) {
     jwt.verify(accessToken, secretToken, (err: any, decoded: any) => {
       if (err) {
@@ -18,6 +19,9 @@ export const authenticateRequest = async (req: Request, res: Response, next: Nex
       }
     });
   } else {
-    res.status(401).send({ error: "Unauthenticated request" });
+    res.status(401).send({
+      status: "error",
+      error: "Unauthenticated request" 
+    });
   }
 };

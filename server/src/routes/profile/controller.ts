@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { createUserProfile, deleteUserProfile, findUserProfile, updateOrCreateUserProfile } from "../../services/profile.service";
 
 import 'dotenv/config';
+import { UserProfileInputType } from "../../schemas/profile.schema";
 
 
 const profileRoute = express.Router();
@@ -10,7 +11,11 @@ const profileRoute = express.Router();
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 
-const createProfile =async (req: Request, res: Response) => {
+const createProfile =async (
+  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  res: Response, 
+  next: NextFunction
+) => {
   const { userName, profileImage, bio, profession, address, country } = req.body
   const accessToken = req.headers.authorization as string;
   const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
@@ -50,7 +55,11 @@ const createProfile =async (req: Request, res: Response) => {
   
 }
 
-const getProfile =async (req: Request, res: Response) => {
+const getProfile =async (
+  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  res: Response, 
+  next: NextFunction
+) => {
   const accessToken = req.headers.authorization as string;
   const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
 
@@ -81,7 +90,11 @@ const getProfile =async (req: Request, res: Response) => {
   }
 }
 
-const updateProfile =async (req: Request, res: Response) => {
+const updateProfile =async (
+  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  res: Response, 
+  next: NextFunction
+) => {
   const { userName, profileImage, bio, profession, address, country }  = req.body
   const accessToken = req.headers.authorization as string;
   const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
@@ -121,7 +134,11 @@ const updateProfile =async (req: Request, res: Response) => {
   }
 }
 
-const deleteProfile =async (req: Request, res: Response) => {
+const deleteProfile =async (
+  req: Request< {userId: string}, {}, UserProfileInputType >, 
+  res: Response, 
+  next: NextFunction
+) => {
   const accessToken = req.headers.authorization as string;
   const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
 

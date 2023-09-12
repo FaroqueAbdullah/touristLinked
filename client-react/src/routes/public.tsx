@@ -1,11 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import HeaderComponent from '@/layout/Header/Header';
-
-const HomeCompoment = lazy(() => import('@/pages/Home/Home'));
-const ProfileCompoment = lazy(() => import('@/pages/Profile/Profile'));
-
 const PageNotFound = () => {
   return <div className="flex items-center justify-center">Page Not Found</div>;
 };
@@ -13,10 +8,7 @@ const PageNotFound = () => {
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeaderComponent isAuthenticate={true} />
-      <div className="h-[calc(100vh-4rem)]">
-        <Outlet />
-      </div>
+      <Outlet />
     </Suspense>
   );
 };
@@ -26,8 +18,8 @@ export const publicRoutes = [
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <HomeCompoment /> },
-      { path: '/profile', element: <ProfileCompoment /> },
+      { path: '/', element: <div>home</div> },
+      { path: '/profile', element: <div>profile</div> },
       { path: '/*', element: <PageNotFound /> },
     ],
   },

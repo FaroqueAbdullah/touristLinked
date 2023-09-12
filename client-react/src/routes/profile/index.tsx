@@ -13,14 +13,10 @@ const App = () => {
   );
 };
 
-export const publicRoutes = [
+export const profileRoutes = [
   {
-    path: '/',
+    path: '/profile',
     element: <App />,
-    children: [
-      { path: '/', element: <div>home</div> },
-      { path: '/profile', element: <div>profile</div> },
-      { path: '/*', element: <PageNotFound /> },
-    ],
+    children: [{ path: '/profile/me', element: <div>profile</div> }],
   },
 ];

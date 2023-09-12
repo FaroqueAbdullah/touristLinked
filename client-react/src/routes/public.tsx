@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 const PageNotFound = () => {
-  return <div className="flex items-center justify-center">Page Not Found</div>;
+  return <div>Page Not Found</div>;
 };
 
 const App = () => {

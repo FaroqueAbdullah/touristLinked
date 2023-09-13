@@ -17,6 +17,9 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
     ],
   },
+  optimizeDeps: {
+    include: ['@emotion/styled']
+  }
 })
 
 

@@ -1,18 +1,16 @@
 import Button, { ButtonProps } from '@mui/material/Button';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
-const width = "auto"
-const color = "red"
-
-
-const CustomButton = styled(Button)< ButtonProps >(() => ({
-  width: width
+const CustomButton = styled(Button)< ButtonProps >(({ theme }) => ({
+  background: theme.palette.primary.main,
+  color: theme.palette.text.primary,
+  "&:hover": {
+    background: theme.palette.primary.main
+  }
 }))
 
 
 export default function MUIButton({ ...props }) {
-  const theme = useTheme()
-  console.log('fsadfasdf', theme)
   return <CustomButton {...props} />
 }
 

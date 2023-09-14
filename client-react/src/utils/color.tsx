@@ -9,7 +9,7 @@ export const commonColors = {
 
 export const lightThemeColors = {
   primary: {
-    main: commonColors.primaryWhite
+    main: commonColors.primaryBlue
   },
   secondary: {
     main: commonColors.secondaryWhite
@@ -19,13 +19,14 @@ export const lightThemeColors = {
     secondary: commonColors.secondaryDark
   },
   background: {
-    default: commonColors.primaryWhite
+    default: commonColors.primaryWhite,
+    paper: commonColors.secondaryWhite
   }
 }
 
 export const darkThemeColors = {
   primary: {
-    main: commonColors.primaryDark
+    main: commonColors.primaryBlue
   },
   secondary: {
     main: commonColors.secondaryDark
@@ -35,6 +36,7 @@ export const darkThemeColors = {
     secondary: commonColors.secondaryWhite
   },
   background: {
-    default: commonColors.primaryDark
+    default: commonColors.primaryDark,
+    paper: commonColors.secondaryDark
   }
 }

@@ -1,16 +1,20 @@
-import { useTheme } from "@mui/material";
-import GlobalStyles from "@mui/material/GlobalStyles";
+import { useTheme } from '@mui/material';
+import GlobalStyles from '@mui/material/GlobalStyles';
 
 const Styles = () => {
-  const theme = useTheme()
-  
+  const theme = useTheme();
+
   return (
     <GlobalStyles
       styles={{
-        body: { backgroundColor: theme.palette.background.default }
+        body: {
+          backgroundColor: theme.palette.background.default,
+          margin: 0,
+          padding: 0,
+        },
       }}
     />
-  )
-}
+  );
+};
 
 export default Styles;

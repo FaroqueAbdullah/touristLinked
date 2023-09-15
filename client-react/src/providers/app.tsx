@@ -5,18 +5,14 @@ import { Provider } from 'react-redux';
 import { store } from '@/store/index';
 import useMode from '@/hooks/useTheme';
 import { ThemeProvider } from '@mui/material';
-
+import ColorModeContext from '../context/colorContext';
 
 type AppProviderProps = {
   children: React.ReactNode;
 };
 
-const ColorModeContext = createContext({
-  toggleColorMode: () => {}
-})
-
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const {theme, colorMode} = useMode();
+  const { theme, colorMode } = useMode();
 
   return (
     <Provider store={store}>

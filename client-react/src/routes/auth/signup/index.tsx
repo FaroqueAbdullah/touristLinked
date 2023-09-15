@@ -1,21 +1,23 @@
-import CustomButton from "@/components/atoms/Button"
-import MUITypography from "@/components/atoms/Typography";
-import useMode from '@/hooks/useTheme';
+import CustomButton from '@/components/atoms/Button';
+import MUITypography from '@/components/atoms/Typography';
+import ColorModeContext from '@/context/colorContext';
+import { useContext } from 'react';
 
 const SignUp = () => {
-  const {colorMode} = useMode();
-  
+  const { toggleColorMode } = useContext(ColorModeContext);
+
   const toggleTheme = () => {
-    colorMode
-  }
+    toggleColorMode();
+  };
 
   return (
     <>
-    <MUITypography>sadfasdf</MUITypography>
-    <CustomButton variant="outlined" onClick={toggleTheme}>Buttond</CustomButton>
+      <MUITypography>sadfasdf</MUITypography>
+      <CustomButton variant="outlined" onClick={toggleTheme}>
+        Buttond
+      </CustomButton>
     </>
-    
-  )
-}
+  );
+};
 
 export default SignUp;

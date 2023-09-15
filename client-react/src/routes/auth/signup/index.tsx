@@ -1,5 +1,4 @@
-import CustomButton from '@/components/atoms/Button';
-import MUITypography from '@/components/atoms/Typography';
+import { Button, TextField, Typography } from '@/components/atoms';
 import ColorModeContext from '@/context/colorContext';
 import { useContext } from 'react';
 
@@ -12,10 +11,11 @@ const SignUp = () => {
 
   return (
     <>
-      <MUITypography>sadfasdf</MUITypography>
-      <CustomButton variant="outlined" onClick={toggleTheme}>
+      <TextField label="Input" />
+      <Typography variant="h1">sadfasdf</Typography>
+      <Button variant="outlined" onClick={toggleTheme}>
         Buttond
-      </CustomButton>
+      </Button>
     </>
   );
 };

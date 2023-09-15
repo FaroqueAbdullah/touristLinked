@@ -1,42 +1,49 @@
 export const commonColors = {
-  primaryWhite: "#fbfbfb",
-  secondaryWhite: "#ffffff",
-  primaryDark: "#00060e",
-  secondaryDark: "#010a0f",
-  primaryBlue: "#75C2F6",
-  primaryGray: "#3E4042"
-}
+  primaryWhite: '#fbfbfb',
+  secondaryWhite: '#ffffff',
+  primaryDark: '#00060e',
+  secondaryDark: '#010a0f',
+  primaryBlue: '#75C2F6',
+  darkGray: '#3E4042',
+  lightGray: '#7D7C7C',
+};
 
 export const lightThemeColors = {
   primary: {
-    main: commonColors.primaryBlue
+    main: commonColors.primaryBlue,
   },
   secondary: {
-    main: commonColors.secondaryWhite
+    main: commonColors.secondaryWhite,
   },
   text: {
     primary: commonColors.primaryDark,
-    secondary: commonColors.secondaryDark
+    secondary: commonColors.secondaryDark,
   },
   background: {
     default: commonColors.primaryWhite,
-    paper: commonColors.secondaryWhite
-  }
-}
+    paper: commonColors.secondaryWhite,
+  },
+  grey: {
+    500: commonColors.darkGray,
+  },
+};
 
 export const darkThemeColors = {
   primary: {
-    main: commonColors.primaryBlue
+    main: commonColors.primaryBlue,
   },
   secondary: {
-    main: commonColors.secondaryDark
+    main: commonColors.secondaryDark,
   },
   text: {
     primary: commonColors.primaryWhite,
-    secondary: commonColors.secondaryWhite
+    secondary: commonColors.secondaryWhite,
   },
   background: {
     default: commonColors.primaryDark,
-    paper: commonColors.secondaryDark
-  }
-}
+    paper: commonColors.secondaryDark,
+  },
+  grey: {
+    500: commonColors.lightGray,
+  },
+};

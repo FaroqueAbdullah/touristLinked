@@ -1,5 +1,6 @@
 import { Button, TextField, Typography } from '@/components/atoms';
 import ColorModeContext from '@/context/colorContext';
+import FormLayout from '@/layout/Form';
 import { useContext } from 'react';
 
 const SignUp = () => {
@@ -10,13 +11,13 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <TextField label="Input" />
-      <Typography variant="h1">sadfasdf</Typography>
+    <FormLayout>
+      <TextField label="Email" />
+      <TextField label="Password" />
       <Button variant="outlined" onClick={toggleTheme}>
-        Buttond
+        Submit
       </Button>
-    </>
+    </FormLayout>
   );
 };
 

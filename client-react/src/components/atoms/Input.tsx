@@ -4,5 +4,5 @@ import { styled } from '@mui/material/styles';
 const CustomTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({}));
 
 export default function MUITextField({ ...props }) {
-  return <CustomTextField variant="filled" {...props} />;
+  return <CustomTextField variant="standard" {...props} />;
 }

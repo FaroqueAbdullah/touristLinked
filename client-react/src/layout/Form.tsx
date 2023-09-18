@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { FormControl, FormLabel } from '@mui/material';
 
-interface MyComponentProps {
+interface Props {
   children: React.ReactNode;
+  name: string;
+  onSubmit: () => void;
 }
 
 
-const FormLayout: React.FC<MyComponentProps> = ({ children }) => {
+const FormLayout: React.FC<Props> = ({ children, name, onSubmit }) => {
 
   return (
-    <FormControl>
-      <FormLabel>Sign In</FormLabel>
-      {children}
-    </FormControl>
+    <form onSubmit={onSubmit}>
+      <FormControl>
+        <FormLabel>{ name }</FormLabel>
+        {children}
+      </FormControl>
+    </form>
+    
   );
 };
 

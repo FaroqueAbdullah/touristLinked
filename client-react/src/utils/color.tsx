@@ -3,7 +3,7 @@ export const commonColors = {
   secondaryWhite: '#ffffff',
   primaryDark: '#00060e',
   secondaryDark: '#010a0f',
-  primaryBlue: '#75C2F6',
+  primaryBlue: '#007FFF',
   darkGray: '#3E4042',
   lightGray: '#7D7C7C',
 };

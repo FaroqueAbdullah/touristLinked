@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@/components/atoms';
+import { Button, LinkText, TextField, Typography } from '@/components/atoms';
 import ColorModeContext from '@/context/colorContext';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack';
@@ -41,7 +41,7 @@ const Register = () => {
         <Button type="submit" variant="outlined">
           Submit
         </Button>
-        <Typography variant="p">Already have an account? Sign In</Typography>
+        <LinkText normalText="Already have an account?" linkText="Log In" linkRef="/auth/login" />
       </Stack>
     </FormLayout>
   );

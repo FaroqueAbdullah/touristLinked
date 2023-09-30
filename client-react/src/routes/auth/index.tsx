@@ -20,7 +20,7 @@ export const authRoutes = [
     element: <App />,
     children: [
       { path: '/auth/login', element: <LogIn /> },
-      { path: '/auth/signup', element:  <SignUp /> },
+      { path: '/auth/register', element:  <SignUp /> },
     ],
   },
 ];

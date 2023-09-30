@@ -1,4 +1,5 @@
 import { darkThemeColors, lightThemeColors } from '@/utils/color';
+import { typography } from '@/utils/typography';
 import { createTheme } from '@mui/material/styles';
 import { createContext, useMemo, useState } from 'react';
 
@@ -22,6 +23,7 @@ const useMode = () => {
     () =>
       createTheme({
         palette: themeSettings(mode),
+        typography
       }),
     [mode]
   );

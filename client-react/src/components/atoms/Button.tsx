@@ -6,6 +6,7 @@ const CustomButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.text.primary,
   '&:hover': {
     background: theme.palette.primary.main,
+    color: theme.palette.text.secondary
   },
 }));
 

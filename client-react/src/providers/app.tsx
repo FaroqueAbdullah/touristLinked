@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/store/index';
 import useMode from '@/hooks/useTheme';
 import { ThemeProvider } from '@mui/material';
-import ColorModeContext from '../context/colorContext';
+import ColorModeContext from '@/context/colorContext';
 
 type AppProviderProps = {
   children: React.ReactNode;

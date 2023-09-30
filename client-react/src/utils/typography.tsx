@@ -8,27 +8,33 @@ export const typography = {
   fontSize: 12,
   h1: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 40
+    fontSize: 14,
+    fontWeight: 700
   },
   h2: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 32
+    fontSize: 22,
+    fontWeight: 700
   },
   h3: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 24
+    fontSize: 20,
+    fontWeight: 700
   },
   h4: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 20
+    fontSize: 18,
+    fontWeight: 700
   },
   h5: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 16
+    fontSize: 16,
+    fontWeight: 700
   },
   h6: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
-    fontSize: 14
+    fontSize: 14,
+    fontWeight: 700
   },
   p: {
     fontFamily: ["Roboto", "sans-serif"].join(","),

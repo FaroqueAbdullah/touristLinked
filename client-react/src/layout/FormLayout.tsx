@@ -1,15 +1,15 @@
 import React from "react";
-import styled from "@emotion/styled";
+import { styled } from '@mui/material/styles';
 
 
 interface PropsType {
   children: React.ReactNode;
-  onSubmit: () => void;
+  onSubmit: (event: React.SyntheticEvent) => void;
 }
 
-const CustomForm = styled.form`
-  min-width: 350px
-`
+const CustomForm = styled('form')(({ theme }) => ({
+  minWidth: "350px"
+}));
 
 
 const FormLayout: React.FC<PropsType> = ({ children, onSubmit }) => {

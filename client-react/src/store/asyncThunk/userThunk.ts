@@ -6,6 +6,7 @@ import tokenService from '@/services/storage/token'
 export const createUser = createAsyncThunk(
   "/auth/register",
    async ( data: any ) => {
+      console.log('user data ', data)
       const res = await UserService.createUser( data )
       return res.data
    }

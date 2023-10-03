@@ -8,7 +8,11 @@ interface PropsType {
 }
 
 const CustomForm = styled('form')(({ theme }) => ({
-  minWidth: "350px"
+  minWidth: "350px",
+  padding: "1rem",
+  [theme.breakpoints.down('sm')]: {
+    minWidth: "max-content"
+  }
 }));
 
 

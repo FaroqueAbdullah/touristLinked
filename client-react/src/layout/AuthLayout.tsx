@@ -20,7 +20,12 @@ const AuthFormContainer = styled(Box)<BoxProps>(({ theme }) => ({
   background: theme.palette.background.paper,
   width: "fit-content",
   padding: "2rem",
-  marginTop: "2rem"
+  marginTop: "2rem",
+  [theme.breakpoints.down('sm')]: {
+    width: "100%",
+    padding: "0rem",
+    margin: "1rem"
+  }
 }));
 
 const AuthLayout = ({children}: LayoutProps): React.ReactNode => (

@@ -1,3 +1,4 @@
+import breakpoints from '@/utils/breakpoint';
 import { darkThemeColors, lightThemeColors } from '@/utils/color';
 import { typography } from '@/utils/typography';
 import { createTheme } from '@mui/material/styles';
@@ -23,7 +24,8 @@ const useMode = () => {
     () =>
       createTheme({
         palette: themeSettings(mode),
-        typography
+        typography,
+        breakpoints
       }),
     [mode]
   );

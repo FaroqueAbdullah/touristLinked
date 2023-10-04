@@ -26,10 +26,16 @@ const Register = () => {
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
+    console.log('form submitted')
+
     dispatch(createUser( credentials ) )
       .then( ( data ) => {
         if ( data.type === "/auth/register/fulfilled" ) {
-          navigate('/')
+          // navigate('/')
+        }
+
+        if ( data.type === "/auth/register/rejected" ) {
+          console.log('rejected state ', data )
         }
       })
       .catch((error) => {

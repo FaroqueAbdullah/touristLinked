@@ -2,7 +2,7 @@ import breakpoints from '@/utils/breakpoint';
 import { darkThemeColors, lightThemeColors } from '@/utils/color';
 import { typography } from '@/utils/typography';
 import { createTheme } from '@mui/material/styles';
-import { createContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const themeSettings = (mode: string) => ({
   ...(mode === 'dark' ? darkThemeColors : lightThemeColors),

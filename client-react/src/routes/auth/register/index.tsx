@@ -1,11 +1,8 @@
 import { Button, LinkText, TextField, Typography } from '@/components/atoms';
 import ColorModeContext from '@/context/colorContext';
 import FormLayout from '@/layout/FormLayout';
-import { AppDispatch } from '@/store';
-import { createUser } from '@/store/asyncThunk/userThunk';
 import Stack from '@mui/material/Stack';
 import { useContext, useReducer, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -20,7 +17,6 @@ const Register = () => {
     confirmPassword: ''
   });
 
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate(); 
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
@@ -28,19 +24,6 @@ const Register = () => {
 
     console.log('form submitted')
 
-    dispatch(createUser( credentials ) )
-      .then( ( data ) => {
-        if ( data.type === "/auth/register/fulfilled" ) {
-          // navigate('/')
-        }
-
-        if ( data.type === "/auth/register/rejected" ) {
-          console.log('rejected state ', data )
-        }
-      })
-      .catch((error) => {
-        console.log('errrrr ', error)
-      })
   }
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

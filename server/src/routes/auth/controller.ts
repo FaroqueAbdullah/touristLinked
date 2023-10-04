@@ -156,11 +156,13 @@ const loginHandler = async (
         expiresIn: "30d",
       }
     );
+
+    const { passwordResetToken, passwordHash, isActive, accountActivationToken, createdAt, updatedAt, ...restData } = user;
   
     res.status(200).send({
       status: 'ok', 
       message: "User logged in successfully",
-      data: { user: user, accessToken, refreshToken } 
+      data: { user: restData, accessToken, refreshToken } 
     });
   } catch (error) {
     return next(error);

@@ -1,20 +1,28 @@
+import UserService from '@/services/http/user';
 import { useEffect, useState } from 'react';
+
+interface LoginCredentialType {
+  email: string,
+  password: string
+}
 
 export const useAuthentication = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Function to handle user login
-  const login = async (email: string, password: string) => {
+  const loginUser = async (credentials: LoginCredentialType) => {
+    const { email, password } = credentials;
     try {
-      // await firebase.auth().signInWithEmailAndPassword(email, password);
+      const loginResponse = await UserService.loginUser({email, password});
+      setUser(loginResponse.data.user)
     } catch (error) {
-      throw error;
+      throw error
     }
   };
 
   // Function to handle user logout
-  const logout = async () => {
+  const logoutUser = async () => {
     try {
       // await firebase.auth().signOut();
     } catch (error) {
@@ -36,7 +44,7 @@ export const useAuthentication = () => {
   return {
     user,
     isLoading,
-    login,
-    logout,
+    loginUser,
+    logoutUser,
   };
 };

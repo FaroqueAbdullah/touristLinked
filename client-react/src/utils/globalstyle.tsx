@@ -9,8 +9,7 @@ const Styles = () => {
       styles={{
         body: {
           backgroundColor: theme.palette.background.default,
-          margin: 0,
-          padding: '1rem',
+          margin: 0
         },
       }}
     />

@@ -7,8 +7,9 @@ interface LinkTextProps {
 }
 
 const ErrorTypography = styled(Typography)< TypographyProps>(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.palette.warning.main,
   display: "inherit",
+  height: "13px",
   fontSize: '12px',
   whiteSpace: 'nowrap'
 }))

@@ -47,8 +47,8 @@ const LogIn = () => {
         spacing={2}
       >
         <Typography variant="h2" align="center">Log In</Typography>
-        <TextField name="email" label="Email" onChange={ onChangeHandler }/>
-        <TextField name="password" label="Password" onChange={ onChangeHandler }/>
+        <TextField name="email" type="email" label="Email" onChange={ onChangeHandler }/>
+        <TextField name="password" type="password" label="Password" onChange={ onChangeHandler }/>
         <ErrorText errorText={ errorMsg } />
         <Button type="submit" variant="outlined">
           Submit

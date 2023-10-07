@@ -1,3 +1,4 @@
+import NavBar from '@/components/molecules/Navbar';
 import { ProtectedRoute } from '@/providers/protectedRoute';
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -9,6 +10,7 @@ const PageNotFound = () => {
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
+      <NavBar />
       <Outlet />
     </Suspense>
   );

@@ -1,10 +1,9 @@
 import { Button, LinkText, TextField, Typography } from '@/components/atoms';
 import ErrorText from '@/components/atoms/ErrorField';
-import ColorModeContext from '@/context/colorContext';
 import { useAuth } from '@/hooks/useAuth';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack';
-import { useContext, useReducer, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -12,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const LogIn = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('')
-  const {user, loginUser} = useAuth()
+  const {loginUser} = useAuth()
 
   const navigate = useNavigate(); 
 
@@ -25,7 +24,6 @@ const LogIn = () => {
     } catch(error: any) {
       setErrorMsg(error.message)
     }
-    
   }
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,13 +31,6 @@ const LogIn = () => {
     const inputValue = e.target.value;
     setCredentials((prev) => ({ ...prev, [inputName]: inputValue }))
   }
-  
-  const { toggleColorMode } = useContext(ColorModeContext);
-
-  const toggleTheme = () => {
-    console.log('color mode updated')
-    toggleColorMode();
-  };
 
 
   return (

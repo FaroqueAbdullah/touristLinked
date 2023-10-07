@@ -1,5 +1,6 @@
 import { Button, LinkText, TextField, Typography } from '@/components/atoms';
 import ColorModeContext from '@/context/colorContext';
+import { useAuth } from '@/hooks/useAuth';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack';
 import { useContext, useReducer, useState } from 'react';
@@ -18,11 +19,12 @@ const Register = () => {
   });
 
   const navigate = useNavigate(); 
+  const {user, loginUser} = useAuth()
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    console.log('form submitted')
+    console.log("user login ", user)
 
   }
 

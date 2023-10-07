@@ -1,3 +1,4 @@
+import { ProtectedRoute } from '@/providers/protectedRoute';
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -16,7 +17,9 @@ const App = () => {
 export const homeRoutes = [
   {
     path: '/',
-    element: <App />,
+    element: <ProtectedRoute>
+      <App />
+    </ProtectedRoute>,
     children: [
       { path: '/', element: <div>home</div> },
       { path: '/*', element: <PageNotFound /> },

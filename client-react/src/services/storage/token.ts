@@ -3,6 +3,7 @@ class TokenService {
     const auth = JSON.parse(localStorage.getItem("auth") || '{}');
     return auth?.data.refreshToken;
   }
+
   getLocalAccessToken() {
     const auth = JSON.parse(localStorage.getItem("auth") || '{}');
     return auth?.data.accessToken;
@@ -12,13 +13,14 @@ class TokenService {
     auth.accessToken = token;
     localStorage.setItem("auth", JSON.stringify(auth));
   }
-  getUser() {
+
+  getLocalUserData() {
     return JSON.parse(localStorage.getItem("auth") || '{}' );
   }
-  setUser(auth: object) {
+  setLocalUser(auth: object) {
     localStorage.setItem("auth", JSON.stringify(auth));
   }
-  removeUser() {
+  removeLocalUser() {
     localStorage.removeItem("auth");
   }
 }

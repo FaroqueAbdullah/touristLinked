@@ -1,13 +1,18 @@
 import UserService from '@/services/http/user';
 import { useEffect, useState } from 'react';
 
+import tokenService from '@/services/storage/token';
+
 interface LoginCredentialType {
   email: string,
   password: string
 }
 
-export const useAuthentication = () => {
-  const [user, setUser] = useState(null);
+export const useAuth = () => {
+  const [user, setUser] = useState(() => {
+    const userData = tokenService.getLocalUserData()
+    return userData != null ? JSON.stringify(userData) : null
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   // Function to handle user login
@@ -30,15 +35,10 @@ export const useAuthentication = () => {
     }
   };
 
-  useEffect(() => {
-    // // Add an observer to check if the user is logged in
-    // const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
-    //   setUser(authUser);
-    //   setIsLoading(false);
-    // });
+  console.log('use auth init')
 
-    // // Unsubscribe the observer when the component unmounts
-    // return () => unsubscribe();
+  useEffect(() => {
+    console.log('use auth')
   }, []);
 
   return {

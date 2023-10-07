@@ -1,6 +1,6 @@
-import Link, { LinkProps } from '@mui/material/Link';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 interface LinkTextProps {
   normalText?: string;
@@ -8,14 +8,16 @@ interface LinkTextProps {
   linkRef: string;
 }
 
+const TextLink = styled('span')`
+  display: flex
+`
+
 const CustomTypography = styled(Typography)< TypographyProps>(({ theme }) => ({
   color: theme.palette.text.primary,
-  display: "inherit",
   fontSize: '12px',
-  whiteSpace: 'nowrap'
 }))
 
-const CustomLink = styled(Link)< LinkProps>(({ theme }) => ({
+const CustomLinkData = styled(Typography)< TypographyProps>(({ theme }) => ({
   color: theme.palette.primary.main,
   fontSize: '12px',
   marginLeft: "2px"
@@ -23,10 +25,12 @@ const CustomLink = styled(Link)< LinkProps>(({ theme }) => ({
 
 
 export default function LinkText({ normalText, linkText, linkRef }: LinkTextProps) {
-  return <CustomTypography>
+  return <TextLink>
+    <CustomTypography>
     {normalText && normalText}
-    <CustomLink href={linkRef}>
-      {linkText}
-    </CustomLink>
-  </CustomTypography>
+    </CustomTypography>
+    <CustomLinkData>
+      <Link to={linkRef}>{linkText}</Link>
+    </CustomLinkData>
+  </TextLink>
 }

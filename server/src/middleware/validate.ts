@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AnyZodObject, ZodError } from 'zod';
+import { BadRequest } from '../utils/appError';
 
 const validate = (schema: AnyZodObject) =>
   (req: Request, res: Response, next: NextFunction) => {
@@ -10,15 +11,11 @@ const validate = (schema: AnyZodObject) =>
         body: req.body,
       });
 
-      next();
+      return next();
     } catch (error) {
       if (error instanceof ZodError) {
-        return res.status(400).json({
-          status: 'fail',
-          errors: error.errors,
-        });
+        return next(new BadRequest(error.errors[0].message +  (error.errors.length > 1 ? ` and ${error.errors.length} more error` : '' )))
       }
-      next(error);
     }
   };
 

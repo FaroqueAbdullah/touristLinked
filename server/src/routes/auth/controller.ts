@@ -25,8 +25,7 @@ import {
   TokenVerifyUserInputType 
 } from "../../schemas/user.schema";
 import { BadRequest, NotFound } from "../../utils/appError";
-
-const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
+import { createJwt, validateJwt } from "../../utils/jwtToken";
 
 
 const registerUserHandler = async (
@@ -57,13 +56,7 @@ const registerUserHandler = async (
 
     await sendAccountCreatedEmail(createdUser);
 
-    const accessToken = jwt.sign(
-      { email },
-      secretToken,
-      {
-        expiresIn: "2h",
-      }
-    );
+    const accessToken = createJwt({ email })
 
     return res
       .status(201)
@@ -82,7 +75,7 @@ const activateAccountHandler = async (
   const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const decoded: jwt.JwtPayload = validateJwt(accessToken)
 
     const user = await findUser({ email: decoded.email });
 
@@ -141,21 +134,9 @@ const loginHandler = async (
       return next(new BadRequest("Invalid Credentials"))
     }
   
-    const accessToken = jwt.sign(
-      { email, id: user.id },
-      secretToken,
-      {
-        expiresIn: "2h",
-      }
-    );
+    const accessToken = createJwt( { email, id: user.id } );
   
-    const refreshToken = jwt.sign(
-      { email },
-      secretToken,
-      {
-        expiresIn: "30d",
-      }
-    );
+    const refreshToken = createJwt({ email });
 
     const { passwordResetToken, passwordHash, isActive, accountActivationToken, createdAt, updatedAt, ...restData } = user;
   
@@ -183,13 +164,7 @@ const forgotPasswordHandler = async (
       return next(new NotFound("User Not Found."))
     }
 
-    const accessToken = jwt.sign(
-      { email },
-      secretToken,
-      {
-        expiresIn: "2h",
-      }
-    );
+    const accessToken = createJwt({ email });
 
     user.passwordResetToken = generateKey().toString();
 
@@ -216,7 +191,7 @@ const verifyTokenHandler = async (
   const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const decoded = validateJwt(accessToken);
     const user = await findUser({ email: decoded.email });
 
     if (!user) {
@@ -229,13 +204,7 @@ const verifyTokenHandler = async (
       return next(new BadRequest("Token is not valid"))
     }
 
-    const jwtTokenWithPasswordResetToken = jwt.sign(
-      { id: user.id, token: token },
-      secretToken,
-      {
-        expiresIn: "2h",
-      }
-    );
+    const jwtTokenWithPasswordResetToken = createJwt({ id: user.id, token: token });
 
     return res
       .status(200)
@@ -255,7 +224,7 @@ const resetPasswordHandler = async (
   const accessToken = req.headers.authorization as string;
   
   try {
-    const decoded = jwt.verify(accessToken, secretToken) as jwt.JwtPayload;
+    const decoded = validateJwt(accessToken);
     const user = await findUser({email: decoded.email});
 
     if (!user) {

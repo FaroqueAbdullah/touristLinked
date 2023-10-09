@@ -14,8 +14,7 @@ import {
 import 'dotenv/config';
 import { UserProfileInputType } from "../../schemas/profile.schema";
 import { BadRequest } from "../../utils/appError";
-
-const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
+import { validateJwt } from "../../utils/jwtToken";
 
 
 const createProfile =async (
@@ -25,7 +24,7 @@ const createProfile =async (
 ) => {
   const { userName, profileImage, bio, profession, address, country } = req.body
   const accessToken = req.headers.authorization as string;
-  const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
+  const jwtDecode = validateJwt(accessToken)
 
   const isValidRequest = req.params.userId == jwtDecode.id;
 
@@ -60,7 +59,7 @@ const getProfile =async (
   next: NextFunction
 ) => {
   const accessToken = req.headers.authorization as string;
-  const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
+  const jwtDecode = validateJwt(accessToken)
 
   const isValidRequest = req.params.userId == jwtDecode.id;
 
@@ -90,7 +89,7 @@ const updateProfile =async (
 ) => {
   const { userName, profileImage, bio, profession, address, country }  = req.body
   const accessToken = req.headers.authorization as string;
-  const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
+  const jwtDecode = validateJwt(accessToken)
 
   const isValidRequest = req.params.userId == jwtDecode.id;
 
@@ -127,7 +126,7 @@ const deleteProfile =async (
   next: NextFunction
 ) => {
   const accessToken = req.headers.authorization as string;
-  const jwtDecode = jwt.verify(accessToken, secretToken) as jwt.JwtPayload
+  const jwtDecode = validateJwt(accessToken)
 
   const isValidRequest = req.params.userId == jwtDecode.id;
 

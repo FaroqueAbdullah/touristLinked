@@ -9,18 +9,14 @@ const instance = axios.create({
   },
 });
 instance.interceptors.request.use(
-  // async (config: AxiosRequestConfig) => {
-  //   const token = tokenService.getLocalAccessToken();
-
-  //   if (token && ( config.headers !== undefined )) {
-  //     config.headers["Authorization"] = token;  
-  //   }
+  async (config: AxiosRequestConfig) => {
+    // update config here
   
-  //   return config;
-  // },
-  // (error) => {
-  //   return Promise.reject(error);
-  // }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 instance.interceptors.response.use(
   (res) => {
@@ -32,23 +28,25 @@ instance.interceptors.response.use(
   async (err) => {
     const originalConfig = err.config;
 
-    console.log('new error ', err)
+    if (err.response.status === 401) {
+      tokenService.removeLocalUser()
+    }
     
     // if (originalConfig.url !== "/auth/login" && err.response) {
-    //   // Access Token was expired
-    //   if (err.response.status === 401 && !originalConfig._retry) {
-    //     originalConfig._retry = true;
-    //     try {
-    //       const rs = await instance.post("/auth/refreshtoken", {
-    //         refreshToken: TokenService.getLocalRefreshToken(),
-    //       });
-    //       const { accessToken } = rs.data;
-    //       TokenService.updateLocalAccessToken(accessToken);
-    //       return instance(originalConfig);
-    //     } catch (_error) {
-    //       return Promise.reject(_error);
-    //     }
-    //   }
+      // Access Token was expired
+      // if (err.response.status === 401 && !originalConfig._retry) {
+      //   originalConfig._retry = true;
+      //   try {
+      //     const rs = await instance.post("/auth/refreshtoken", {
+      //       refreshToken: TokenService.getLocalRefreshToken(),
+      //     });
+      //     const { accessToken } = rs.data;
+      //     TokenService.updateLocalAccessToken(accessToken);
+      //     return instance(originalConfig);
+      //   } catch (_error) {
+      //     return Promise.reject(_error);
+      //   }
+      // }
     // }
     return Promise.reject(err.response.data);
   }

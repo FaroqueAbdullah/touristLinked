@@ -1,27 +1,12 @@
 class TokenService {
-  getLocalRefreshToken() {
-    const auth = JSON.parse(localStorage.getItem("auth") || '{}');
-    return auth?.data.refreshToken;
-  }
-
-  getLocalAccessToken() {
-    const auth = JSON.parse(localStorage.getItem("auth") || '{}');
-    return auth?.data.accessToken;
-  }
-  updateLocalAccessToken(token: string) {
-    let auth = JSON.parse(localStorage.getItem("auth") || '{}');
-    auth.accessToken = token;
-    localStorage.setItem("auth", JSON.stringify(auth));
-  }
-
   getLocalUserData() {
-    return JSON.parse(localStorage.getItem("auth") || '{}' );
+    return JSON.parse(localStorage.getItem("user") || '{}' );
   }
   setLocalUser(auth: object) {
-    localStorage.setItem("auth", JSON.stringify(auth));
+    localStorage.setItem("user", JSON.stringify(auth));
   }
   removeLocalUser() {
-    localStorage.removeItem("auth");
+    localStorage.removeItem("user");
   }
 }
 export default new TokenService();

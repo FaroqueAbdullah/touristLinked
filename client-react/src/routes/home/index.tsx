@@ -1,5 +1,5 @@
 import NavBar from '@/components/molecules/Navbar';
-import { ProtectedRoute } from '@/providers/protectedRoute';
+import { ProtectedRoute } from '@/wrapper/protectedRoute';
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 

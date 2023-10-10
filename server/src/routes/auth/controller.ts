@@ -26,6 +26,7 @@ import {
 } from "../../schemas/user.schema";
 import { BadRequest, NotFound } from "../../utils/appError";
 import { createJwt, validateJwt } from "../../utils/jwtToken";
+import { cookieSerialize } from "../../utils/cookies";
 
 
 const registerUserHandler = async (
@@ -56,7 +57,11 @@ const registerUserHandler = async (
 
     await sendAccountCreatedEmail(createdUser);
 
-    const accessToken = createJwt({ email })
+    const accessToken = createJwt({ email, id: createdUser.id })
+
+    const accessTokenCookie = cookieSerialize("access_token", accessToken)
+
+    res.setHeader('Set-Cookie', accessTokenCookie);
 
     return res
       .status(201)
@@ -75,7 +80,7 @@ const activateAccountHandler = async (
   const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded: jwt.JwtPayload = validateJwt(accessToken)
+    const decoded = validateJwt(accessToken)
 
     const user = await findUser({ email: decoded.email });
 
@@ -135,15 +140,19 @@ const loginHandler = async (
     }
   
     const accessToken = createJwt( { email, id: user.id } );
-  
-    const refreshToken = createJwt({ email });
+    const refreshToken = createJwt({ email, id: user.id });
+
+    const accessTokenCookie = cookieSerialize("access_token", accessToken)
+    const refreshTokenCookie = cookieSerialize("refresh_token", refreshToken)
+
+    res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
 
     const { passwordResetToken, passwordHash, isActive, accountActivationToken, createdAt, updatedAt, ...restData } = user;
   
     res.status(200).send({
       status: 'ok', 
       message: "User logged in successfully",
-      data: { user: restData, accessToken, refreshToken } 
+      data: { user: restData } 
     });
   } catch (error) {
     return next(error);
@@ -164,7 +173,10 @@ const forgotPasswordHandler = async (
       return next(new NotFound("User Not Found."))
     }
 
-    const accessToken = createJwt({ email });
+    const accessToken = createJwt({ email, id: user.id });
+
+    const accessTokenCookie = cookieSerialize("access_token", accessToken)
+    res.setHeader('Set-Cookie', accessTokenCookie);
 
     user.passwordResetToken = generateKey().toString();
 
@@ -175,7 +187,7 @@ const forgotPasswordHandler = async (
 
     return res
       .status(200)
-      .send({ status: "ok", data: { accessToken }, message: "Email sent successfully"});
+      .send({ status: "ok",  message: "Email sent successfully"});
   } catch (error) {
     return next(error);
   }
@@ -204,11 +216,14 @@ const verifyTokenHandler = async (
       return next(new BadRequest("Token is not valid"))
     }
 
-    const jwtTokenWithPasswordResetToken = createJwt({ id: user.id, token: token });
+    const jwtTokenWithPasswordResetToken = createJwt({ id: user.id, email: user.email });
+
+    const accessTokenCookie = cookieSerialize("access_token", jwtTokenWithPasswordResetToken)
+    res.setHeader('Set-Cookie', accessTokenCookie);
 
     return res
       .status(200)
-      .send({ status: "ok", data: { accessToken: jwtTokenWithPasswordResetToken }, message: "Token verified" });
+      .send({ status: "ok", message: "Token verified" });
     
   } catch (error) {
     return next(error);
@@ -230,11 +245,11 @@ const resetPasswordHandler = async (
     if (!user) {
       return next(new NotFound("User Not Found."))
     }
-    const tokenValid = decoded.token === user.passwordResetToken;
+    // const tokenValid = decoded.token === user.passwordResetToken;
     
-    if (tokenValid) {
-      return next(new BadRequest("Token is not valid"))
-    }
+    // if (tokenValid) {
+    //   return next(new BadRequest("Token is not valid"))
+    // }
 
     const passwordHash = await getPasswordHash(password);
     const passwordResetToken = null

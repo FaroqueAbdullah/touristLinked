@@ -15,15 +15,30 @@ import {
   resetPasswordHandler, 
   activateAccountHandler 
 } from "./controller";
+import authenticateRequest from "../../middleware/authenticate";
 
 const authRoute = express.Router();
 
 authRoute.post("/register", validate(registerUserSchema),registerUserHandler);
 authRoute.post("/login", validate(loginUserSchema), loginHandler);
 authRoute.post("/forgot-password", validate(forgotPasswordSchema), forgotPasswordHandler);
-authRoute.post("/verify-token", validate(tokenVerifyUserSchema), verifyTokenHandler);
-authRoute.post("/reset-password", validate(resetPasswordSchema), resetPasswordHandler);
-authRoute.post("/activate-account", validate(tokenVerifyUserSchema), activateAccountHandler);
+authRoute.post("/verify-token",
+  authenticateRequest,
+  validate(tokenVerifyUserSchema), 
+  verifyTokenHandler
+);
+authRoute.post(
+  "/reset-password", 
+  authenticateRequest,
+  validate(resetPasswordSchema), 
+  resetPasswordHandler
+);
+authRoute.post(
+  "/activate-account", 
+  authenticateRequest,
+  validate(tokenVerifyUserSchema), 
+  activateAccountHandler
+);
 
 const init = async (app: any) => {
   app.use("/api/auth", authRoute);

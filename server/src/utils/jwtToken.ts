@@ -2,9 +2,13 @@ import jwt from "jsonwebtoken";
 const secretToken = process.env.TOKEN_KEY ? process.env.TOKEN_KEY : '';
 
 const validateJwt = (jwtToken: string): jwt.JwtPayload => {
-  const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
 
-  return decoded
+  try {
+    const decoded = jwt.verify(jwtToken, secretToken) as jwt.JwtPayload;
+    return {...decoded, success: true}
+  } catch(error) {
+    return {success: false}
+  }
 }
 
 const createJwt = (data: object): string => {
@@ -12,7 +16,7 @@ const createJwt = (data: object): string => {
     data,
     secretToken,
     {
-      expiresIn: "2h",
+      expiresIn: "24h",
     }
   );
 

@@ -2,22 +2,29 @@ import { Request, Response, NextFunction, RequestHandler  } from "express";
 import jwt from "jsonwebtoken";
 import { UnauthorizedRequest } from "../utils/appError";
 import { validateJwt } from "../utils/jwtToken";
+import { cookiePerse } from "../utils/cookies";
 
 const authenticateRequest = async (req: Request, res: Response, next: NextFunction) => {
-  let accessToken = req.headers.authorization;
+  const cookies = req.headers.cookie || '';
+  const cookieParse = cookiePerse(cookies)
 
-  if (accessToken) {
-    const decode = validateJwt( accessToken) 
+  const { access_token } = cookieParse
 
-    if (!decode) {
-      return next(new UnauthorizedRequest("User token is not valid"))
-    } else {
-      req.log.info(`Authenticated user ${decode.email}`);
-      next();
-    }
-    ;
-  } else {
+  if (!access_token) {
     return next(new UnauthorizedRequest("User token is not provided")) 
+  }
+
+  const decode = validateJwt( access_token) 
+
+  console.log("decode ", decode)
+
+  if (decode.success) {
+    res.locals.email = decode.email; 
+    res.locals.id = decode.id; 
+    req.log.info(`Authenticated user ${decode.email}`);
+    return next();
+  } else {
+    return next(new UnauthorizedRequest("User token is not valid"))
   }
 };
 

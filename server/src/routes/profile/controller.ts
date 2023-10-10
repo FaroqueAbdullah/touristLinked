@@ -88,18 +88,15 @@ const updateProfile =async (
   next: NextFunction
 ) => {
   const { userName, profileImage, bio, profession, address, country }  = req.body
-  const accessToken = req.headers.authorization as string;
-  const jwtDecode = validateJwt(accessToken)
-
-  const isValidRequest = req.params.userId == jwtDecode.id;
-
+  
+  const isValidRequest = req.params.userId == res.locals.id;
   if (!isValidRequest) {
     return next(new BadRequest("Bad Request"))
   }
 
   try {
     const profile = await updateOrCreateUserProfile({ 
-      userId: jwtDecode.id
+      userId: res.locals.id
      },{
       userName,
       profileImage,
@@ -107,7 +104,7 @@ const updateProfile =async (
       profession,
       address,
       country,
-      userId: jwtDecode.id
+      userId: res.locals.id
     })
   
     return res.status(201).send({

@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express from 'express';
 import {
   forgotPasswordSchema,
   loginUserSchema,
@@ -45,9 +45,4 @@ authRoute.post(
   activateAccountHandler,
 );
 
-const init = async (app: Express) => {
-  app.use('/api/auth', authRoute);
-  return app;
-};
-
-export { init };
+export default authRoute;

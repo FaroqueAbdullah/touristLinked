@@ -9,14 +9,11 @@ const cookieSerialize = (cookieName: string, token: string) => {
   });
 
   return serialized;
-}
+};
 
 const cookiePerse = (value: string) => {
   const cookies = parse(value);
   return cookies;
-}
+};
 
-export {
-  cookieSerialize,
-  cookiePerse
-}
+export { cookieSerialize, cookiePerse };

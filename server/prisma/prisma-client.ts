@@ -6,18 +6,18 @@ const prisma = new PrismaClient({
     { level: 'info', emit: 'event' },
     { level: 'error', emit: 'event' },
   ],
-})
+});
 
 prisma.$on('warn', (e) => {
-  console.log(e)
-})
+  console.log(e);
+});
 
 prisma.$on('info', (e) => {
-  console.log(e)
-})
+  console.log(e);
+});
 
 prisma.$on('error', (e) => {
-  console.log(e)
-})
+  console.log(e);
+});
 
 export default prisma;

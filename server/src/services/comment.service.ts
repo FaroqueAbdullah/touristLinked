@@ -1,44 +1,38 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../prisma/prisma-client";
+import { Prisma } from '@prisma/client';
+import prisma from '../../prisma/prisma-client';
 
 const createComment = async (input: Prisma.CommentCreateInput) => {
-  return (await prisma.comment.create({
+  return await prisma.comment.create({
     data: input,
-  }))
-}
+  });
+};
 
-const findComment = async (
-  where: Prisma.CommentWhereUniqueInput
-) => {
-  return (await prisma.comment.findUnique({
-    where
-  }))
-}
+const findComment = async (where: Prisma.CommentWhereUniqueInput) => {
+  return await prisma.comment.findUnique({
+    where,
+  });
+};
 
-const findAllComment = async (
-  where: Prisma.CommentWhereUniqueInput
-) => {
-  return (await prisma.comment.findMany({
-    where
-  }))
-}
+const findAllComment = async (where: Prisma.CommentWhereUniqueInput) => {
+  return await prisma.comment.findMany({
+    where,
+  });
+};
 
 const updateComment = async (
   where: Prisma.CommentWhereUniqueInput,
-  data: Prisma.CommentUpdateInput
+  data: Prisma.CommentUpdateInput,
 ) => {
-  return (await prisma.comment.update({ 
-    where, 
-    data, 
-  }));
+  return await prisma.comment.update({
+    where,
+    data,
+  });
 };
 
-const deleteComment = async (
-  where: Prisma.CommentWhereUniqueInput
-) => {
-  return (await prisma.comment.delete({ 
-    where
-  }));
+const deleteComment = async (where: Prisma.CommentWhereUniqueInput) => {
+  return await prisma.comment.delete({
+    where,
+  });
 };
 
 export {
@@ -46,5 +40,5 @@ export {
   findComment,
   findAllComment,
   updateComment,
-  deleteComment
+  deleteComment,
 };

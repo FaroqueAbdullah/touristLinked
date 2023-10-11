@@ -5,8 +5,11 @@ export async function getPasswordHash(password: string) {
   return hash;
 }
 
-export async function matchPasswordHash(password:string, passwordHash: string) {
+export async function matchPasswordHash(
+  password: string,
+  passwordHash: string,
+) {
   const match = await bcrypt.compare(password, passwordHash);
 
-  return match
+  return match;
 }

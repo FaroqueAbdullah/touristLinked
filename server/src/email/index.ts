@@ -1,17 +1,24 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const SibApiV3Sdk = require('sib-api-v3-sdk');
-let defaultClient = SibApiV3Sdk.ApiClient.instance;
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
-let apiKey = defaultClient.authentications['api-key'];
-apiKey.apiKey = process.env.EMAIL_API ? process.env.EMAIL_API : "";
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.EMAIL_API ? process.env.EMAIL_API : '';
 
-let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
+interface UserEmailType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  accountActivationToken: string;
+  passwordResetToken: string;
+}
 
-const sendAccountCreatedEmail = ( user: any ) => {
-  console.log('fuck eml', apiKey.apiKey)
-  sendSmtpEmail.subject = "TouristLinked account approval";
+const sendAccountCreatedEmail = (user: UserEmailType) => {
+  sendSmtpEmail.subject = 'TouristLinked account approval';
   sendSmtpEmail.htmlContent = `
   <html>
     <body>
@@ -23,21 +30,34 @@ const sendAccountCreatedEmail = ( user: any ) => {
     </body>
   </html>
   `;
-  sendSmtpEmail.sender = {"name":"TouristLinked","email":"noreply@touristlinked.com"};
-  sendSmtpEmail.to = [{"email":user.email, "name": user.firstName + ' ' + user.lastName}];
-  sendSmtpEmail.headers = {"Some-Custom-Name":"unique-id-1234"};
-  sendSmtpEmail.params = {"parameter":"My param value","subject":"New Subject"};
+  sendSmtpEmail.sender = {
+    name: 'TouristLinked',
+    email: 'noreply@touristlinked.com',
+  };
+  sendSmtpEmail.to = [
+    { email: user.email, name: user.firstName + ' ' + user.lastName },
+  ];
+  sendSmtpEmail.headers = { 'Some-Custom-Name': 'unique-id-1234' };
+  sendSmtpEmail.params = {
+    parameter: 'My param value',
+    subject: 'New Subject',
+  };
 
-  apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data: any) {
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-  }, function(error: any) {
-    // console.log('Fucking email error')
-    console.error(error);
-  });
-}
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function (data: object) {
+      console.log(
+        'API called successfully. Returned data: ' + JSON.stringify(data),
+      );
+    },
+    function (error: Error) {
+      // console.log('Fucking email error')
+      console.error(error);
+    },
+  );
+};
 
-const sendPasswordResetEmail = ( user: any ) => {
-  sendSmtpEmail.subject = "TouristLinked account approval";
+const sendPasswordResetEmail = (user: UserEmailType) => {
+  sendSmtpEmail.subject = 'TouristLinked account approval';
   sendSmtpEmail.htmlContent = `
   <html>
     <body>
@@ -48,20 +68,33 @@ const sendPasswordResetEmail = ( user: any ) => {
     </body>
   </html>
   `;
-  sendSmtpEmail.sender = {"name":"TouristLinked","email":"noreply@touristlinked.com"};
-  sendSmtpEmail.to = [{"email":user.email, "name": user.firstName + ' ' + user.lastName}];
-  sendSmtpEmail.headers = {"Some-Custom-Name":"unique-id-1234"};
-  sendSmtpEmail.params = {"parameter":"My param value","subject":"New Subject"};
+  sendSmtpEmail.sender = {
+    name: 'TouristLinked',
+    email: 'noreply@touristlinked.com',
+  };
+  sendSmtpEmail.to = [
+    { email: user.email, name: user.firstName + ' ' + user.lastName },
+  ];
+  sendSmtpEmail.headers = { 'Some-Custom-Name': 'unique-id-1234' };
+  sendSmtpEmail.params = {
+    parameter: 'My param value',
+    subject: 'New Subject',
+  };
 
-  apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data: any) {
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-  }, function(error: any) {
-    console.error(error);
-  });
-}
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function (data: object) {
+      console.log(
+        'API called successfully. Returned data: ' + JSON.stringify(data),
+      );
+    },
+    function (error: Error) {
+      console.error(error);
+    },
+  );
+};
 
-const sendPasswordResetSuccessEmail = ( user: any ) => {
-  sendSmtpEmail.subject = "TouristLinked account approval";
+const sendPasswordResetSuccessEmail = (user: UserEmailType) => {
+  sendSmtpEmail.subject = 'TouristLinked account approval';
   sendSmtpEmail.htmlContent = `
   <html>
     <body>
@@ -71,21 +104,33 @@ const sendPasswordResetSuccessEmail = ( user: any ) => {
     </body>
   </html>
   `;
-  sendSmtpEmail.sender = {"name":"TouristLinked","email":"noreply@touristlinked.com"};
-  sendSmtpEmail.to = [{"email":user.email, "name": user.firstName + ' ' + user.lastName}];
-  sendSmtpEmail.headers = {"Some-Custom-Name":"unique-id-1234"};
-  sendSmtpEmail.params = {"parameter":"My param value","subject":"New Subject"};
+  sendSmtpEmail.sender = {
+    name: 'TouristLinked',
+    email: 'noreply@touristlinked.com',
+  };
+  sendSmtpEmail.to = [
+    { email: user.email, name: user.firstName + ' ' + user.lastName },
+  ];
+  sendSmtpEmail.headers = { 'Some-Custom-Name': 'unique-id-1234' };
+  sendSmtpEmail.params = {
+    parameter: 'My param value',
+    subject: 'New Subject',
+  };
 
-  apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data: any) {
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-  }, function(error: any) {
-    console.error(error);
-  });
-}
-
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function (data: object) {
+      console.log(
+        'API called successfully. Returned data: ' + JSON.stringify(data),
+      );
+    },
+    function (error: Error) {
+      console.error(error);
+    },
+  );
+};
 
 export {
   sendAccountCreatedEmail,
   sendPasswordResetEmail,
-  sendPasswordResetSuccessEmail
-}
+  sendPasswordResetSuccessEmail,
+};

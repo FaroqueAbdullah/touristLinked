@@ -1,30 +1,29 @@
-import { object, string, TypeOf, z } from 'zod';
-
+import { object, string, z } from 'zod';
 
 export const registerUserSchema = object({
   body: object({
     email: string({
-      required_error: "Email is required"
+      required_error: 'Email is required',
     }),
     firstName: string({
-      required_error: "first name is required"
+      required_error: 'first name is required',
     }),
     lastName: string({
-      required_error: "last name is required"
+      required_error: 'last name is required',
     }),
     phoneNumber: string({
-      required_error: "phone number is required"
+      required_error: 'phone number is required',
     }),
     password: string({
-      required_error: "password is required"
+      required_error: 'password is required',
     }),
     confirmPassword: string({
-      required_error: "confirm password is required"
-    })
-  }).refine(( data ) => data.password === data.confirmPassword, {
-    message: "Passwords don't match"
-  })
-})
+      required_error: 'confirm password is required',
+    }),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords dont match',
+  }),
+});
 
 export const loginUserSchema = object({
   body: object({
@@ -40,32 +39,38 @@ export const loginUserSchema = object({
 export const tokenVerifyUserSchema = object({
   body: object({
     token: string({
-      required_error: "Please provide token"
-    })
-  })
-})
+      required_error: 'Please provide token',
+    }),
+  }),
+});
 
 export const forgotPasswordSchema = object({
   body: object({
     email: string({
-      required_error: "Please provide email"
-    })
-  })
-})
+      required_error: 'Please provide email',
+    }),
+  }),
+});
 
 export const resetPasswordSchema = object({
   body: object({
     password: string({
-      required_error: "password is required"
+      required_error: 'password is required',
     }),
     confirmPassword: string({
-      required_error: "confirm password is required"
-    })
-  })
-})
+      required_error: 'confirm password is required',
+    }),
+  }),
+});
 
-export type RegisterUserInputType = z.infer< typeof registerUserSchema >["body"]
-export type LoginUserInputType = z.infer< typeof loginUserSchema >["body"]
-export type TokenVerifyUserInputType = z.infer< typeof tokenVerifyUserSchema >["body"]
-export type ForgotPasswordInputType = z.infer< typeof forgotPasswordSchema >["body"]
-export type ResetPasswordInputType = z.infer< typeof resetPasswordSchema >["body"]
+export type RegisterUserInputType = z.infer<typeof registerUserSchema>['body'];
+export type LoginUserInputType = z.infer<typeof loginUserSchema>['body'];
+export type TokenVerifyUserInputType = z.infer<
+  typeof tokenVerifyUserSchema
+>['body'];
+export type ForgotPasswordInputType = z.infer<
+  typeof forgotPasswordSchema
+>['body'];
+export type ResetPasswordInputType = z.infer<
+  typeof resetPasswordSchema
+>['body'];

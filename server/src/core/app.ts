@@ -10,15 +10,15 @@ import 'dotenv/config';
 const logger = ExpressPinoLogger({
   customLogLevel(res, err) {
     if (res.statusCode >= 400 && res.statusCode < 500) {
-      return "warn";
+      return 'warn';
     }
     if (res.statusCode >= 500 || err) {
-      return "error";
+      return 'error';
     }
     if (res.statusCode >= 300 && res.statusCode < 400) {
-      return "silent";
+      return 'silent';
     }
-    return "info";
+    return 'info';
   },
   serializers: {
     req: (req) => ({
@@ -27,8 +27,8 @@ const logger = ExpressPinoLogger({
       query: req.query,
       params: req.params,
       headers: {
-        "user-agent": req.headers["user-agent"],
-        "session-id": req.headers["session-id"] ?? "",
+        'user-agent': req.headers['user-agent'],
+        'session-id': req.headers['session-id'] ?? '',
         host: req.headers.host,
       },
       remoteAddress: req.remoteAddress,
@@ -37,7 +37,7 @@ const logger = ExpressPinoLogger({
       statusCode: res.statusCode,
       header: {
         date: res.headers.date,
-        "x-correlation-id": res.headers["x-correlation-id"],
+        'x-correlation-id': res.headers['x-correlation-id'],
       },
     }),
   },

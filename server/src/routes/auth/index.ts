@@ -1,47 +1,52 @@
-import  express from "express";
-import { 
-  forgotPasswordSchema, 
-  loginUserSchema, 
-  registerUserSchema, 
-  resetPasswordSchema, 
-  tokenVerifyUserSchema 
-} from "../../schemas/user.schema";
-import validate from "../../middleware/validate";
-import { 
-  registerUserHandler, 
-  loginHandler, 
-  forgotPasswordHandler, 
-  verifyTokenHandler, 
-  resetPasswordHandler, 
-  activateAccountHandler 
-} from "./controller";
-import authenticateRequest from "../../middleware/authenticate";
+import express, { Express } from 'express';
+import {
+  forgotPasswordSchema,
+  loginUserSchema,
+  registerUserSchema,
+  resetPasswordSchema,
+  tokenVerifyUserSchema,
+} from '../../schemas/user.schema';
+import validate from '../../middleware/validate';
+import {
+  registerUserHandler,
+  loginHandler,
+  forgotPasswordHandler,
+  verifyTokenHandler,
+  resetPasswordHandler,
+  activateAccountHandler,
+} from './controller';
+import authenticateRequest from '../../middleware/authenticate';
 
 const authRoute = express.Router();
 
-authRoute.post("/register", validate(registerUserSchema),registerUserHandler);
-authRoute.post("/login", validate(loginUserSchema), loginHandler);
-authRoute.post("/forgot-password", validate(forgotPasswordSchema), forgotPasswordHandler);
-authRoute.post("/verify-token",
-  authenticateRequest,
-  validate(tokenVerifyUserSchema), 
-  verifyTokenHandler
+authRoute.post('/register', validate(registerUserSchema), registerUserHandler);
+authRoute.post('/login', validate(loginUserSchema), loginHandler);
+authRoute.post(
+  '/forgot-password',
+  validate(forgotPasswordSchema),
+  forgotPasswordHandler,
 );
 authRoute.post(
-  "/reset-password", 
+  '/verify-token',
   authenticateRequest,
-  validate(resetPasswordSchema), 
-  resetPasswordHandler
+  validate(tokenVerifyUserSchema),
+  verifyTokenHandler,
 );
 authRoute.post(
-  "/activate-account", 
+  '/reset-password',
   authenticateRequest,
-  validate(tokenVerifyUserSchema), 
-  activateAccountHandler
+  validate(resetPasswordSchema),
+  resetPasswordHandler,
+);
+authRoute.post(
+  '/activate-account',
+  authenticateRequest,
+  validate(tokenVerifyUserSchema),
+  activateAccountHandler,
 );
 
-const init = async (app: any) => {
-  app.use("/api/auth", authRoute);
+const init = async (app: Express) => {
+  app.use('/api/auth', authRoute);
   return app;
 };
 

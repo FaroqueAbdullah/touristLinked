@@ -1,10 +1,9 @@
 {
-  "swaggerDefinition": {  
-    "info": {  
-        "title":"API Documentation",  
-        "version":"1.0.0"
-    }  
-  },  
-  "apis":["./index.js"]
+  "swaggerDefinition": {
+    "info": {
+      "title": "API Documentation",
+      "version": "1.0.0"
+    }
+  },
+  "apis": ["./index.js"]
 }
-

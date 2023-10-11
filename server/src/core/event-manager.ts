@@ -1,8 +1,8 @@
-import EventEmitter from "events";
+import EventEmitter from 'events';
 
 class EventManager {
-  static instance: any;
-  
+  static instance: NodeJS.EventEmitter;
+
   constructor() {
     if (!EventManager.instance) {
       EventManager.instance = new EventEmitter();
@@ -14,4 +14,6 @@ class EventManager {
   }
 }
 
-module.exports = new EventManager();
+const eventManager = new EventManager();
+
+export default eventManager;

@@ -14,7 +14,7 @@ class GeneralError extends Error {
 class BadRequest extends GeneralError {
   constructor(message: string) {
     super(message);
-    this.name = "BadRequest";
+    this.name = 'BadRequest';
   }
 
   getCode() {
@@ -25,7 +25,7 @@ class BadRequest extends GeneralError {
 class UnauthorizedRequest extends GeneralError {
   constructor(message: string) {
     super(message);
-    this.name = "BadRequest";
+    this.name = 'BadRequest';
   }
 
   getCode() {
@@ -36,7 +36,7 @@ class UnauthorizedRequest extends GeneralError {
 class ForbiddenRequest extends GeneralError {
   constructor(message: string) {
     super(message);
-    this.name = "BadRequest";
+    this.name = 'BadRequest';
   }
 
   getCode() {
@@ -47,7 +47,7 @@ class ForbiddenRequest extends GeneralError {
 class NotFound extends GeneralError {
   constructor(message: string) {
     super(message);
-    this.name = "NotFound";
+    this.name = 'NotFound';
   }
 
   getCode() {
@@ -58,7 +58,7 @@ class NotFound extends GeneralError {
 class ServerError extends GeneralError {
   constructor(message: string) {
     super(message);
-    this.name = "MongoError";
+    this.name = 'MongoError';
   }
 
   getCode() {
@@ -66,11 +66,11 @@ class ServerError extends GeneralError {
   }
 }
 
-export { 
-  GeneralError, 
+export {
+  GeneralError,
   BadRequest,
   UnauthorizedRequest,
   ForbiddenRequest,
-  NotFound, 
-  ServerError 
+  NotFound,
+  ServerError,
 };

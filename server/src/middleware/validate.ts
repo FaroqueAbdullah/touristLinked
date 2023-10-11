@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { AnyZodObject, ZodError } from 'zod';
 import { BadRequest } from '../utils/appError';
 
-const validate = (schema: AnyZodObject) =>
+const validate =
+  (schema: AnyZodObject) =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse({
@@ -14,7 +15,14 @@ const validate = (schema: AnyZodObject) =>
       return next();
     } catch (error) {
       if (error instanceof ZodError) {
-        return next(new BadRequest(error.errors[0].message +  (error.errors.length > 1 ? ` and ${error.errors.length} more error` : '' )))
+        return next(
+          new BadRequest(
+            error.errors[0].message +
+              (error.errors.length > 1
+                ? ` and ${error.errors.length} more error`
+                : ''),
+          ),
+        );
       }
     }
   };

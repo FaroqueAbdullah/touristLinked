@@ -1,8 +1,10 @@
-import authenticateRequest from "../../middleware/authenticate";
-import postRoute from "./controller";
+import authenticateRequest from '../../middleware/authenticate';
+import postRoute from './controller';
 
-const init = async (app: any) => {
-  app.use("/api/post", authenticateRequest, postRoute);
+import { Express } from 'express';
+
+const init = async (app: Express) => {
+  app.use('/api/post', authenticateRequest, postRoute);
   return app;
 };
 

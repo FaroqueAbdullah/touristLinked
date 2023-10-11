@@ -1,12 +1,10 @@
 /* eslint-disable global-require */
-import app from "./app";
-import logger from "./logger";
-import connectWithDb from "./db";
+import app from './app';
+import logger from './logger';
+import eventEmitter from './event-manager';
 
 const setup = async () => {
-  const eventEmitter = require("./event-manager").getInstance();
-  
-  return { app, eventEmitter, connectWithDb, logger };
+  return { app, eventEmitter, logger };
 };
 
 export { setup };

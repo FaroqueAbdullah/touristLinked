@@ -1,7 +1,9 @@
-import visitRoute from "./controller";
+import visitRoute from './controller';
 
-const init = async (app: any) => {
-  app.use("/api/visit", visitRoute);
+import { Express } from 'express';
+
+const init = async (app: Express) => {
+  app.use('/api/visit', visitRoute);
   return app;
 };
 

@@ -1,44 +1,46 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../prisma/prisma-client";
+import { Prisma } from '@prisma/client';
+import prisma from '../../prisma/prisma-client';
 
-const createVisitedCountry = async (input: Prisma.VisitedCountryCreateInput) => {
-  return (await prisma.visitedCountry.create({
+const createVisitedCountry = async (
+  input: Prisma.VisitedCountryCreateInput,
+) => {
+  return await prisma.visitedCountry.create({
     data: input,
-  }))
-}
+  });
+};
 
 const findVisitedCountry = async (
-  where: Prisma.VisitedCountryWhereUniqueInput
+  where: Prisma.VisitedCountryWhereUniqueInput,
 ) => {
-  return (await prisma.visitedCountry.findUnique({
-    where
-  }))
-}
+  return await prisma.visitedCountry.findUnique({
+    where,
+  });
+};
 
 const findAllVisitedCountry = async (
-  where: Prisma.VisitedCountryWhereUniqueInput
+  where: Prisma.VisitedCountryWhereUniqueInput,
 ) => {
-  return (await prisma.visitedCountry.findMany({
-    where
-  }))
-}
+  return await prisma.visitedCountry.findMany({
+    where,
+  });
+};
 
 const updateVisitedCountry = async (
   where: Prisma.VisitedCountryWhereUniqueInput,
-  data: Prisma.VisitedCountryUpdateInput
+  data: Prisma.VisitedCountryUpdateInput,
 ) => {
-  return (await prisma.visitedCountry.update({ 
-    where, 
-    data, 
-  }));
+  return await prisma.visitedCountry.update({
+    where,
+    data,
+  });
 };
 
 const deleteVisitedCountry = async (
-  where: Prisma.VisitedCountryWhereUniqueInput
+  where: Prisma.VisitedCountryWhereUniqueInput,
 ) => {
-  return (await prisma.visitedCountry.delete({ 
-    where
-  }));
+  return await prisma.visitedCountry.delete({
+    where,
+  });
 };
 
 export {
@@ -46,5 +48,5 @@ export {
   findVisitedCountry,
   findAllVisitedCountry,
   updateVisitedCountry,
-  deleteVisitedCountry
+  deleteVisitedCountry,
 };

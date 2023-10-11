@@ -1,10 +1,9 @@
-import { number, object, string, TypeOf, z } from 'zod';
-
+import { number, object, string, z } from 'zod';
 
 export const userProfileSchema = object({
   body: object({
     userName: string({
-      required_error: "user name is required"
+      required_error: 'user name is required',
     }),
     profileImage: string(),
     bio: string(),
@@ -12,7 +11,7 @@ export const userProfileSchema = object({
     address: string(),
     country: string(),
     userId: number(),
-  })
-})
+  }),
+});
 
-export type UserProfileInputType = z.infer< typeof userProfileSchema >["body"]
+export type UserProfileInputType = z.infer<typeof userProfileSchema>['body'];

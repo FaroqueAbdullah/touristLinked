@@ -1,5 +1,5 @@
 import fs from 'fs';
-import  { Express } from "express";
+import { Express } from 'express';
 
 const init = async (app: Express) => {
   const rootPath = __dirname;
@@ -14,9 +14,9 @@ const init = async (app: Express) => {
           await module.init(app);
         }
       }
-    })
+    }),
   );
   return app;
 };
 
-export  { init };
+export { init };

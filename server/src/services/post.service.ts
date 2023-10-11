@@ -1,44 +1,38 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../prisma/prisma-client";
+import { Prisma } from '@prisma/client';
+import prisma from '../../prisma/prisma-client';
 
 const createUserPost = async (input: Prisma.PostCreateInput) => {
-  return (await prisma.post.create({
+  return await prisma.post.create({
     data: input,
-  }))
-}
+  });
+};
 
-const findUserPost = async (
-  where: Prisma.PostWhereUniqueInput
-) => {
-  return (await prisma.post.findUnique({
-    where
-  }))
-}
+const findUserPost = async (where: Prisma.PostWhereUniqueInput) => {
+  return await prisma.post.findUnique({
+    where,
+  });
+};
 
-const findUserAllPost = async (
-  where: Prisma.PostWhereUniqueInput
-) => {
-  return (await prisma.post.findMany({
-    where
-  }))
-}
+const findUserAllPost = async (where: Prisma.PostWhereUniqueInput) => {
+  return await prisma.post.findMany({
+    where,
+  });
+};
 
 const updateUserPost = async (
   where: Prisma.PostWhereUniqueInput,
-  data: Prisma.PostUpdateInput
+  data: Prisma.PostUpdateInput,
 ) => {
-  return (await prisma.post.update({ 
-    where, 
-    data, 
-  }));
+  return await prisma.post.update({
+    where,
+    data,
+  });
 };
 
-const deleteUserPost = async (
-  where: Prisma.PostWhereUniqueInput
-) => {
-  return (await prisma.post.delete({ 
-    where
-  }));
+const deleteUserPost = async (where: Prisma.PostWhereUniqueInput) => {
+  return await prisma.post.delete({
+    where,
+  });
 };
 
 export {
@@ -46,5 +40,5 @@ export {
   findUserPost,
   findUserAllPost,
   updateUserPost,
-  deleteUserPost
+  deleteUserPost,
 };

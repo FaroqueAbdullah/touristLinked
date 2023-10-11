@@ -1,8 +1,10 @@
-import authenticateRequest from "../../middleware/authenticate";
-import eventRoute from "./controller";
+import { Express } from 'express';
 
-const init = async (app: any) => {
-  app.use("/api/event", authenticateRequest, eventRoute);
+import authenticateRequest from '../../middleware/authenticate';
+import eventRoute from './controller';
+
+const init = async (app: Express) => {
+  app.use('/api/event', authenticateRequest, eventRoute);
   return app;
 };
 

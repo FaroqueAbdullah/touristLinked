@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction, RequestHandler  } from "express";
-import {  GeneralError  } from "../utils/appError";
+import { Request, Response, NextFunction } from 'express';
+import { GeneralError } from '../utils/appError';
 
-const handleError = async (err: any, req: Request, res: Response, next: NextFunction) => {
-
+const handleError = async (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (res?.headersSent) {
     return next(err);
   }
@@ -12,14 +16,14 @@ const handleError = async (err: any, req: Request, res: Response, next: NextFunc
     code = err.getCode();
   }
 
-  const correlationId = req?.headers["x-correlation-id"];
-  req.log.error(err, { correlationId });
+  // const correlationId = req?.headers['x-correlation-id'];
+  // req.log.error(err, { correlationId });
 
   return (
     res &&
     res.status(code).send({
-      status: "error",
-      message: err.message
+      status: 'error',
+      message: err.message,
     })
   );
 };

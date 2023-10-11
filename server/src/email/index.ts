@@ -10,11 +10,17 @@ const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 interface UserEmailType {
+  id: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  accountActivationToken: string;
-  passwordResetToken: string;
+  phoneNumber: string | null;
+  passwordResetToken: string | null;
+  passwordHash: string;
+  isActive: boolean;
+  accountActivationToken: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const sendAccountCreatedEmail = (user: UserEmailType) => {

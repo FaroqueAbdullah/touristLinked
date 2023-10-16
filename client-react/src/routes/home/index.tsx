@@ -1,7 +1,11 @@
 import NavBar from '@/components/molecules/Navbar';
+import MainLayout from '@/layout/MainLayout';
 import { ProtectedRoute } from '@/wrapper/protectedRoute';
+import Box from '@mui/material/Box/Box';
+import Container from '@mui/material/Container';
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import Dashboard from './dashboard';
 
 const PageNotFound = () => {
   return <div>Page Not Found</div>;
@@ -9,10 +13,14 @@ const PageNotFound = () => {
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <NavBar />
-      <Outlet />
-    </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
+      </Suspense>
+    </>
   );
 };
 
@@ -23,7 +31,7 @@ export const homeRoutes = [
       <App />
     </ProtectedRoute>,
     children: [
-      { path: '/', element: <div>home</div> },
+      { path: '/', element: <Dashboard /> },
       { path: '/*', element: <PageNotFound /> },
     ],
   },

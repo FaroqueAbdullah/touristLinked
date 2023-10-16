@@ -39,5 +39,13 @@ export const typography = {
   p: {
     fontFamily: ["Roboto", "sans-serif"].join(","),
     fontSize: 12
+  },
+  subtitle1: {
+    fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontSize: 20
+  },
+  subtitle2: {
+    fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontSize: 16
   }
 }

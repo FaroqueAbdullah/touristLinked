@@ -42,7 +42,7 @@ const NavBar = () => {
   };
 
   return (
-    <CustomAppBar position="static">
+    <CustomAppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{
           display: 'flex',

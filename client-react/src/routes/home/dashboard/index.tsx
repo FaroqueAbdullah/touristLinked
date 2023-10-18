@@ -17,6 +17,8 @@ const Dashboard = () => {
       </Grid>
       <Grid item xs={3}>
         <EventCard />
+        <EventCard />
+        <EventCard />
       </Grid>
     </Grid>
   )

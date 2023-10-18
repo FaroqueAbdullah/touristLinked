@@ -1,45 +1,33 @@
-import { styled } from '@mui/material/styles';
+import * as React from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
-import CardContent from '@mui/material/CardContent/CardContent';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import { Typography } from '../atoms';
-import Stack from '@mui/material/Stack/Stack';
+import Button from '@mui/material/Button/Button';
 
-
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-//   marginLeft: 'auto',
-//   transition: theme.transitions.create('transform', {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
-
-export default function EventCard() {
-
-
+export default function OutlinedCard() {
   return (
     <Card sx={{ marginBottom: "1rem", padding:".5rem 0" }}>
-      <Stack spacing={2}>
-        <Typography>
-          New Events
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Safe Travel
         </Typography>
-        <Typography>
-          New Events
+        <Typography variant="h5" component="div">
+          Saint Martin Tour
         </Typography>
-        <Typography>
-          New Events
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          5 days 4 night
         </Typography>
-      </Stack>
+        <Typography variant="body2">
+          well meaning and kindly.
+          <br />
+          {'"a benevolent smile"'}
+        </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size="small">Learn More</Button>
+    </CardActions>
     </Card>
   );
 }

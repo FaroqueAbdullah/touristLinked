@@ -35,11 +35,11 @@ export const useAuth = () => {
     }
   };
 
-  console.log('use auth init')
+  // console.log('use auth init')
 
-  useEffect(() => {
-    console.log('use auth')
-  }, []);
+  // useEffect(() => {
+  //   console.log('use auth')
+  // }, []);
 
   return {
     user,

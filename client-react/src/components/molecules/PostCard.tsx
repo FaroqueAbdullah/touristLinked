@@ -31,7 +31,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function     PostCard() {
+export default function PostCard() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {

@@ -1,16 +1,22 @@
+import { useEffect, useState } from "react";
 
-
-// This function takes a component...
-function withTimeLine(WrappedComponent: React.ComponentType, url: string) {
-  // ...and returns another component...
-  return (props: object) => {
-
-
-
-    return (
-       <WrappedComponent {...props} />
-    )
-  }
+interface VisibilityProps {
+  data: object[]
 }
 
-export default withTimeLine;
+// This function takes a component...
+function withTimeLineData<P>(
+  WrappedComponent: React.ComponentType<P>, 
+) {
+  
+
+  const ComponentWithTimeline = (props: P & VisibilityProps) => {
+    const data = [{name: "faroque"}]
+    return <WrappedComponent  {...props} data={data}/>
+  }
+
+  return ComponentWithTimeline
+  
+}
+
+export default withTimeLineData;

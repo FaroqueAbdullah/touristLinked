@@ -5,20 +5,15 @@ import withTimeLine from "@/hoc/withTimeLine";
 import Grid from "@mui/material/Grid";
 
 
-const PostTimeline = (data: any) => {
-  console.log("PostTimeline ", data)
+const PostTimeline = withTimeLine((data: any) => {
   return <PostCard />
-}
-
-const CreatePostTimeLine = withTimeLine(PostTimeline)
+})
 
 
-const EventTimeline = (data: any) => {
-  console.log("PostTimeline ", data)
+const EventTimeline = withTimeLine((data: any) => {
   return <EventCard />
-}
+})
 
-const CreateEventTimeLine = withTimeLine(EventTimeline)
 
 const Dashboard = () => {
 
@@ -28,10 +23,10 @@ const Dashboard = () => {
         <ProfileCard />
       </Grid>
       <Grid item xs={6}>
-        <CreatePostTimeLine />
+        <PostTimeline />
       </Grid>
       <Grid item xs={3}>
-        <CreateEventTimeLine />
+        <EventTimeline />
       </Grid>
     </Grid>
   )

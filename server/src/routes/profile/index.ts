@@ -1,5 +1,4 @@
-import express, { Express } from 'express';
-import authenticateRequest from '../../middleware/authenticate';
+import express from 'express';
 import {
   createProfile,
   deleteProfile,
@@ -14,9 +13,4 @@ profileRoute.get('/:userId/get', getProfile);
 profileRoute.put('/:userId/update', updateProfile);
 profileRoute.delete('/:userId/delete', deleteProfile);
 
-const init = async (app: Express) => {
-  app.use('/api/profile', authenticateRequest, profileRoute);
-  return app;
-};
-
-export { init };
+export default profileRoute;

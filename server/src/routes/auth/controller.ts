@@ -17,7 +17,7 @@ import {
   TokenVerifyUserInputType,
 } from '../../schemas/user.schema';
 import { BadRequest, NotFound } from '../../utils/appError';
-import { createJwt, validateJwt } from '../../utils/jwtToken';
+import { createJwt } from '../../utils/jwtToken';
 import { cookieSerialize } from '../../utils/cookies';
 
 const registerUserHandler = async (
@@ -71,12 +71,9 @@ const activateAccountHandler = async (
   next: NextFunction,
 ) => {
   const { token } = req.body;
-  const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded = validateJwt(accessToken);
-
-    const user = await findUser({ email: decoded.email });
+    const user = await findUser({ email: res.locals.id });
 
     if (!user) {
       return next(new NotFound('User Not Found.'));
@@ -193,11 +190,9 @@ const verifyTokenHandler = async (
   next: NextFunction,
 ) => {
   const { token } = req.body;
-  const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded = validateJwt(accessToken);
-    const user = await findUser({ email: decoded.email });
+    const user = await findUser({ email: res.locals.id });
 
     if (!user) {
       return next(new NotFound('User Not Found.'));
@@ -232,11 +227,9 @@ const resetPasswordHandler = async (
   next: NextFunction,
 ) => {
   const { password } = req.body;
-  const accessToken = req.headers.authorization as string;
 
   try {
-    const decoded = validateJwt(accessToken);
-    const user = await findUser({ email: decoded.email });
+    const user = await findUser({ email: res.locals.id });
 
     if (!user) {
       return next(new NotFound('User Not Found.'));

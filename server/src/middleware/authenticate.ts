@@ -19,8 +19,6 @@ const authenticateRequest = async (
 
   const decode = validateJwt(access_token);
 
-  console.log('decode ', decode);
-
   if (decode.success) {
     res.locals.email = decode.email;
     res.locals.id = decode.id;

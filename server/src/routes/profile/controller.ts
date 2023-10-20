@@ -9,7 +9,6 @@ import {
 import 'dotenv/config';
 import { UserProfileInputType } from '../../schemas/profile.schema';
 import { BadRequest } from '../../utils/appError';
-import { validateJwt } from '../../utils/jwtToken';
 
 const createProfile = async (
   req: Request<{ userId: string }, object, UserProfileInputType>,
@@ -18,10 +17,8 @@ const createProfile = async (
 ) => {
   const { userName, profileImage, bio, profession, address, country } =
     req.body;
-  const accessToken = req.headers.authorization as string;
-  const jwtDecode = validateJwt(accessToken);
 
-  const isValidRequest = req.params.userId == jwtDecode.id;
+  const isValidRequest = req.params.userId == res.locals.id;
 
   if (!isValidRequest) {
     return next(new BadRequest('Bad Request'));
@@ -35,7 +32,7 @@ const createProfile = async (
       profession,
       address,
       country,
-      userId: jwtDecode.id,
+      userId: res.locals.id,
     });
 
     return res.status(201).send({
@@ -53,10 +50,7 @@ const getProfile = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const accessToken = req.headers.authorization as string;
-  const jwtDecode = validateJwt(accessToken);
-
-  const isValidRequest = req.params.userId == jwtDecode.id;
+  const isValidRequest = req.params.userId == res.locals.id;
 
   if (!isValidRequest) {
     return next(new BadRequest('Bad Request'));
@@ -64,7 +58,7 @@ const getProfile = async (
 
   try {
     const profile = await findUserProfile({
-      userId: jwtDecode.id,
+      userId: res.locals.id,
     });
 
     return res.status(201).send({
@@ -121,17 +115,14 @@ const deleteProfile = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const accessToken = req.headers.authorization as string;
-  const jwtDecode = validateJwt(accessToken);
-
-  const isValidRequest = req.params.userId == jwtDecode.id;
+  const isValidRequest = req.params.userId == res.locals.id;
 
   if (!isValidRequest) {
     return next(new BadRequest('Bad Request'));
   }
 
   try {
-    await deleteUserProfile({ id: jwtDecode.id });
+    await deleteUserProfile({ id: res.locals.id });
 
     return res.status(201).send({
       status: 'ok',

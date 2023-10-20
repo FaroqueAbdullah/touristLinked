@@ -1,11 +1,35 @@
+import express from 'express';
 import authenticateRequest from '../../middleware/authenticate';
-import postRoute from './controller';
+import {
+  createPost,
+  getAllPosts,
+  getPost,
+  updatePost,
+  deletePost,
+} from './controller';
+import ValidateRequestId from '../../middleware/validateId';
 
-import { Express } from 'express';
+const postRoute = express.Router();
 
-const init = async (app: Express) => {
-  app.use('/api/post', authenticateRequest, postRoute);
-  return app;
-};
+postRoute.post(
+  '/:userId/create',
+  authenticateRequest,
+  ValidateRequestId,
+  createPost,
+);
+postRoute.get('/:userId/getall', getAllPosts);
+postRoute.get('/:userId/:postId/get', getPost);
+postRoute.put(
+  '/:userId/:postId/update',
+  authenticateRequest,
+  ValidateRequestId,
+  updatePost,
+);
+postRoute.delete(
+  '/:userId/:postId/delete',
+  authenticateRequest,
+  ValidateRequestId,
+  deletePost,
+);
 
-export { init };
+export default postRoute;

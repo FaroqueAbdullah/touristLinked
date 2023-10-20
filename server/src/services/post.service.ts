@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import prisma from '../../prisma/prisma-client';
 
-const createUserPost = async (input: Prisma.PostCreateInput) => {
+const createUserPost = async (input: Prisma.PostUncheckedCreateInput) => {
   return await prisma.post.create({
     data: input,
   });
@@ -13,7 +13,7 @@ const findUserPost = async (where: Prisma.PostWhereUniqueInput) => {
   });
 };
 
-const findUserAllPost = async (where: Prisma.PostWhereUniqueInput) => {
+const findUserAllPost = async (where: Prisma.PostWhereInput) => {
   return await prisma.post.findMany({
     where,
   });

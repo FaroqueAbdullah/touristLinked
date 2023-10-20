@@ -1,28 +1,118 @@
-import express, { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-import 'dotenv/config';
+import { PostInputType } from '../../schemas/post.schema';
+import {
+  createUserPost,
+  deleteUserPost,
+  findUserAllPost,
+  findUserPost,
+  updateUserPost,
+} from '../../services/post.service';
 
-const postRoute = express.Router();
+const createPost = async (
+  req: Request<{ userId: string }, object, PostInputType>,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { content, image, authorId } = req.body;
 
-const createPost = async (req: Request, res: Response) => {
-  return res.status(201).send({
-    status: 'ok',
-    message: 'Post created Succesfully',
-  });
+  try {
+    await createUserPost({
+      content,
+      image,
+      authorId,
+    });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Post created Succesfully',
+    });
+  } catch (error) {
+    return next(error);
+  }
 };
 
-const getAllPosts = async () => {};
+const getAllPosts = async (
+  req: Request<{ userId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const authorId = parseInt(req.params.userId);
+    const posts = await findUserAllPost({ authorId });
 
-const getPost = async () => {};
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User posts ',
+      data: { ...posts },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
-const updatePost = async () => {};
+const getPost = async (
+  req: Request<{ userId: string; postId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.postId);
+    const posts = await findUserPost({ id });
 
-const deletePost = async () => {};
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User posts ',
+      data: { ...posts },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
-postRoute.post('/:userId/create', createPost);
-postRoute.get('/:userId/getall', getAllPosts);
-postRoute.get('/:userId/:postId/get', getPost);
-postRoute.put('/:userId/:postId/update', updatePost);
-postRoute.delete('/:userId/:postId/delete', deletePost);
+const updatePost = async (
+  req: Request<{ userId: string; postId: string }, object, PostInputType>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { content, image } = req.body;
 
-export default postRoute;
+    const id = parseInt(req.params.postId);
+    const post = await updateUserPost(
+      { id },
+      {
+        content,
+        image,
+      },
+    );
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Post updated successfully ',
+      data: { ...post },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deletePost = async (
+  req: Request<{ userId: string; postId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.postId);
+    await deleteUserPost({ id });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Post deleted successfully ',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export { createPost, getAllPosts, getPost, updatePost, deletePost };

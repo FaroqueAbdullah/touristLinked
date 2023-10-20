@@ -8,7 +8,6 @@ import {
 
 import 'dotenv/config';
 import { UserProfileInputType } from '../../schemas/profile.schema';
-import { BadRequest } from '../../utils/appError';
 
 const createProfile = async (
   req: Request<{ userId: string }, object, UserProfileInputType>,
@@ -17,12 +16,6 @@ const createProfile = async (
 ) => {
   const { userName, profileImage, bio, profession, address, country } =
     req.body;
-
-  const isValidRequest = req.params.userId == res.locals.id;
-
-  if (!isValidRequest) {
-    return next(new BadRequest('Bad Request'));
-  }
 
   try {
     const profile = await createUserProfile({
@@ -50,15 +43,10 @@ const getProfile = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const isValidRequest = req.params.userId == res.locals.id;
-
-  if (!isValidRequest) {
-    return next(new BadRequest('Bad Request'));
-  }
-
+  const userId = parseInt(req.params.userId);
   try {
     const profile = await findUserProfile({
-      userId: res.locals.id,
+      userId,
     });
 
     return res.status(201).send({
@@ -78,11 +66,6 @@ const updateProfile = async (
 ) => {
   const { userName, profileImage, bio, profession, address, country } =
     req.body;
-
-  const isValidRequest = req.params.userId == res.locals.id;
-  if (!isValidRequest) {
-    return next(new BadRequest('Bad Request'));
-  }
 
   try {
     const profile = await updateOrCreateUserProfile(
@@ -115,12 +98,6 @@ const deleteProfile = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const isValidRequest = req.params.userId == res.locals.id;
-
-  if (!isValidRequest) {
-    return next(new BadRequest('Bad Request'));
-  }
-
   try {
     await deleteUserProfile({ id: res.locals.id });
 

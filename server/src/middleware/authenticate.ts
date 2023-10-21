@@ -22,6 +22,7 @@ const authenticateRequest = async (
   if (decode.success) {
     res.locals.email = decode.email;
     res.locals.id = decode.id;
+    res.locals.profileId = decode.profileId;
     req.log.info(`Authenticated user ${decode.email}`);
     return next();
   } else {

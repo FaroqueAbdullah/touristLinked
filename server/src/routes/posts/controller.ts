@@ -10,17 +10,17 @@ import {
 } from '../../services/post.service';
 
 const createPost = async (
-  req: Request<{ userId: string }, object, PostInputType>,
+  req: Request<{ profileId: string }, object, PostInputType>,
   res: Response,
   next: NextFunction,
 ) => {
-  const { content, image, authorId } = req.body;
+  const { content, image } = req.body;
 
   try {
     await createUserPost({
       content,
       image,
-      authorId,
+      authorId: res.locals.profileId,
     });
 
     return res.status(201).send({

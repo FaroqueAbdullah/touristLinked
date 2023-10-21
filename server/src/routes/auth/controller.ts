@@ -19,6 +19,7 @@ import {
 import { BadRequest, NotFound } from '../../utils/appError';
 import { createJwt } from '../../utils/jwtToken';
 import { cookieSerialize } from '../../utils/cookies';
+import { findUserProfile } from '../../services/profile.service';
 
 const registerUserHandler = async (
   req: Request<object, object, RegisterUserInputType>,
@@ -124,8 +125,25 @@ const loginHandler = async (
       return next(new BadRequest('Invalid Credentials'));
     }
 
-    const accessToken = createJwt({ email, id: user.id });
-    const refreshToken = createJwt({ email, id: user.id });
+    const profile = await findUserProfile({
+      userId: user.id,
+    });
+
+    if (!profile) {
+      return next(new NotFound('Profile Not Found'));
+    }
+
+    const accessToken = createJwt({
+      email,
+      id: user.id,
+      profileId: profile.id,
+    });
+
+    const refreshToken = createJwt({
+      email,
+      id: user.id,
+      profileId: profile.id,
+    });
 
     const accessTokenCookie = cookieSerialize('access_token', accessToken);
     const refreshTokenCookie = cookieSerialize('refresh_token', refreshToken);

@@ -7,28 +7,29 @@ import {
   updatePost,
   deletePost,
 } from './controller';
-import ValidateRequestId from '../../middleware/validateId';
+
+import ValidateProfileAccess from '../../middleware/validateProfileAccess';
 
 const postRoute = express.Router();
 
 postRoute.post(
-  '/:userId/create',
+  '/:profileId/create',
   authenticateRequest,
-  ValidateRequestId,
+  ValidateProfileAccess,
   createPost,
 );
-postRoute.get('/:userId/getall', getAllPosts);
-postRoute.get('/:userId/:postId/get', getPost);
+postRoute.get('/:profileId/getall', getAllPosts);
+postRoute.get('/:profileId/:postId/get', getPost);
 postRoute.put(
-  '/:userId/:postId/update',
+  '/:profileId/:postId/update',
   authenticateRequest,
-  ValidateRequestId,
+  ValidateProfileAccess,
   updatePost,
 );
 postRoute.delete(
-  '/:userId/:postId/delete',
+  '/:profileId/:postId/delete',
   authenticateRequest,
-  ValidateRequestId,
+  ValidateProfileAccess,
   deletePost,
 );
 

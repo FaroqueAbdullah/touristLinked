@@ -4,17 +4,24 @@ import { typography } from '@/utils/typography';
 import { createTheme } from '@mui/material/styles';
 import { useMemo, useState } from 'react';
 
+import themeStorageService from '@/services/storage/theme';
+
 const themeSettings = (mode: string) => ({
   ...(mode === 'dark' ? darkThemeColors : lightThemeColors),
 });
 
 const useMode = () => {
-  const [mode, setMode] = useState<string>('light');
+  const [mode, setMode] = useState(() => {
+    const colorMode = themeStorageService.getThemeData()
+    return colorMode ? colorMode : 'light'
+  });
 
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+        const updatedMode = mode === 'dark' ? 'light' : 'dark'
+        setMode(updatedMode);
+        themeStorageService.setThemeUser(updatedMode)
       },
     }),
     []

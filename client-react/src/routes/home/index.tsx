@@ -1,6 +1,4 @@
-import NavBar from '@/components/molecules/Navbar';
 import MainLayout from '@/layout/MainLayout';
-import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Dashboard from './dashboard';
 import withProtectedRoute from '@/hoc/withProtectedRoute';
@@ -11,14 +9,9 @@ const PageNotFound = () => {
 
 const App = withProtectedRoute(() => {
   return (
-    <>
-      <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <MainLayout>
-          <Outlet />
-        </MainLayout>
-      </Suspense>
-    </>
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
   );
 });
 

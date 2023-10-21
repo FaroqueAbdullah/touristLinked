@@ -1,11 +1,12 @@
-import { lazy, Suspense } from 'react';
+import MainLayout from '@/layout/MainLayout';
 import { Outlet } from 'react-router-dom';
+import ProfileView from './ProfileView';
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <MainLayout>
       <Outlet />
-    </Suspense>
+    </MainLayout>
   );
 };
 
@@ -14,7 +15,7 @@ export const profileRoutes = [
     path: '/profile',
     element: <App />,
     children: [
-      { path: '/profile/:id', element: <div>profile</div> },
+      { path: '/profile/:id', element: <ProfileView /> },
     ],
   },
 ];

@@ -16,11 +16,13 @@ const createPost = async (
 ) => {
   const { content, image } = req.body;
 
+  const authorId = parseInt(req.params.profileId);
+
   try {
     await createUserPost({
       content,
       image,
-      authorId: res.locals.profileId,
+      authorId,
     });
 
     return res.status(201).send({
@@ -33,12 +35,13 @@ const createPost = async (
 };
 
 const getAllPosts = async (
-  req: Request<{ userId: string }, object, null>,
+  req: Request<{ profileId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const authorId = parseInt(req.params.userId);
+    const authorId = parseInt(req.params.profileId);
+
     const posts = await findUserAllPost({ authorId });
 
     return res.status(201).send({
@@ -52,7 +55,7 @@ const getAllPosts = async (
 };
 
 const getPost = async (
-  req: Request<{ userId: string; postId: string }, object, null>,
+  req: Request<{ profileId: string; postId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -71,7 +74,7 @@ const getPost = async (
 };
 
 const updatePost = async (
-  req: Request<{ userId: string; postId: string }, object, PostInputType>,
+  req: Request<{ profileId: string; postId: string }, object, PostInputType>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -98,7 +101,7 @@ const updatePost = async (
 };
 
 const deletePost = async (
-  req: Request<{ userId: string; postId: string }, object, null>,
+  req: Request<{ profileId: string; postId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {

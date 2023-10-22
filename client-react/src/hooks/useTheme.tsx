@@ -2,7 +2,7 @@ import breakpoints from '@/utils/breakpoint';
 import { darkThemeColors, lightThemeColors } from '@/utils/color';
 import { typography } from '@/utils/typography';
 import { createTheme } from '@mui/material/styles';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import themeStorageService from '@/services/storage/theme';
 
@@ -19,13 +19,15 @@ const useMode = () => {
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        const updatedMode = mode === 'dark' ? 'light' : 'dark'
-        setMode(updatedMode);
-        themeStorageService.setThemeUser(updatedMode)
+        setMode(( prev) => prev === 'light' ? 'dark' : 'light');
       },
     }),
     []
   );
+
+  useEffect(() => {
+    themeStorageService.setThemeUser(mode)
+  }, [mode])
 
   const theme = useMemo(
     () =>

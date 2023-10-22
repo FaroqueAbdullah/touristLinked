@@ -15,7 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ColorModeContext from '@/context/colorContext';
 import { styled } from '@mui/material/styles';
 import BrandLogo from '../atoms/Logo';
-import { ColorMode } from '../atoms';
+import Badge from '@mui/material/Badge';
+import { MailIcon, WbSunnyIcon } from '../icons';
 
 const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
   background: theme.palette.background.paper,
@@ -51,13 +52,20 @@ const NavBar = () => {
           <BrandLogo />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Dark mode">
-              <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
-                <ColorMode  />
+              <IconButton onClick={toggleTheme} sx={{ paddingLeft: "10px" }}>
+                <WbSunnyIcon  />
               </IconButton>
+            </Tooltip>
+            <Tooltip title="Notification">
+              <IconButton onClick={handleOpenUserMenu} sx={{ paddingLeft: "10px" }}>
+              <Badge badgeContent={4} color="primary">
+                <MailIcon color="action" />
+              </Badge>
+            </IconButton>
             </Tooltip>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ paddingLeft: "10px" }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="" sx={{ width: 24, height: 24 }}/>
               </IconButton>
             </Tooltip>
             <Menu

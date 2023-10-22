@@ -39,7 +39,7 @@ const useMode = () => {
     [mode]
   );
 
-  return { theme, colorMode };
+  return { mode, theme, colorMode };
 };
 
 export default useMode;

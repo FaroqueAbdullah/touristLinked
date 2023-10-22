@@ -1,12 +1,9 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import { Button, TextField } from '../atoms';
-import CardContent from '@mui/material/CardContent/CardContent';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack/Stack';
-
-
-
+import Grid from '@mui/material/Grid/Grid';
 
 
 export default function CreatePostCard() {
@@ -23,12 +20,16 @@ export default function CreatePostCard() {
           spacing={2}
         >
           <TextField
-          multiline
-          rows={3}
-          variant="outlined"
-          label="What's on your mind?... "
-        />
-          
+            multiline
+            rows={3}
+            variant="outlined"
+            label="What's on your mind?... "
+          />
+          <Grid container spacing={3}>
+            <Grid item xs={4}>asf</Grid>
+            <Grid item xs={4}>asf</Grid>
+            <Grid item xs={4}>asf</Grid>
+          </Grid>
           <Button type="submit" variant="outlined">
             Submit
           </Button>

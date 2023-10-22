@@ -5,6 +5,6 @@ const CustomColorButton = styled(WbSunnyIcon)(({ theme }) => ({
   color: theme.palette.text.primary
 }));
 
-export default function MUIColorModeButton({ ...props }) {
+export default function MUIWbSunnyIcon({ ...props }) {
   return <CustomColorButton {...props} />;
 }

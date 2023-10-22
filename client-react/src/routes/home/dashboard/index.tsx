@@ -1,3 +1,4 @@
+import CreatePostCard from "@/components/molecules/CreatePostCard";
 import EventCard from "@/components/molecules/EventCard";
 import PostCard from "@/components/molecules/PostCard";
 import ProfileCard from "@/components/molecules/ProfileCard";
@@ -6,7 +7,10 @@ import Grid from "@mui/material/Grid";
 
 
 const PostTimeline = withTimeLine((data: any) => {
-  return <PostCard />
+  return <>
+    <PostCard />
+    <PostCard />
+  </>
 })
 
 
@@ -23,6 +27,7 @@ const Dashboard = () => {
         <ProfileCard />
       </Grid>
       <Grid item xs={6}>
+        <CreatePostCard />
         <PostTimeline />
       </Grid>
       <Grid item xs={3}>

@@ -15,7 +15,7 @@ const EventTimeline = withTimeLine((data: any) => {
 })
 
 
-const ProfileView = () => {
+const Profile = () => {
 
   return (
     <Grid container spacing={3}>
@@ -32,4 +32,4 @@ const ProfileView = () => {
   )
 }
 
-export default ProfileView;
+export default Profile;

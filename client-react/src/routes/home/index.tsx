@@ -2,7 +2,10 @@ import MainLayout from '@/layout/MainLayout';
 import { Outlet } from 'react-router-dom';
 import Feed from './feed';
 import withProtectedRoute from '@/hoc/withProtectedRoute';
-import UserNotification from './Notification';
+import UserNotification from './notifications';
+import Events from './events';
+import Profile from './profile/intex';
+import ProfileSettings from './ProfileSetting';
 
 const PageNotFound = () => {
   return <div>Page Not Found</div>;
@@ -23,6 +26,9 @@ export const homeRoutes = [
     children: [
       { path: '/', element: <Feed /> },
       { path: '/notification', element: <UserNotification /> },
+      { path: '/event', element: <Events /> },
+      { path: '/tourist/:id', element: <Profile /> },
+      { path: '/setting', element: <ProfileSettings /> },
       { path: '/*', element: <PageNotFound /> },
     ],
   },

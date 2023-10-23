@@ -19,7 +19,7 @@ const EventTimeline = withTimeLine((data: any) => {
 })
 
 
-const Dashboard = () => {
+const Feed = () => {
 
   return (
     <Grid container spacing={3}>
@@ -37,4 +37,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
+export default Feed;

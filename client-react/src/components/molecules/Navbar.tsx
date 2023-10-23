@@ -3,9 +3,7 @@ import AppBar, {AppBarProps} from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-// import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
@@ -16,6 +14,9 @@ import BrandLogo from '../atoms/Logo';
 import Badge from '@mui/material/Badge';
 import { MailIcon, WbSunnyIcon } from '../icons';
 import { useTheme } from "@mui/material";
+import { Typography } from '../atoms';
+import { useNavigate } from "react-router-dom";
+
 
 const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
   background: theme.palette.background.paper,
@@ -26,6 +27,7 @@ const settings = ['Profile', 'Settings', 'Logout'];
 const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { palette } = useTheme();
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -40,6 +42,18 @@ const NavBar = () => {
   const toggleTheme = () => {
     toggleColorMode();
   };
+
+  const onProfileLink = () => {
+    navigate("/tourist/me")
+  }
+
+  const onLogOut = () => {
+    navigate("/auth/login")
+  }
+
+  const onSettingLink = () => {
+    navigate("/tourist/me")
+  }
 
 
   return (
@@ -57,7 +71,7 @@ const NavBar = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Notification">
-              <IconButton onClick={handleOpenUserMenu} sx={{ paddingLeft: "10px" }}>
+              <IconButton onClick={() => navigate("/notification")} sx={{ paddingLeft: "10px" }}>
               <Badge badgeContent={4} color="primary">
                 <MailIcon color="action" />
               </Badge>
@@ -84,11 +98,15 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={onProfileLink}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem onClick={onSettingLink}>
+                <Typography textAlign="center">Settings</Typography>
+              </MenuItem>
+              <MenuItem onClick={onLogOut}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

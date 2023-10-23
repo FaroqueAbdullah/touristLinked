@@ -12,34 +12,34 @@ const themeSettings = (mode: string) => ({
 
 const useMode = () => {
   const [mode, setMode] = useState(() => {
-    const colorMode = themeStorageService.getThemeData()
-    return colorMode ? colorMode : 'light'
+    const colorMode = themeStorageService.getThemeData();
+    return colorMode ? colorMode : 'light';
   });
 
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode(( prev) => prev === 'light' ? 'dark' : 'light');
+        setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
       },
     }),
     []
   );
 
   useEffect(() => {
-    themeStorageService.setThemeUser(mode)
-  }, [mode])
+    themeStorageService.setThemeUser(mode);
+  }, [mode]);
 
   const theme = useMemo(
     () =>
       createTheme({
         palette: themeSettings(mode),
         typography,
-        breakpoints
+        breakpoints,
       }),
     [mode]
   );
 
-  return { mode, theme, colorMode };
+  return { theme, colorMode };
 };
 
 export default useMode;

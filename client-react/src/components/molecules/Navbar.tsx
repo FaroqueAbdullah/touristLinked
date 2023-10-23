@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppBar, {AppBarProps} from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,13 +10,12 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
-
 import ColorModeContext from '@/context/colorContext';
 import { styled } from '@mui/material/styles';
 import BrandLogo from '../atoms/Logo';
 import Badge from '@mui/material/Badge';
 import { MailIcon, WbSunnyIcon } from '../icons';
+import { useTheme } from "@mui/material";
 
 const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
   background: theme.palette.background.paper,
@@ -26,7 +25,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
+  const { palette } = useTheme();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -42,6 +41,7 @@ const NavBar = () => {
     toggleColorMode();
   };
 
+
   return (
     <CustomAppBar position="fixed">
       <Container maxWidth="xl">
@@ -51,7 +51,7 @@ const NavBar = () => {
         }}>
           <BrandLogo />
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Dark mode">
+            <Tooltip title={palette.mode === 'light' ? 'Dark Mode' : 'Light Mode'}>
               <IconButton onClick={toggleTheme} sx={{ paddingLeft: "10px" }}>
                 <WbSunnyIcon  />
               </IconButton>

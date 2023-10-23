@@ -8,7 +8,10 @@ export const commonColors = {
   lightGray: '#7D7C7C',
 };
 
+type PallteModeType = 'light' | 'dark';
+ 
 export const lightThemeColors = {
+  mode: 'light' as PallteModeType,
   primary: {
     main: commonColors.primaryBlue,
   },
@@ -29,6 +32,7 @@ export const lightThemeColors = {
 };
 
 export const darkThemeColors = {
+  mode: 'dark' as PallteModeType,
   primary: {
     main: commonColors.primaryBlue,
   },

@@ -4,6 +4,9 @@ import { Button, TextField } from '../atoms';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack/Stack';
 import Grid from '@mui/material/Grid/Grid';
+import { EventIcon, LocationIcon, MediaIcon } from '../icons';
+import { CardContent, IconButton, Tab, Tabs, Tooltip } from '@mui/material';
+
 
 
 export default function CreatePostCard() {
@@ -15,9 +18,13 @@ export default function CreatePostCard() {
 
   return (
     <Card sx={{ marginBottom: "1rem", padding:".5rem 0" }}>
-      <FormLayout onSubmit={onPostCreateHandler}>
+      <CardContent>
+        <Tabs value={0} onChange={() => null} sx={{ marginBottom: '1rem' }}>
+          <Tab label="Crreate Post"></Tab>
+          <Tab label="Create Event"></Tab>
+        </Tabs>
         <Stack 
-          spacing={2}
+          spacing={1}
         >
           <TextField
             multiline
@@ -25,19 +32,27 @@ export default function CreatePostCard() {
             variant="outlined"
             label="What's on your mind?... "
           />
-          <Grid container spacing={3}>
-            <Grid item xs={4}>asf</Grid>
-            <Grid item xs={4}>asf</Grid>
-            <Grid item xs={4}>asf</Grid>
+          <Grid container>
+            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Tooltip title="Notification">
+                <IconButton onClick={() => null} sx={{ paddingLeft: "10px" }}>
+                  <MediaIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Tooltip title="Location">
+                <IconButton onClick={() => null} sx={{ paddingLeft: "10px" }}>
+                  <LocationIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
           <Button type="submit" variant="outlined">
             Submit
           </Button>
         </Stack>
-      </FormLayout>
-      {/* <CardContent>
-    
-      </CardContent> */}
+      </CardContent>
     </Card>
   );
 }

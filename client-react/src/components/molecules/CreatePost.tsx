@@ -17,12 +17,6 @@ export default function CreatePostCard() {
  
 
   return (
-    <Card sx={{ marginBottom: "1rem", padding:".5rem 0" }}>
-      <CardContent>
-        <Tabs value={0} onChange={() => null} sx={{ marginBottom: '1rem' }}>
-          <Tab label="Crreate Post"></Tab>
-          <Tab label="Create Event"></Tab>
-        </Tabs>
         <Stack 
           spacing={1}
         >
@@ -52,7 +46,5 @@ export default function CreatePostCard() {
             Submit
           </Button>
         </Stack>
-      </CardContent>
-    </Card>
   );
-}
+} 

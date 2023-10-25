@@ -1,4 +1,4 @@
-import CreatePostCard from "@/components/molecules/CreatePostCard";
+import CreatePostCard from "@/components/molecules/CreateContentCard";
 import EventCard from "@/components/molecules/EventCard";
 import PostCard from "@/components/molecules/PostCard";
 import ProfileCard from "@/components/molecules/ProfileCard";

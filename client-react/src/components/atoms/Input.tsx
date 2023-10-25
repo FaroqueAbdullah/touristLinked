@@ -6,5 +6,5 @@ const CustomTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
 }));
 
 export default function MUITextField({ ...props }) {
-  return <CustomTextField fullWidth variant="standard" {...props} />;
+  return <CustomTextField fullWidth variant="outlined" {...props} />;
 }

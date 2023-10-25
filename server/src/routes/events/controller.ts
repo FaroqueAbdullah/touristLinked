@@ -1,23 +1,143 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-import 'dotenv/config';
+import { EventInputType } from '../../schemas/event.schema';
+import {
+  createUserEvent,
+  deleteUserEvent,
+  findUserAllEvent,
+  findUserEvent,
+  updateUserEvent,
+} from '../../services/event.service';
 
-const eventRoute = express.Router();
+const createEvent = async (
+  req: Request<{ profileId: string }, object, EventInputType>,
+  res: Response,
+  next: NextFunction,
+) => {
+  const {
+    eventLocation,
+    eventStart,
+    eventEnd,
+    totalMembers,
+    eventInfo,
+    eventFee,
+  } = req.body;
 
-const createEvent = async () => {};
+  const authorId = parseInt(req.params.profileId);
 
-const getAllEvents = async () => {};
+  try {
+    await createUserEvent({
+      eventLocation,
+      eventStart,
+      eventEnd,
+      totalMembers,
+      eventInfo,
+      eventFee,
+      eventCreatorId: authorId,
+    });
 
-const getEvent = async () => {};
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Event created Succesfully',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
-const updateEvent = async () => {};
+const getAllEvents = async (
+  req: Request<{ profileId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const eventCreatorId = parseInt(req.params.profileId);
 
-const deleteEvent = async () => {};
+    const posts = await findUserAllEvent({ eventCreatorId });
 
-eventRoute.post('/create', createEvent);
-eventRoute.get('/:userId/getall', getAllEvents);
-eventRoute.get('/:userId/:eventId/get', getEvent);
-eventRoute.put('/:userId/:eventId/update', updateEvent);
-eventRoute.delete('/:userId/:eventId/delete', deleteEvent);
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User posts ',
+      data: { ...posts },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
-export default eventRoute;
+const getEvent = async (
+  req: Request<{ profileId: string; postId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.postId);
+    const posts = await findUserEvent({ id });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User posts ',
+      data: { ...posts },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const updateEvent = async (
+  req: Request<{ profileId: string; postId: string }, object, EventInputType>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const {
+      eventLocation,
+      eventStart,
+      eventEnd,
+      totalMembers,
+      eventInfo,
+      eventFee,
+    } = req.body;
+
+    const id = parseInt(req.params.postId);
+    const post = await updateUserEvent(
+      { id },
+      {
+        eventLocation,
+        eventStart,
+        eventEnd,
+        totalMembers,
+        eventInfo,
+        eventFee,
+      },
+    );
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Event updated successfully ',
+      data: { ...post },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteEvent = async (
+  req: Request<{ profileId: string; postId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.postId);
+    await deleteUserEvent({ id });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Event deleted successfully ',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export { createEvent, getAllEvents, getEvent, updateEvent, deleteEvent };

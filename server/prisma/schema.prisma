@@ -107,7 +107,7 @@ model Event {
   eventLocation  String
   eventStart     String?
   eventEnd       String?
-  totalMembers   String?
+  totalMembers   Int?
   eventInfo      String?
   eventFee       String?
   eventCreator   Profile @relation(fields: [eventCreatorId], references: [id])

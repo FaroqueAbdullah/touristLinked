@@ -43,6 +43,8 @@ model Profile {
   visitedLocations VisitedLocation[]
   comments         Comment[]
   reaction         Reaction[]
+  eventCreated     Event[]
+  eventJoined      EventJoin[]
 }
 
 model Post {
@@ -98,4 +100,26 @@ model VisitedLocation {
   image        String?
   visitor      Profile @relation(fields: [visitorId], references: [id])
   visitorId    Int
+}
+
+model Event {
+  id             Int     @id @default(autoincrement())
+  eventLocation  String
+  eventStart     String?
+  eventEnd       String?
+  totalMembers   String?
+  eventInfo      String?
+  eventFee       String?
+  eventCreator   Profile @relation(fields: [eventCreatorId], references: [id])
+  eventCreatorId Int
+
+  eventJoin EventJoin[]
+}
+
+model EventJoin {
+  id      Int     @id @default(autoincrement())
+  event   Event   @relation(fields: [eventId], references: [id])
+  eventId Int
+  guest   Profile @relation(fields: [guestId], references: [id])
+  guestId Int
 }

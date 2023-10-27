@@ -1,11 +1,6 @@
 import MainLayout from '@/layout/MainLayout';
 import { Outlet } from 'react-router-dom';
-import Feed from './feed';
 import withProtectedRoute from '@/hoc/withProtectedRoute';
-import Notifications from './notifications';
-import Events from './events';
-import Profile from './profile';
-import ProfileSettings from './ProfileSetting';
 import PageNotFound from '@/components/molecules/NotFound';
 import { lazy } from 'react';
 

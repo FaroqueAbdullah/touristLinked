@@ -1,26 +1,24 @@
-import CreatePostCard from "@/components/molecules/CreateContentCard";
-import EventCard from "@/components/molecules/EventCard";
-import PostCard from "@/components/molecules/PostCard";
-import ProfileCard from "@/components/molecules/ProfileCard";
-import withTimeLine from "@/hoc/withTimeLine";
-import Grid from "@mui/material/Grid";
-
+import CreatePostCard from '@/components/molecules/CreateContentCard';
+import EventCard from '@/components/molecules/EventCard';
+import PostCard from '@/components/molecules/PostCard';
+import ProfileCard from '@/components/molecules/ProfileCard';
+import withTimeLine from '@/hoc/withTimeLine';
+import Grid from '@mui/material/Grid';
 
 const PostTimeline = withTimeLine((data: any) => {
-  return <>
-    <PostCard />
-    <PostCard />
-  </>
-})
-
+  return (
+    <>
+      <PostCard />
+      <PostCard />
+    </>
+  );
+});
 
 const EventTimeline = withTimeLine((data: any) => {
-  return <EventCard />
-})
+  return <EventCard />;
+});
 
-
-const UserNotification = () => {
-
+const Notifications = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -34,7 +32,7 @@ const UserNotification = () => {
         <EventTimeline />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default UserNotification;
+export default Notifications;

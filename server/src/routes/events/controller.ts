@@ -53,12 +53,12 @@ const getAllEvents = async (
   try {
     const eventCreatorId = parseInt(req.params.profileId);
 
-    const posts = await findUserAllEvent({ eventCreatorId });
+    const events = await findUserAllEvent({ eventCreatorId });
 
     return res.status(201).send({
       status: 'ok',
-      message: 'User posts ',
-      data: { ...posts },
+      message: 'User events ',
+      data: events,
     });
   } catch (error) {
     return next(error);
@@ -66,18 +66,18 @@ const getAllEvents = async (
 };
 
 const getEvent = async (
-  req: Request<{ profileId: string; postId: string }, object, null>,
+  req: Request<{ profileId: string; eventId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const id = parseInt(req.params.postId);
-    const posts = await findUserEvent({ id });
+    const id = parseInt(req.params.eventId);
+    const events = await findUserEvent({ id });
 
     return res.status(201).send({
       status: 'ok',
-      message: 'User posts ',
-      data: { ...posts },
+      message: 'User events ',
+      data: events,
     });
   } catch (error) {
     return next(error);
@@ -85,7 +85,7 @@ const getEvent = async (
 };
 
 const updateEvent = async (
-  req: Request<{ profileId: string; postId: string }, object, EventInputType>,
+  req: Request<{ profileId: string; eventId: string }, object, EventInputType>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -99,8 +99,8 @@ const updateEvent = async (
       eventFee,
     } = req.body;
 
-    const id = parseInt(req.params.postId);
-    const post = await updateUserEvent(
+    const id = parseInt(req.params.eventId);
+    const event = await updateUserEvent(
       { id },
       {
         eventLocation,
@@ -115,7 +115,7 @@ const updateEvent = async (
     return res.status(201).send({
       status: 'ok',
       message: 'Event updated successfully ',
-      data: { ...post },
+      data: { ...event },
     });
   } catch (error) {
     return next(error);
@@ -123,12 +123,12 @@ const updateEvent = async (
 };
 
 const deleteEvent = async (
-  req: Request<{ profileId: string; postId: string }, object, null>,
+  req: Request<{ profileId: string; eventId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const id = parseInt(req.params.postId);
+    const id = parseInt(req.params.eventId);
     await deleteUserEvent({ id });
 
     return res.status(201).send({

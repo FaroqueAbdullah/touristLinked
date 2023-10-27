@@ -19,15 +19,15 @@ eventRoute.post(
   createEvent,
 );
 eventRoute.get('/:profileId/getall', getAllEvents);
-eventRoute.get('/:profileId/:postId/get', getEvent);
+eventRoute.get('/:profileId/:eventId/get', getEvent);
 eventRoute.put(
-  '/:profileId/:postId/update',
+  '/:profileId/:eventId/update',
   authenticateRequest,
   ValidateProfileAccess,
   updateEvent,
 );
 eventRoute.delete(
-  '/:profileId/:postId/delete',
+  '/:profileId/:eventId/delete',
   authenticateRequest,
   ValidateProfileAccess,
   deleteEvent,

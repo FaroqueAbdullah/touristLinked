@@ -47,7 +47,7 @@ const getAllPosts = async (
     return res.status(201).send({
       status: 'ok',
       message: 'User posts ',
-      data: { ...posts },
+      data: posts,
     });
   } catch (error) {
     return next(error);
@@ -61,12 +61,12 @@ const getPost = async (
 ) => {
   try {
     const id = parseInt(req.params.postId);
-    const posts = await findUserPost({ id });
+    const post = await findUserPost({ id });
 
     return res.status(201).send({
       status: 'ok',
       message: 'User posts ',
-      data: { ...posts },
+      data: post,
     });
   } catch (error) {
     return next(error);

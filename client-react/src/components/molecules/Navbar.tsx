@@ -24,7 +24,7 @@ const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
 
 const settings = ['Profile', 'Settings', 'Logout'];
 
-const NavBar = () => {
+export default function NavBar () {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -113,5 +113,4 @@ const NavBar = () => {
       </Container>
     </CustomAppBar>
   );
-}
-export default NavBar;
+};

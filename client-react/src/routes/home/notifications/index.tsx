@@ -1,15 +1,17 @@
 import CreatePostCard from '@/components/molecules/CreateContentCard';
 import EventCard from '@/components/molecules/EventCard';
-import PostCard from '@/components/molecules/PostCard';
+import NotificationCard from '@/components/molecules/NotificationCard';
 import ProfileCard from '@/components/molecules/ProfileCard';
 import withTimeLine from '@/hoc/withTimeLine';
 import Grid from '@mui/material/Grid';
 
-const PostTimeline = withTimeLine((data: any) => {
+const NotificationTimeline = withTimeLine((data: any) => {
   return (
     <>
-      <PostCard />
-      <PostCard />
+      <NotificationCard />
+      <NotificationCard />
+      <NotificationCard />
+      <NotificationCard />
     </>
   );
 });
@@ -25,8 +27,7 @@ const Notifications = () => {
         <ProfileCard />
       </Grid>
       <Grid item xs={6}>
-        <CreatePostCard />
-        <PostTimeline />
+        <NotificationTimeline />
       </Grid>
       <Grid item xs={3}>
         <EventTimeline />

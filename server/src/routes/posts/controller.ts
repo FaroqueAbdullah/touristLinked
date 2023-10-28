@@ -8,15 +8,16 @@ import {
   findUserPost,
   updateUserPost,
 } from '../../services/post.service';
+import { ForbiddenRequest, NotFound } from '../../utils/appError';
 
 const createPost = async (
-  req: Request<{ profileId: string }, object, PostInputType>,
+  req: Request<Record<string, never>, object, PostInputType>,
   res: Response,
   next: NextFunction,
 ) => {
   const { content, image } = req.body;
 
-  const authorId = parseInt(req.params.profileId);
+  const authorId = res.locals.profileId;
 
   try {
     await createUserPost({
@@ -34,28 +35,8 @@ const createPost = async (
   }
 };
 
-const getAllPosts = async (
-  req: Request<{ profileId: string }, object, null>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const authorId = parseInt(req.params.profileId);
-
-    const posts = await findUserAllPost({ authorId });
-
-    return res.status(201).send({
-      status: 'ok',
-      message: 'User posts ',
-      data: posts,
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
 const getPost = async (
-  req: Request<{ profileId: string; postId: string }, object, null>,
+  req: Request<{ postId: string }, object, null>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -82,7 +63,17 @@ const updatePost = async (
     const { content, image } = req.body;
 
     const id = parseInt(req.params.postId);
-    const post = await updateUserPost(
+    const post = await findUserPost({ id });
+
+    if (!post) {
+      return next(new NotFound('Post Not Found'));
+    }
+
+    if (post.authorId !== res.locals.profileId) {
+      return next(new ForbiddenRequest('Access denied'));
+    }
+
+    const updatedPost = await updateUserPost(
       { id },
       {
         content,
@@ -93,7 +84,7 @@ const updatePost = async (
     return res.status(201).send({
       status: 'ok',
       message: 'Post updated successfully ',
-      data: { ...post },
+      data: { ...updatedPost },
     });
   } catch (error) {
     return next(error);
@@ -107,6 +98,16 @@ const deletePost = async (
 ) => {
   try {
     const id = parseInt(req.params.postId);
+    const post = await findUserPost({ id });
+
+    if (!post) {
+      return next(new NotFound('Post Not Found'));
+    }
+
+    if (post.authorId !== res.locals.profileId) {
+      return next(new ForbiddenRequest('Access denied'));
+    }
+
     await deleteUserPost({ id });
 
     return res.status(201).send({
@@ -118,4 +119,24 @@ const deletePost = async (
   }
 };
 
-export { createPost, getAllPosts, getPost, updatePost, deletePost };
+const getAllPosts = async (
+  req: Request<{ profileId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const authorId = parseInt(req.params.profileId);
+
+    const posts = await findUserAllPost({ authorId });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User posts ',
+      data: posts,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export { createPost, getPost, updatePost, deletePost, getAllPosts };

@@ -8,29 +8,12 @@ import {
   deletePost,
 } from './controller';
 
-import ValidateProfileAccess from '../../middleware/validateProfileAccess';
-
 const postRoute = express.Router();
 
-postRoute.post(
-  '/:profileId/create',
-  authenticateRequest,
-  ValidateProfileAccess,
-  createPost,
-);
+postRoute.post('/create', authenticateRequest, createPost);
+postRoute.get('/get/:postId', getPost);
+postRoute.put('/update/:postId', authenticateRequest, updatePost);
+postRoute.delete('/delete/:postId', authenticateRequest, deletePost);
 postRoute.get('/:profileId/getall', getAllPosts);
-postRoute.get('/:postId/get', getPost);
-postRoute.put(
-  '/:profileId/:postId/update',
-  authenticateRequest,
-  ValidateProfileAccess,
-  updatePost,
-);
-postRoute.delete(
-  '/:profileId/:postId/delete',
-  authenticateRequest,
-  ValidateProfileAccess,
-  deletePost,
-);
 
 export default postRoute;

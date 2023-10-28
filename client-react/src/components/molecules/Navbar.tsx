@@ -44,14 +44,17 @@ export default function NavBar () {
   };
 
   const onProfileLink = () => {
+    handleCloseUserMenu()
     navigate("/tourist/me")
   }
 
   const onLogOut = () => {
+    handleCloseUserMenu()
     navigate("/auth/login")
   }
 
   const onSettingLink = () => {
+    handleCloseUserMenu()
     navigate("/tourist/me")
   }
 

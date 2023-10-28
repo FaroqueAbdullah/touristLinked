@@ -8,29 +8,12 @@ import {
   deleteEvent,
 } from './controller';
 
-import ValidateProfileAccess from '../../middleware/validateProfileAccess';
-
 const eventRoute = express.Router();
 
-eventRoute.post(
-  '/:profileId/create',
-  authenticateRequest,
-  ValidateProfileAccess,
-  createEvent,
-);
+eventRoute.post('/create', authenticateRequest, createEvent);
+eventRoute.get('/get/:eventId', getEvent);
+eventRoute.put('/update/:eventId', authenticateRequest, updateEvent);
+eventRoute.delete('/delete/:eventId', authenticateRequest, deleteEvent);
 eventRoute.get('/:profileId/getall', getAllEvents);
-eventRoute.get('/:eventId/get', getEvent);
-eventRoute.put(
-  '/:profileId/:eventId/update',
-  authenticateRequest,
-  ValidateProfileAccess,
-  updateEvent,
-);
-eventRoute.delete(
-  '/:profileId/:eventId/delete',
-  authenticateRequest,
-  ValidateProfileAccess,
-  deleteEvent,
-);
 
 export default eventRoute;

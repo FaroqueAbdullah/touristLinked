@@ -8,6 +8,7 @@ import {
   findUserEvent,
   updateUserEvent,
 } from '../../services/event.service';
+import { ForbiddenRequest, NotFound } from '../../utils/appError';
 
 const createEvent = async (
   req: Request<{ profileId: string }, object, EventInputType>,
@@ -23,7 +24,7 @@ const createEvent = async (
     eventFee,
   } = req.body;
 
-  const authorId = parseInt(req.params.profileId);
+  const eventCreatorId = res.locals.profileId;
 
   try {
     await createUserEvent({
@@ -33,12 +34,111 @@ const createEvent = async (
       totalMembers,
       eventInfo,
       eventFee,
-      eventCreatorId: authorId,
+      eventCreatorId,
     });
 
     return res.status(201).send({
       status: 'ok',
       message: 'Event created Succesfully',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getEvent = async (
+  req: Request<{ profileId: string; eventId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.eventId);
+    const event = await findUserEvent({ id });
+
+    if (!event) {
+      return next(new NotFound('Event Not Found'));
+    }
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'User events ',
+      data: event,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const updateEvent = async (
+  req: Request<{ eventId: string }, object, EventInputType>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const {
+      eventLocation,
+      eventStart,
+      eventEnd,
+      totalMembers,
+      eventInfo,
+      eventFee,
+    } = req.body;
+
+    const id = parseInt(req.params.eventId);
+    const event = await findUserEvent({ id });
+
+    if (!event) {
+      return next(new NotFound('Event Not Found'));
+    }
+
+    if (event.eventCreatorId !== res.locals.profileId) {
+      return next(new ForbiddenRequest('Access denied'));
+    }
+
+    const updatedEvent = await updateUserEvent(
+      { id },
+      {
+        eventLocation,
+        eventStart,
+        eventEnd,
+        totalMembers,
+        eventInfo,
+        eventFee,
+      },
+    );
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Event updated successfully ',
+      data: { ...updatedEvent },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteEvent = async (
+  req: Request<{ profileId: string; eventId: string }, object, null>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = parseInt(req.params.eventId);
+    const event = await findUserEvent({ id });
+
+    if (!event) {
+      return next(new NotFound('Event Not Found'));
+    }
+
+    if (event.eventCreatorId !== res.locals.profileId) {
+      return next(new ForbiddenRequest('Access denied'));
+    }
+
+    await deleteUserEvent({ id });
+
+    return res.status(201).send({
+      status: 'ok',
+      message: 'Event deleted successfully ',
     });
   } catch (error) {
     return next(error);
@@ -65,79 +165,4 @@ const getAllEvents = async (
   }
 };
 
-const getEvent = async (
-  req: Request<{ profileId: string; eventId: string }, object, null>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = parseInt(req.params.eventId);
-    const events = await findUserEvent({ id });
-
-    return res.status(201).send({
-      status: 'ok',
-      message: 'User events ',
-      data: events,
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
-const updateEvent = async (
-  req: Request<{ profileId: string; eventId: string }, object, EventInputType>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const {
-      eventLocation,
-      eventStart,
-      eventEnd,
-      totalMembers,
-      eventInfo,
-      eventFee,
-    } = req.body;
-
-    const id = parseInt(req.params.eventId);
-    const event = await updateUserEvent(
-      { id },
-      {
-        eventLocation,
-        eventStart,
-        eventEnd,
-        totalMembers,
-        eventInfo,
-        eventFee,
-      },
-    );
-
-    return res.status(201).send({
-      status: 'ok',
-      message: 'Event updated successfully ',
-      data: { ...event },
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
-const deleteEvent = async (
-  req: Request<{ profileId: string; eventId: string }, object, null>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = parseInt(req.params.eventId);
-    await deleteUserEvent({ id });
-
-    return res.status(201).send({
-      status: 'ok',
-      message: 'Event deleted successfully ',
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
-export { createEvent, getAllEvents, getEvent, updateEvent, deleteEvent };
+export { createEvent, getEvent, updateEvent, deleteEvent, getAllEvents };

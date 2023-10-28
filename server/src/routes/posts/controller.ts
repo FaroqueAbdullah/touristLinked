@@ -44,6 +44,10 @@ const getPost = async (
     const id = parseInt(req.params.postId);
     const post = await findUserPost({ id });
 
+    if (!post) {
+      return next(new NotFound('Post Not Found'));
+    }
+
     return res.status(201).send({
       status: 'ok',
       message: 'User posts ',

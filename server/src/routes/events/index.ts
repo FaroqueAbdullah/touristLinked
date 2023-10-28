@@ -19,7 +19,7 @@ eventRoute.post(
   createEvent,
 );
 eventRoute.get('/:profileId/getall', getAllEvents);
-eventRoute.get('/:profileId/:eventId/get', getEvent);
+eventRoute.get('/:eventId/get', getEvent);
 eventRoute.put(
   '/:profileId/:eventId/update',
   authenticateRequest,

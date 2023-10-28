@@ -19,7 +19,7 @@ postRoute.post(
   createPost,
 );
 postRoute.get('/:profileId/getall', getAllPosts);
-postRoute.get('/:profileId/:postId/get', getPost);
+postRoute.get('/:postId/get', getPost);
 postRoute.put(
   '/:profileId/:postId/update',
   authenticateRequest,

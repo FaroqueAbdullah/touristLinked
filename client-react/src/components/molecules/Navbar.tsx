@@ -63,7 +63,7 @@ export default function NavBar () {
           display: 'flex',
           justifyContent: 'space-between'
         }}>
-          <BrandLogo />
+          <BrandLogo onLogoClick={() => navigate("/")} />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={palette.mode === 'light' ? 'Dark Mode' : 'Light Mode'}>
               <IconButton onClick={toggleTheme} sx={{ paddingLeft: "10px" }}>

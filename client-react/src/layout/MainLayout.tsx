@@ -3,13 +3,13 @@ import FallbackRender from '@/components/templates/FallBackError';
 import { Box } from '@mui/material';
 import Container from '@mui/material/Container';
 import { Suspense } from 'react';
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const MainLayout = ({ children }: LayoutProps): React.ReactNode => (
+const MainLayout = ({ children }: LayoutProps) => (
   <>
     <NavBar />
     <Box sx={{ padding: '6rem 0 1rem' }}>

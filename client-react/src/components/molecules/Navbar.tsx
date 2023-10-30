@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import AppBar, {AppBarProps} from '@mui/material/AppBar';
+import { useContext, useState } from 'react';
+import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -13,18 +13,15 @@ import { styled } from '@mui/material/styles';
 import BrandLogo from '../atoms/Logo';
 import Badge from '@mui/material/Badge';
 import { MailIcon, WbSunnyIcon } from '../icons';
-import { useTheme } from "@mui/material";
+import { useTheme } from '@mui/material';
 import { Typography } from '../atoms';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
   background: theme.palette.background.paper,
 }));
 
-const settings = ['Profile', 'Settings', 'Logout'];
-
-export default function NavBar () {
+export default function NavBar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -44,45 +41,59 @@ export default function NavBar () {
   };
 
   const onProfileLink = () => {
-    handleCloseUserMenu()
-    navigate("/tourist/me")
-  }
+    handleCloseUserMenu();
+    navigate('/tourist/me');
+  };
 
   const onLogOut = () => {
-    handleCloseUserMenu()
-    navigate("/auth/login")
-  }
+    handleCloseUserMenu();
+    navigate('/auth/login');
+  };
 
   const onSettingLink = () => {
-    handleCloseUserMenu()
-    navigate("/tourist/me")
-  }
-
+    handleCloseUserMenu();
+    navigate('/tourist/me');
+  };
 
   return (
     <CustomAppBar position="fixed">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}>
-          <BrandLogo onLogoClick={() => navigate("/")} />
+        <Toolbar
+          disableGutters
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <BrandLogo onLogoClick={() => navigate('/')} />
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={palette.mode === 'light' ? 'Dark Mode' : 'Light Mode'}>
-              <IconButton onClick={toggleTheme} sx={{ paddingLeft: "10px" }}>
-                <WbSunnyIcon  />
+            <Tooltip
+              title={palette.mode === 'light' ? 'Dark Mode' : 'Light Mode'}
+            >
+              <IconButton onClick={toggleTheme} sx={{ paddingLeft: '10px' }}>
+                <WbSunnyIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Notification">
-              <IconButton onClick={() => navigate("/notification")} sx={{ paddingLeft: "10px" }}>
-              <Badge badgeContent={4} color="primary">
-                <MailIcon color="action" />
-              </Badge>
-            </IconButton>
+              <IconButton
+                onClick={() => navigate('/notification')}
+                sx={{ paddingLeft: '10px' }}
+              >
+                <Badge badgeContent={4} color="primary">
+                  <MailIcon color="action" />
+                </Badge>
+              </IconButton>
             </Tooltip>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ paddingLeft: "10px" }}>
-                <Avatar alt="Remy Sharp" src="" sx={{ width: 24, height: 24 }}/>
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ paddingLeft: '10px' }}
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src=""
+                  sx={{ width: 24, height: 24 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -116,4 +127,4 @@ export default function NavBar () {
       </Container>
     </CustomAppBar>
   );
-};
+}

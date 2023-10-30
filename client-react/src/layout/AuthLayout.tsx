@@ -1,5 +1,4 @@
 import { Logo } from '@/components/atoms';
-import { Stack, Typography } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
@@ -7,7 +6,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const CustomAuthLayout = styled(Box)<BoxProps>(({ theme }) => ({
+const CustomAuthLayout = styled(Box)<BoxProps>(() => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',

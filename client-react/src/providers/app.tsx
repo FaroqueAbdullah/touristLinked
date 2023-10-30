@@ -10,15 +10,15 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const { theme, colorMode } = useMode();
+    const { theme, colorMode } = useMode();
 
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <BrowserRouter>{children}</BrowserRouter>
-        </Suspense>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
+    return (
+        <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <BrowserRouter>{children}</BrowserRouter>
+                </Suspense>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
+    );
 };

@@ -6,12 +6,12 @@ interface BrandLogoProps {
 }
 
 const CustomBrandLogo = styled(Typography)< TypographyProps>(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontSize: "26px",
-  cursor: "pointer"
-}))
+    color: theme.palette.text.primary,
+    fontSize: '26px',
+    cursor: 'pointer'
+}));
 
 
 export default function BrandLogo({ ...props }: BrandLogoProps) {
-  return <CustomBrandLogo onClick={props.onLogoClick} variant='h1' align='center'>TouristLinked</CustomBrandLogo>
+    return <CustomBrandLogo onClick={props.onLogoClick} variant='h1' align='center'>TouristLinked</CustomBrandLogo>;
 }

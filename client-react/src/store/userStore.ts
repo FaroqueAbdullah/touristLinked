@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 type State = {
   email: string,
@@ -13,19 +13,19 @@ type Action = {
 
 
 const useStore = create<State & Action>((set) => ({
-  email: '',
-  firstName: '',
-  lastName: '',
-  setUser: (userData) => set(() => ({ 
-    email: userData.email, 
-    firstName: userData.firstName, 
-    lastName: userData.lastName 
-  })),
-  removeUser: () => set(() => ({ 
-    email: '', 
-    firstName: '', 
-    lastName: '' 
-  })),
-}))
+    email: '',
+    firstName: '',
+    lastName: '',
+    setUser: (userData) => set(() => ({ 
+        email: userData.email, 
+        firstName: userData.firstName, 
+        lastName: userData.lastName 
+    })),
+    removeUser: () => set(() => ({ 
+        email: '', 
+        firstName: '', 
+        lastName: '' 
+    })),
+}));
 
 export default useStore;

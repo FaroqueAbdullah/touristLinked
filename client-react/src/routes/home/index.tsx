@@ -12,24 +12,24 @@ const UserSettings = lazy(() => import('./ProfileSetting'));
 const TouristProfile = lazy(() => import('./profile'));
 
 const App = withProtectedRoute(() => {
-  return (
-    <MainLayout>
-      <Outlet />
-    </MainLayout>
-  );
+    return (
+        <MainLayout>
+            <Outlet />
+        </MainLayout>
+    );
 });
 
 export const homeRoutes = [
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      { path: '/', element: <UserFeed /> },
-      { path: '/notification', element: <UserNotifications /> },
-      { path: '/event', element: <UserEvents /> },
-      { path: '/setting', element: <UserSettings /> },
-      { path: '/tourist/:id', element: <TouristProfile /> },
-      { path: '/*', element: <PageNotFound /> },
-    ],
-  },
+    {
+        path: '/',
+        element: <App />,
+        children: [
+            { path: '/', element: <UserFeed /> },
+            { path: '/notification', element: <UserNotifications /> },
+            { path: '/event', element: <UserEvents /> },
+            { path: '/setting', element: <UserSettings /> },
+            { path: '/tourist/:id', element: <TouristProfile /> },
+            { path: '/*', element: <PageNotFound /> },
+        ],
+    },
 ];

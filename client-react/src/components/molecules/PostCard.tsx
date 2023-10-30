@@ -21,6 +21,7 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -39,7 +40,7 @@ export default function PostCard() {
   };
 
   return (
-    <Card sx={{ marginBottom: "1rem", padding:".5rem 0" }}>
+    <Card sx={{ marginBottom: '1rem', padding: '.5rem 0' }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -57,8 +58,8 @@ export default function PostCard() {
       <CardContent>
         <Typography>
           This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+          together with your guests. Add 1 cup of frozen peas along with the
+          mussels, if you like.
         </Typography>
       </CardContent>
       <CardContent>
@@ -72,8 +73,7 @@ export default function PostCard() {
       <CardContent>
         <Divider />
       </CardContent>
-      
-      
+
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

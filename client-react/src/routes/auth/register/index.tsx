@@ -1,63 +1,80 @@
 import { Button, LinkText, TextField, Typography } from '@/components/atoms';
-import ColorModeContext from '@/context/colorContext';
-import { useAuth } from '@/hooks/useAuth';
 import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack';
-import { useContext, useReducer, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-
+import { useState } from 'react';
 
 const Register = () => {
-  const [credentials, setCredentials] = useState({ 
+  const [credentials, setCredentials] = useState({
     firstName: '',
     lastName: '',
-    email: '', 
+    email: '',
     phoneNumber: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
-
-  const navigate = useNavigate(); 
-  const {user, loginUser} = useAuth()
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    console.log("user login ", user)
-
-  }
+    console.log('user login ', credentials);
+  };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
-    setCredentials((prev) => ({ ...prev, [inputName]: inputValue }))
-  }
-  
-  const { toggleColorMode } = useContext(ColorModeContext);
-
-  const toggleTheme = () => {
-    console.log('color mode updated')
-    toggleColorMode();
+    setCredentials((prev) => ({ ...prev, [inputName]: inputValue }));
   };
-
 
   return (
     <FormLayout onSubmit={onSubmitHandler}>
-      <Stack 
-        spacing={2}
-      >
-        <Typography variant="h2" align="center">Register</Typography>
-        <TextField name="firstName" label="First Name" type="text" onChange={ onChangeHandler }/>
-        <TextField name="lastName" label="Last Name" type="text" onChange={ onChangeHandler }/>
-        <TextField name="email" label="Email" type="email" onChange={ onChangeHandler }/>
-        <TextField name="phoneNumber" label="Phone Number" type="tel" onChange={ onChangeHandler }/>
-        <TextField name="password" label="Password" type="password" onChange={ onChangeHandler }/>
-        <TextField name="confirmPassword" label="Confirm Password" type="password" onChange={ onChangeHandler }/>
+      <Stack spacing={2}>
+        <Typography variant="h2" align="center">
+          Register
+        </Typography>
+        <TextField
+          name="firstName"
+          label="First Name"
+          type="text"
+          onChange={onChangeHandler}
+        />
+        <TextField
+          name="lastName"
+          label="Last Name"
+          type="text"
+          onChange={onChangeHandler}
+        />
+        <TextField
+          name="email"
+          label="Email"
+          type="email"
+          onChange={onChangeHandler}
+        />
+        <TextField
+          name="phoneNumber"
+          label="Phone Number"
+          type="tel"
+          onChange={onChangeHandler}
+        />
+        <TextField
+          name="password"
+          label="Password"
+          type="password"
+          onChange={onChangeHandler}
+        />
+        <TextField
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          onChange={onChangeHandler}
+        />
         <Button type="submit" variant="outlined">
           Submit
         </Button>
-        <LinkText normalText="Already have an account?" linkText="Log In" linkRef="/auth/login" />
+        <LinkText
+          normalText="Already have an account?"
+          linkText="Log In"
+          linkRef="/auth/login"
+        />
       </Stack>
     </FormLayout>
   );

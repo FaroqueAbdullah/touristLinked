@@ -10,16 +10,16 @@ interface LayoutProps {
 }
 
 const MainLayout = ({ children }: LayoutProps) => (
-  <>
-    <NavBar />
-    <Box sx={{ padding: '6rem 0 1rem' }}>
-      <ErrorBoundary fallbackRender={FallbackRender}>
-        <Container maxWidth="xl">
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        </Container>
-      </ErrorBoundary>
-    </Box>
-  </>
+    <>
+        <NavBar />
+        <Box sx={{ padding: '6rem 0 1rem' }}>
+            <ErrorBoundary fallbackRender={FallbackRender}>
+                <Container maxWidth="xl">
+                    <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+                </Container>
+            </ErrorBoundary>
+        </Box>
+    </>
 );
 
 export default MainLayout;

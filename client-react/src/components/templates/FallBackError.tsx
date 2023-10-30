@@ -1,4 +1,4 @@
-import { Card, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import Box from '@mui/material/Box/Box';
 import { FallbackProps } from 'react-error-boundary';
 import { Typography } from '../atoms';

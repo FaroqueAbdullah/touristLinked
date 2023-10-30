@@ -8,12 +8,12 @@ import MUICustomIconButton from './IconButton';
 import MUIDatePicker from './DatePicker';
 
 export {
-  MUIButton as Button,
-  MUITypography as Typography,
-  MUITextField as TextField,
-  BrandLogo as Logo,
-  LinkText,
-  MUIDivider as Divider,
-  MUICustomIconButton as IconButton,
-  MUIDatePicker as DatePicker,
+    MUIButton as Button,
+    MUITypography as Typography,
+    MUITextField as TextField,
+    BrandLogo as Logo,
+    LinkText,
+    MUIDivider as Divider,
+    MUICustomIconButton as IconButton,
+    MUIDatePicker as DatePicker,
 };

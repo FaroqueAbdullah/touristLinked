@@ -5,11 +5,12 @@ const Styles = () => {
   const theme = useTheme();
 
   return (
+    // eslint-disable-next-line react/react-in-jsx-scope
     <GlobalStyles
       styles={{
         body: {
           backgroundColor: theme.palette.background.default,
-          margin: 0
+          margin: 0,
         },
       }}
     />

@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,7 +6,7 @@ import Button from '@mui/material/Button/Button';
 
 export default function OutlinedCard() {
   return (
-    <Card sx={{ marginBottom: "1rem", padding:".5rem 0" }}>
+    <Card sx={{ marginBottom: '1rem', padding: '.5rem 0' }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Safe Travel
@@ -24,10 +22,10 @@ export default function OutlinedCard() {
           <br />
           {'"a benevolent smile"'}
         </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small">Learn More</Button>
-    </CardActions>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Learn More</Button>
+      </CardActions>
     </Card>
   );
 }

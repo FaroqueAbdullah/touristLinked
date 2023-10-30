@@ -1,16 +1,8 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
 import { Button, DatePicker, TextField } from '../atoms';
-import FormLayout from '@/layout/FormLayout';
 import Stack from '@mui/material/Stack/Stack';
-import Grid from '@mui/material/Grid/Grid';
 import Box from '@mui/material/Box/Box';
 
 export default function CreateEventCard() {
-  const onPostCreateHandler = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-  };
-
   return (
     <Stack spacing={2}>
       <TextField

@@ -21,8 +21,8 @@ const AuthFormContainer = styled(Box)<BoxProps>(({ theme }) => ({
   padding: '2rem',
   marginTop: '2rem',
   [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    padding: '0rem',
+    width: 'calc(100% - 2rem)',
+    padding: '1rem',
   },
 }));
 

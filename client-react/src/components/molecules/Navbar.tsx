@@ -16,6 +16,7 @@ import { MailIcon, WbSunnyIcon } from '../icons';
 import { useTheme } from '@mui/material';
 import { Typography } from '../atoms';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
   background: theme.palette.background.paper,
@@ -24,6 +25,7 @@ const CustomAppBar = styled(AppBar)<AppBarProps>(({ theme }) => ({
 export default function NavBar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { palette } = useTheme();
+  const { logoutUser } = useAuth();
   const navigate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -46,6 +48,7 @@ export default function NavBar() {
   };
 
   const onLogOut = () => {
+    logoutUser();
     handleCloseUserMenu();
     navigate('/auth/login');
   };

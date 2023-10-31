@@ -6,6 +6,7 @@ import LinkText from './LinkText';
 import MUIDivider from './Divider';
 import MUICustomIconButton from './IconButton';
 import MUIDatePicker from './DatePicker';
+import MUILinearProgress from './LinearProgress';
 
 export {
     MUIButton as Button,
@@ -16,4 +17,5 @@ export {
     MUIDivider as Divider,
     MUICustomIconButton as IconButton,
     MUIDatePicker as DatePicker,
+    MUILinearProgress as LinearProgress
 };

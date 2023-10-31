@@ -12,32 +12,25 @@ export const useAuth = () => {
     const userData = tokenService.getLocalUserData();
     return userData != null ? JSON.stringify(userData) : null;
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   // Function to handle user login
-  const loginUser = async (credentials: LoginCredentialType) => {
+  const loginUser = (credentials: LoginCredentialType) => {
     const { email, password } = credentials;
-    try {
-      const loginResponse = await UserService.loginUser({ email, password });
-      setUser(loginResponse.data.user);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+
+    return UserService.loginUser({ email, password }).then((userInfo) => {
+      setUser(userInfo.data.user);
+      return userInfo.data.user;
+    });
   };
 
   // Function to handle user logout
-  const logoutUser = async () => {};
-
-  // console.log('use auth init')
-
-  // useEffect(() => {
-  //   console.log('use auth')
-  // }, []);
+  const logoutUser = () => {
+    tokenService.removeLocalUser();
+    setUser(null);
+  };
 
   return {
     user,
-    isLoading,
     loginUser,
     logoutUser,
   };

@@ -1,4 +1,4 @@
-import { Button, LinkText, TextField, Typography } from '@/components/atoms';
+import { Button, LinearProgress, LinkText, TextField, Typography } from '@/components/atoms';
 import ErrorText from '@/components/atoms/ErrorField';
 import { useAuth } from '@/hooks/useAuth';
 import FormLayout from '@/layout/FormLayout';
@@ -9,23 +9,24 @@ import { useNavigate } from 'react-router-dom';
 const LogIn = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const { loginUser } = useAuth();
 
   const navigate = useNavigate();
 
-  const onSubmitHandler = async (e: React.SyntheticEvent) => {
+  const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     loginUser(credentials)
-      .then( () => navigate('/'))
-      .catch( error =>  setErrorMsg(error.errorMsg));
-
-    // try {
-    //   await 
-    //   navigate('/');
-    // } catch (error) {
-    //   setErrorMsg('Error');
-    // }
+      .then(() => {
+        navigate('/');
+        setLoading(false);
+      })
+      .catch( error =>  {
+        setErrorMsg(error.message);
+        setLoading(false);
+      });
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +53,9 @@ const LogIn = () => {
           label="Password"
           onChange={onChangeHandler}
         />
-        <ErrorText errorText={errorMsg} />
+        {
+          isLoading ? <LinearProgress /> : <ErrorText errorText={errorMsg} />
+        }
         <Button type="submit" variant="outlined">
           Submit
         </Button>

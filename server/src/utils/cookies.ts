@@ -3,7 +3,6 @@ import { serialize, parse } from 'cookie';
 const cookieSerialize = (cookieName: string, token: string) => {
   const serialized = serialize(cookieName, token, {
     httpOnly: true,
-    secure: true,
     maxAge: 60 * 60 * 24 * 30,
     path: '/',
   });

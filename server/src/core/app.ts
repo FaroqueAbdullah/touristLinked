@@ -49,8 +49,15 @@ const limiter = rateLimit({
 });
 
 const app = express();
+
+app.use(
+  cors({
+    origin: ['http://localhost:8082'],
+    credentials: true,
+  }),
+);
+
 app.use(compression());
-app.use(cors());
 app.use(limiter);
 app.use(express.json());
 app.use(helmet());

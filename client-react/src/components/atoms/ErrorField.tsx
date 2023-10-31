@@ -8,9 +8,9 @@ interface LinkTextProps {
 const ErrorTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   color: theme.palette.warning.main,
   display: 'inherit',
-  height: '.8rem',
+  minHeight: '.8rem',
   fontSize: '12px',
-  whiteSpace: 'nowrap',
+  width: 'min-content'
 }));
 
 export default function ErrorText({ errorText }: LinkTextProps) {

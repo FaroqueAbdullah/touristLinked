@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 interface LinkTextProps {
   normalText?: string;
   linkText: string;
-  linkRef: string;
+  linkRef?: string;
+  onLinkClick?: () => void;
 }
 
 const TextLink = styled('span')`
@@ -24,13 +25,13 @@ const CustomLinkData = styled(Typography)< TypographyProps>(({ theme }) => ({
 }));
 
 
-export default function LinkText({ normalText, linkText, linkRef }: LinkTextProps) {
+export default function LinkText({ normalText, linkText, linkRef, onLinkClick }: LinkTextProps) {
     return <TextLink>
         <CustomTypography>
             {normalText && normalText}
         </CustomTypography>
         <CustomLinkData>
-            <Link to={linkRef}>{linkText}</Link>
+            {linkRef ? <Link to={linkRef}>{linkText}</Link> : <Typography onClick={onLinkClick}>{linkText}</Typography>}
         </CustomLinkData>
     </TextLink>;
 }

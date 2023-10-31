@@ -30,7 +30,6 @@ const ActivateUser = () => {
         <Button type="submit" variant="outlined">
           Submit
         </Button>
-        <Typography variant="p">Dont have an account? Register</Typography>
       </Stack>
     </FormLayout>
   );

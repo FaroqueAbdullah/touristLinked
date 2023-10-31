@@ -1,7 +1,10 @@
-import { Button, LinkText, TextField, Typography } from '@/components/atoms';
+import { Button, LinearProgress, LinkText, TextField, Typography } from '@/components/atoms';
+import ErrorText from '@/components/atoms/ErrorField';
 import FormLayout from '@/layout/FormLayout';
+import UserService from '@/services/http/user';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [credentials, setCredentials] = useState({
@@ -12,11 +15,24 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   });
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
 
-    console.log('user login ', credentials);
+    UserService.createUser(credentials)
+      .then(() => {
+        setLoading(false);
+        navigate('/auth/user-activate');
+      })
+      .catch((error) => {
+        setErrorMsg(error.message);
+        setLoading(false);
+      });
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +83,9 @@ const Register = () => {
           type="password"
           onChange={onChangeHandler}
         />
+        {
+          isLoading ? <LinearProgress /> : <ErrorText errorText={errorMsg} />
+        }
         <Button type="submit" variant="outlined">
           Submit
         </Button>

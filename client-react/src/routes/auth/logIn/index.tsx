@@ -16,12 +16,16 @@ const LogIn = () => {
   const onSubmitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    try {
-      await loginUser(credentials);
-      navigate('/');
-    } catch (error) {
-      setErrorMsg('Error');
-    }
+    loginUser(credentials)
+      .then( () => navigate('/'))
+      .catch( error =>  setErrorMsg(error.errorMsg));
+
+    // try {
+    //   await 
+    //   navigate('/');
+    // } catch (error) {
+    //   setErrorMsg('Error');
+    // }
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

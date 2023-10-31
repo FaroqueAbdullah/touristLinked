@@ -74,7 +74,7 @@ const activateAccountHandler = async (
   const { token } = req.body;
 
   try {
-    const user = await findUser({ email: res.locals.id });
+    const user = await findUser({ email: res.locals.email });
 
     if (!user) {
       return next(new NotFound('User Not Found.'));

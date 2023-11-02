@@ -4,12 +4,12 @@ import withProtectedRoute from '@/hoc/withProtectedRoute';
 import PageNotFound from '@/components/molecules/NotFound';
 import { lazy } from 'react';
 
-const UserFeed = lazy(() => import('./feed'));
-const UserNotifications = lazy(() => import('./notifications'));
-const UserEvents = lazy(() => import('./events'));
-const UserSettings = lazy(() => import('./ProfileSetting'));
+const UserFeed = lazy(() => import('@/pages/Feed'));
+const UserNotifications = lazy(() => import('@/pages/Notifications'));
+const UserEvents = lazy(() => import('@/pages/Events'));
+const UserSettings = lazy(() => import('@/pages/ProfileSetting'));
 
-const TouristProfile = lazy(() => import('./profile'));
+const TouristProfile = lazy(() => import('@/pages/Profile'));
 
 const App = withProtectedRoute(() => {
     return (

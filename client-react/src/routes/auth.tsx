@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-import SignUp from './register';
+import SignUp from '@/pages/Auth/Register';
 import AuthLayout from '@/layout/AuthLayout';
-import LogIn from './logIn';
-import ActivateUser from './activeUser';
+import LogIn from '@/pages/Auth/LogIn';
+import ActivateUser from '@/pages/Auth/ActiveUser';
 
 const App = () => {
     return (

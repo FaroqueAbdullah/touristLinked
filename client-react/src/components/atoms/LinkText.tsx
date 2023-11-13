@@ -15,12 +15,12 @@ const TextLink = styled('span')`
 
 const CustomTypography = styled(Typography)< TypographyProps>(({ theme }) => ({
     color: theme.palette.text.primary,
-    fontSize: '12px',
+    fontSize: '1rem',
 }));
 
 const CustomLinkData = styled(Typography)< TypographyProps>(({ theme }) => ({
     color: theme.palette.primary.main,
-    fontSize: '12px',
+    fontSize: '1rem',
     marginLeft: '2px'
 }));
 

@@ -7,7 +7,7 @@ interface BrandLogoProps {
 
 const CustomBrandLogo = styled(Typography)< TypographyProps>(({ theme }) => ({
     color: theme.palette.text.primary,
-    fontSize: '26px',
+    fontSize: '1.6rem',
     cursor: 'pointer'
 }));
 

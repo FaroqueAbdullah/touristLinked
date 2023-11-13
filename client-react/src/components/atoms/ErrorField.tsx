@@ -9,7 +9,7 @@ const ErrorTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   color: theme.palette.warning.main,
   display: 'inherit',
   minHeight: '.8rem',
-  fontSize: '12px',
+  fontSize: '1rem',
   width: 'min-content'
 }));
 

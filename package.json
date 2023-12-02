@@ -1,16 +1,27 @@
 {
   "name": "touristlinked",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "description": "An application for tourist",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "npm start --prefix server",
-    "start:client": "npm start --prefix client-react"
+    "dev": "pnpm -r --if-present --parallel dev",
+    "test": "pnpm -r --if-present --parallel test",
+    "clean": "pnpm -r --if-present --parallel clean",
+    "compile": "pnpm -r --if-present compile",
+    "lint": "pnpm -r --if-present --parallel lint",
+    "format": "pnpm -r --if-present --parallel format",
+    "format-check": "pnpm -r --if-present --parallel format-check",
+    "all": "pnpm lint && pnpm format-check && pnpm compile && pnpm test",
+    "pre-commit": "concurrently \"cd services/api && pnpm pre-commit\" \"cd services/client && pnpm pre-commit\"",
+    "prepare": "husky install"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    
+  ],
   "devDependencies": {
-    "concurrently": "^7.0.0"
-  }
+    "concurrently": "^7.4.0",
+    "husky": "^8.0.0",
+    "prettier": "^3.1.0"
+  },
+  "private": true,
+  "license": "UNLICENSED"
 }

@@ -8,18 +8,6 @@ import compression from 'compression';
 import 'dotenv/config';
 
 const logger = ExpressPinoLogger({
-  customLogLevel(res, err) {
-    if (res.statusCode >= 400 && res.statusCode < 500) {
-      return 'warn';
-    }
-    if (res.statusCode >= 500 || err) {
-      return 'error';
-    }
-    if (res.statusCode >= 300 && res.statusCode < 400) {
-      return 'silent';
-    }
-    return 'info';
-  },
   serializers: {
     req: (req) => ({
       method: req.method,
